@@ -1,0 +1,47 @@
+[gd_scene format=3 uid="uid://b7fds1cyh1npr"]
+
+[ext_resource type="Texture2D" uid="uid://b05cs2xtxxg7g" path="res://assets/game/objects/basic_grass_biom_things.png" id="1_0mb02"]
+[ext_resource type="Shader" uid="uid://nvccacdxhdgq" path="res://scene/objects/object_shaker.gdshader" id="1_buiah"]
+[ext_resource type="PackedScene" uid="uid://f04ci442hypm" path="res://scene/components/hurt_component.tscn" id="2_ntqnk"]
+[ext_resource type="Script" uid="uid://cui3pdhxm7dk5" path="res://scene/objects/tree/small_tree.gd" id="2_wkdqh"]
+[ext_resource type="PackedScene" uid="uid://bem1qvhbu62uy" path="res://scene/components/damage_component.tscn" id="3_oyp5m"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_kmkgx"]
+resource_local_to_scene = true
+shader = ExtResource("1_buiah")
+shader_parameter/shake_intensity = 0.0
+shader_parameter/shake_speed = 20.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ntqnk"]
+atlas = ExtResource("1_0mb02")
+region = Rect2(0, 0, 16, 32)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_oyp5m"]
+radius = 5.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_oyp5m"]
+size = Vector2(10, 16)
+
+[node name="SmallTree" type="Sprite2D" unique_id=1914102105]
+material = SubResource("ShaderMaterial_kmkgx")
+position = Vector2(0, -12)
+texture = SubResource("AtlasTexture_ntqnk")
+script = ExtResource("2_wkdqh")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=86701499]
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=459822991]
+position = Vector2(0, 7)
+shape = SubResource("CircleShape2D_oyp5m")
+
+[node name="HurtComponent" parent="." unique_id=797664385 instance=ExtResource("2_ntqnk")]
+tool = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtComponent" unique_id=2134517995]
+position = Vector2(0, 4)
+shape = SubResource("RectangleShape2D_oyp5m")
+debug_color = Color(0.79272765, 0.3450467, 0.65227157, 0.41960785)
+
+[node name="HpComponent" parent="." unique_id=2012467153 instance=ExtResource("3_oyp5m")]
+max_hp = 3

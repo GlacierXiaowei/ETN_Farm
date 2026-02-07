@@ -1,0 +1,104 @@
+[gd_resource type="Theme" format=3 uid="uid://diiql63ofvsg2"]
+
+[ext_resource type="Texture2D" uid="uid://dytpp6l7me5po" path="res://assets/class_used/basic_ui_sprites.png" id="1_8yb7i"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g8upg"]
+atlas = ExtResource("1_8yb7i")
+region = Rect2(201, 105, 30, 30)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_hwgc3"]
+texture = SubResource("AtlasTexture_g8upg")
+texture_margin_left = 7.0
+texture_margin_top = 7.0
+texture_margin_right = 7.0
+texture_margin_bottom = 7.0
+region_rect = Rect2(0, 0, 30, 30)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_dcn12"]
+load_path = "res://.godot/imported/basic_ui_sprites.png-b370500f168c9fbe101fd99df27929be.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ad36a"]
+atlas = SubResource("CompressedTexture2D_dcn12")
+region = Rect2(11, 11, 26, 28)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_dcn12"]
+texture = SubResource("AtlasTexture_ad36a")
+texture_margin_left = 4.0
+texture_margin_top = 4.0
+texture_margin_right = 4.0
+texture_margin_bottom = 6.0
+region_rect = Rect2(0, 0, 26, 28)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_rlqui"]
+load_path = "res://.godot/imported/basic_ui_sprites.png-b370500f168c9fbe101fd99df27929be.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ixa3x"]
+atlas = SubResource("CompressedTexture2D_rlqui")
+region = Rect2(11, 107, 26, 28)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_yr40i"]
+texture = SubResource("AtlasTexture_ixa3x")
+texture_margin_left = 4.0
+texture_margin_top = 4.0
+texture_margin_right = 4.0
+texture_margin_bottom = 6.0
+region_rect = Rect2(0, 0, 26, 28)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_ad36a"]
+load_path = "res://.godot/imported/basic_ui_sprites.png-b370500f168c9fbe101fd99df27929be.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rlqui"]
+atlas = SubResource("CompressedTexture2D_ad36a")
+region = Rect2(11, 107, 26, 28)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_rwjc2"]
+texture = SubResource("AtlasTexture_rlqui")
+texture_margin_left = 4.0
+texture_margin_top = 4.0
+texture_margin_right = 4.0
+texture_margin_bottom = 6.0
+region_rect = Rect2(0, 0, 26, 28)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_yr40i"]
+load_path = "res://.godot/imported/basic_ui_sprites.png-b370500f168c9fbe101fd99df27929be.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rwjc2"]
+atlas = SubResource("CompressedTexture2D_yr40i")
+region = Rect2(11, 155, 26, 28)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_wbgnr"]
+texture = SubResource("AtlasTexture_rwjc2")
+texture_margin_left = 4.0
+texture_margin_top = 4.0
+texture_margin_right = 4.0
+texture_margin_bottom = 6.0
+region_rect = Rect2(0, 0, 26, 28)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_8osvq"]
+load_path = "res://.godot/imported/basic_ui_sprites.png-b370500f168c9fbe101fd99df27929be.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w7f7v"]
+atlas = SubResource("CompressedTexture2D_8osvq")
+region = Rect2(11, 59, 26, 28)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_8osvq"]
+texture = SubResource("AtlasTexture_w7f7v")
+texture_margin_left = 4.0
+texture_margin_top = 4.0
+texture_margin_right = 4.0
+texture_margin_bottom = 6.0
+region_rect = Rect2(0, 0, 26, 28)
+
+[resource]
+DarkWoodPanel/base_type = &"PanelContainer"
+DarkWoodPanel/styles/panel = SubResource("StyleBoxTexture_hwgc3")
+MarginContainer/constants/margin_bottom = 10
+MarginContainer/constants/margin_left = 10
+MarginContainer/constants/margin_right = 10
+MarginContainer/constants/margin_top = 10
+ToolButton/base_type = &"Button"
+ToolButton/styles/disabled = SubResource("StyleBoxTexture_dcn12")
+ToolButton/styles/focus = SubResource("StyleBoxTexture_yr40i")
+ToolButton/styles/hover = SubResource("StyleBoxTexture_rwjc2")
+ToolButton/styles/normal = SubResource("StyleBoxTexture_wbgnr")
+ToolButton/styles/pressed = SubResource("StyleBoxTexture_8osvq")

@@ -1,0 +1,22 @@
+[gd_scene format=3 uid="uid://uetewvo023fo"]
+
+[ext_resource type="Texture2D" uid="uid://b05cs2xtxxg7g" path="res://assets/game/objects/basic_grass_biom_things.png" id="1_yfnjp"]
+[ext_resource type="PackedScene" uid="uid://yton5yrtmor4" path="res://scene/components/collectable_component.tscn" id="2_lviey"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lviey"]
+atlas = ExtResource("1_yfnjp")
+region = Rect2(80, 32, 16, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_lviey"]
+size = Vector2(18, 11)
+
+[node name="Log" type="Sprite2D" unique_id=1214376487]
+texture = SubResource("AtlasTexture_lviey")
+
+[node name="CollectableComponent" parent="." unique_id=1534351839 instance=ExtResource("2_lviey")]
+collectable_name = "原木"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CollectableComponent" unique_id=607693627]
+position = Vector2(0, -0.5)
+shape = SubResource("RectangleShape2D_lviey")
+debug_color = Color(0.30767283, 0.7770362, 0.49791133, 0.41960785)

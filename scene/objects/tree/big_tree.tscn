@@ -1,0 +1,45 @@
+[gd_scene format=3 uid="uid://ditt2tbsp2fuh"]
+
+[ext_resource type="Shader" uid="uid://cu4hcovcq1dmg" path="res://scene/objects/object_shaker.gdshader" id="1_1l6qe"]
+[ext_resource type="Texture2D" uid="uid://b05cs2xtxxg7g" path="res://assets/game/objects/basic_grass_biom_things.png" id="1_sut5o"]
+[ext_resource type="Script" uid="uid://dpf6vhcv0btga" path="res://scene/objects/tree/big_tree.gd" id="2_ga8oq"]
+[ext_resource type="PackedScene" uid="uid://f04ci442hypm" path="res://scene/components/hurt_component.tscn" id="3_1l6qe"]
+[ext_resource type="PackedScene" uid="uid://bem1qvhbu62uy" path="res://scene/components/damage_component.tscn" id="4_ga8oq"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_mkvj6"]
+resource_local_to_scene = true
+shader = ExtResource("1_1l6qe")
+shader_parameter/shake_intensity = 0.0
+shader_parameter/shake_speed = 17.5
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mkvj6"]
+atlas = ExtResource("1_sut5o")
+region = Rect2(16, 0, 32, 32)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_stph4"]
+radius = 6.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_f5tkw"]
+size = Vector2(10, 15.5)
+
+[node name="BigTree" type="Sprite2D" unique_id=981716242]
+material = SubResource("ShaderMaterial_mkvj6")
+position = Vector2(0, -16)
+texture = SubResource("AtlasTexture_mkvj6")
+script = ExtResource("2_ga8oq")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=1551195031]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=71311071]
+position = Vector2(0, 10)
+shape = SubResource("CircleShape2D_stph4")
+
+[node name="HurtComponent" parent="." unique_id=797664385 instance=ExtResource("3_1l6qe")]
+tool = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtComponent" unique_id=1637582078]
+position = Vector2(0, 7.75)
+shape = SubResource("RectangleShape2D_f5tkw")
+debug_color = Color(0.79272765, 0.3450467, 0.65227157, 0.41960785)
+
+[node name="HpComponent" parent="." unique_id=2012467153 instance=ExtResource("4_ga8oq")]
