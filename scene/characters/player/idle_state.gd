@@ -27,18 +27,42 @@ func _on_physics_process(_delta: float) -> void:
 
 
 func _on_next_transitions() -> void:
+	print("use request: ", GameInputEvent.is_use_tool_request())
 	GameInputEvent.movement_input()
 	#↑ 注意 这里应该先获取movement数据 执行这个函数之后 is__函数的direction才会被更新
 	#↑和虚幻/unity一样遵循先获取数据 在进行判断哦
 	if  player.current_tool==DataType.Tools.AxeWood && GameInputEvent.is_use_tool_request():
 		transition.emit("Chopping")
 		return
+		
+	if  player.current_tool==DataType.Tools.TillGround && GameInputEvent.is_undo_use_tool_request():
+		transition.emit("Tilling")
+		return	
 	if  player.current_tool==DataType.Tools.TillGround && GameInputEvent.is_use_tool_request():
 		transition.emit("Tilling")
 		return
+
+		
 	if  player.current_tool==DataType.Tools.WaterCrops && GameInputEvent.is_use_tool_request():
 		transition.emit("Watering")
 		return
+		
+	if  player.current_tool==DataType.Tools.PlantCorn && GameInputEvent.is_undo_use_tool_request():
+		transition.emit("PlantCorn")
+		return
+	if  player.current_tool==DataType.Tools.PlantCorn && GameInputEvent.is_use_tool_request():
+		transition.emit("PlantCorn")
+		return
+		
+	if  player.current_tool==DataType.Tools.PlantTomato && GameInputEvent.is_undo_use_tool_request():
+		transition.emit("PlantTomato")
+		return
+	if  player.current_tool==DataType.Tools.PlantCorn && GameInputEvent.is_use_tool_request():
+		transition.emit("PlantTomato")
+		return
+
+
+
 	if GameInputEvent.is_movement_input():
 		transition.emit("Walking")
 		return

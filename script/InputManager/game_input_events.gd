@@ -25,9 +25,8 @@ static func set_mode(mode: Mode) -> void:
 	current_mode = mode
 
 	if player:
-		player.set_process_unhandled_input(mode == Mode.GAMEPLAY)
-	
-	
+		player.set_process_unhandled_input(mode == Mode.GAMEPLAY)	
+
 
 ##角色移动管理
 static var direction: Vector2
@@ -53,13 +52,14 @@ static func is_movement_input() -> bool:
 
 ##工具使用管理（防止在更换工具的时候 触发hit）
 ##保存 使用工具的请求
-static var _use_tool_requested:bool 
+static var _use_tool_requested:bool =false
 ##_unhandled_input函数放置在player身上 只有player存在的时候才能够处理这些需求
 static func request_use_tool() -> void:
 	##解耦合 用于处理 使用工具意图的请求
 	_use_tool_requested = true
+	
+##该函数是 只被（状态机）请求 并消耗
 static func use_tool() -> bool:
-	##该函数是 只是被（状态机）请求 并消耗
 	#var use_tool_value: bool = Input.is_action_pressed("hit") and GameInputEvent.current_mode==GameInputEvent.Mode.GAMEPLAY
 
 	#return use_tool_value
@@ -74,6 +74,26 @@ static func is_use_tool_request() -> bool:
 static func clear_use_tool_request() -> void:
 	_use_tool_requested=false
 	
+
+##工具撤销
+static var _undo_tool_requested: bool =false
+
+static func request_undo_use_tool():
+	_undo_tool_requested = true
+
+static func undo_use_tool() -> bool:
+	if _undo_tool_requested:
+		_undo_tool_requested = false
+
+		return true
+	return false
+
+static func is_undo_use_tool_request() -> bool:
+	##查询 当前是否缓存了请求
+	return _undo_tool_requested
+
+static func clear_undo_tool_request() -> void:
+	_undo_tool_requested=false
 
 
 ## 支持快捷键的工具选择请求

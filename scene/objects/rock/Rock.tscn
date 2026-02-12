@@ -20,27 +20,29 @@ region = Rect2(128, 16, 16, 16)
 [sub_resource type="AtlasTexture" id="AtlasTexture_ev5ei"]
 atlas = SubResource("AtlasTexture_fmbv0")
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_stph4"]
-radius = 7.0
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_q4sk2"]
+size = Vector2(14, 8)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_f5tkw"]
-size = Vector2(14, 13)
+size = Vector2(16, 16)
 
 [node name="Rock" type="Sprite2D" unique_id=981716242]
 material = SubResource("ShaderMaterial_h0yc7")
-position = Vector2(0, -6)
+position = Vector2(0, -8)
 texture = SubResource("AtlasTexture_ev5ei")
+offset = Vector2(0, 2)
 script = ExtResource("3_q4sk2")
 
 [node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=1551195031]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=71311071]
-shape = SubResource("CircleShape2D_stph4")
+position = Vector2(0, 4)
+shape = SubResource("RectangleShape2D_q4sk2")
 
 [node name="HurtComponent" parent="." unique_id=797664385 instance=ExtResource("4_7sjlm")]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HurtComponent" unique_id=1637582078]
-position = Vector2(0, -0.5)
+position = Vector2(0, 2)
 shape = SubResource("RectangleShape2D_f5tkw")
 debug_color = Color(0.79272765, 0.3450467, 0.65227157, 0.41960785)
 

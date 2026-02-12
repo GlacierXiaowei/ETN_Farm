@@ -1,10 +1,22 @@
 [gd_scene format=4 uid="uid://bi46bygcisa3i"]
 
+[ext_resource type="PackedScene" uid="uid://cvuydps5hqpt5" path="res://scene/UI/game_screen.tscn" id="1_8dt0p"]
 [ext_resource type="TileSet" uid="uid://dw7ut02febnhv" path="res://Tilesets/game_tile_set.tres" id="1_cyl1d"]
+[ext_resource type="PackedScene" uid="uid://gad1djna68ku" path="res://scene/objects/plant/corn.tscn" id="2_60ttj"]
 [ext_resource type="PackedScene" uid="uid://bt27ml1bhbsxe" path="res://scene/characters/player/player.tscn" id="2_vy7xa"]
+[ext_resource type="PackedScene" uid="uid://bmx54tmbpia5t" path="res://scene/objects/plant/tomato.tscn" id="3_t3m02"]
 
 [node name="TestSceneObjectRock" type="Node2D" unique_id=1629816625]
 y_sort_enabled = true
+
+[node name="GameScreen" parent="." unique_id=1193212251 instance=ExtResource("1_8dt0p")]
+
+[node name="Corn" parent="." unique_id=442746861 instance=ExtResource("2_60ttj")]
+position = Vector2(106, 68)
+
+[node name="Tomato" parent="." unique_id=418904319 instance=ExtResource("3_t3m02")]
+y_sort_enabled = true
+position = Vector2(112, 108)
 
 [node name="GameTileMap" type="Node2D" parent="." unique_id=1177131548]
 y_sort_enabled = true

@@ -8,16 +8,17 @@ atlas = ExtResource("1_h8gdw")
 region = Rect2(114, 18, 10, 8)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jy2ba"]
-size = Vector2(8, 7)
+size = Vector2(8, 8)
 
 [node name="Stone" type="Sprite2D" unique_id=663472580]
+y_sort_enabled = true
 position = Vector2(0, -3)
 texture = SubResource("AtlasTexture_i72af")
 
 [node name="CollectableComponent" parent="." unique_id=1534351839 instance=ExtResource("2_wyv1s")]
-collectable_name = "小石块"
+collectable_name = "Stone"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CollectableComponent" unique_id=825166196]
-position = Vector2(0, -0.5)
+position = Vector2(0, -1)
 shape = SubResource("RectangleShape2D_jy2ba")
 debug_color = Color(0.30767283, 0.7770362, 0.49791133, 0.41960785)

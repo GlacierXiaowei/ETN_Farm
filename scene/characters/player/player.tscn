@@ -9,7 +9,10 @@
 [ext_resource type="Script" uid="uid://brvtxufs44faw" path="res://scene/characters/player/chopping.gd" id="7_8nhx4"]
 [ext_resource type="Script" uid="uid://bthyoy221pksc" path="res://scene/characters/player/tilling_state.gd" id="8_wf2u3"]
 [ext_resource type="Script" uid="uid://bcmtkub70fcon" path="res://scene/characters/player/watering_state.gd" id="9_efkcd"]
+[ext_resource type="Script" uid="uid://eknolrwp14yo" path="res://scene/characters/player/plant_corn.gd" id="10_a6bj1"]
 [ext_resource type="PackedScene" uid="uid://dt17h0pl2bom1" path="res://scene/components/hit_component.tscn" id="10_uy7wp"]
+[ext_resource type="Script" uid="uid://05veqfrtcrs" path="res://scene/characters/player/plant_tomato.gd" id="11_8gxq7"]
+[ext_resource type="Texture2D" uid="uid://cypot74r1fwp7" path="res://assets/game/25半透明工具提示贴图.png" id="11_tg3vd"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_viwsh"]
 atlas = ExtResource("2_ekqmh")
@@ -401,24 +404,24 @@ size = Vector2(10, 8)
 size = Vector2(10, 6)
 
 [node name="player" type="CharacterBody2D" unique_id=1489117648]
-y_sort_enabled = true
 collision_layer = 2
 collision_mask = 65
 script = ExtResource("1_v7krq")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=2108063873]
-position = Vector2(0, -8)
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=2108063873 groups=["player"]]
 sprite_frames = SubResource("SpriteFrames_wnss5")
 animation = &"chopping_left"
 autoplay = "idle_front"
+offset = Vector2(0, -8)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=550931497]
 position = Vector2(0, -4)
 shape = SubResource("RectangleShape2D_viwsh")
 
-[node name="StateMachine" type="Node" parent="." unique_id=149964210 node_paths=PackedStringArray("initial_node_state")]
+[node name="StateMachine" type="Node" parent="." unique_id=149964210 node_paths=PackedStringArray("initial_node_state", "current_node_state")]
 script = ExtResource("3_glldc")
 initial_node_state = NodePath("Idle")
+current_node_state = NodePath("Idle")
 
 [node name="Idle" type="Node" parent="StateMachine" unique_id=689025288 node_paths=PackedStringArray("player", "animated_sprite_2d")]
 script = ExtResource("4_glldc")
@@ -441,13 +444,27 @@ script = ExtResource("8_wf2u3")
 player = NodePath("../..")
 animated_sprite_2d = NodePath("../../AnimatedSprite2D")
 
-[node name="watering" type="Node" parent="StateMachine" unique_id=290240052 node_paths=PackedStringArray("player", "animated_sprite_2d")]
+[node name="Watering" type="Node" parent="StateMachine" unique_id=290240052 node_paths=PackedStringArray("player", "animated_sprite_2d", "hit_component_collision_shape")]
 script = ExtResource("9_efkcd")
 player = NodePath("../..")
 animated_sprite_2d = NodePath("../../AnimatedSprite2D")
+hit_component_collision_shape = NodePath("../../HitComponentt/HitComponentCollisionShape2D")
+
+[node name="PlantCorn" type="Node" parent="StateMachine" unique_id=2099466745 node_paths=PackedStringArray("player")]
+script = ExtResource("10_a6bj1")
+player = NodePath("../..")
+
+[node name="PlantTomato" type="Node" parent="StateMachine" unique_id=878888729 node_paths=PackedStringArray("player")]
+script = ExtResource("11_8gxq7")
+player = NodePath("../..")
 
 [node name="HitComponentt" parent="." unique_id=252061593 instance=ExtResource("10_uy7wp")]
 
 [node name="HitComponentCollisionShape2D" type="CollisionShape2D" parent="HitComponentt" unique_id=2128460300]
 shape = SubResource("RectangleShape2D_tg3vd")
 debug_color = Color(0.79272765, 0.3450467, 0.65227157, 0.41960785)
+
+[node name="DirtPreview" type="Sprite2D" parent="." unique_id=1281320824]
+visible = false
+z_index = 10
+texture = ExtResource("11_tg3vd")

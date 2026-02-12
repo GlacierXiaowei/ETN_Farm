@@ -11,10 +11,11 @@ region = Rect2(80, 32, 16, 16)
 size = Vector2(18, 11)
 
 [node name="Log" type="Sprite2D" unique_id=1214376487]
+y_sort_enabled = true
 texture = SubResource("AtlasTexture_lviey")
 
 [node name="CollectableComponent" parent="." unique_id=1534351839 instance=ExtResource("2_lviey")]
-collectable_name = "原木"
+collectable_name = "Log"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CollectableComponent" unique_id=607693627]
 position = Vector2(0, -0.5)

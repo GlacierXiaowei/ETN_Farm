@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://d2wfu51np2iji"]
+
+[ext_resource type="Script" uid="uid://dskbo1icgipvu" path="res://scene/components/dirt_cursor_component.gd" id="1_o2v7j"]
+
+[node name="DirtCursorComponent" type="Node" unique_id=1564254375]
+script = ExtResource("1_o2v7j")

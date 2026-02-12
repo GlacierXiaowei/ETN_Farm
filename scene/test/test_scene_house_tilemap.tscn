@@ -31,10 +31,13 @@ tile_set = ExtResource("1_or6t2")
 
 [node name="player" parent="." unique_id=1489117648 instance=ExtResource("2_t2whe")]
 position = Vector2(212, 104)
+current_tool = 1
 
 [node name="Camera2D" type="Camera2D" parent="player" unique_id=1634053552]
 skew = 0.83950335
 zoom = Vector2(2, 2)
+position_smoothing_enabled = true
+rotation_smoothing_enabled = true
 drag_left_margin = 0.3
 drag_top_margin = 0.3
 drag_right_margin = 0.3

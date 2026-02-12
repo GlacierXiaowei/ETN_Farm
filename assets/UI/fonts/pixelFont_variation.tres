@@ -1,0 +1,7 @@
+[gd_resource type="FontVariation" format=3 uid="uid://b2w4msloabfqr"]
+
+[ext_resource type="FontFile" uid="uid://ml87pq2hf6ub" path="res://assets/UI/fonts/pixelFont-7-8x14-sproutLands.ttf" id="1_iwcyj"]
+
+[resource]
+base_font = ExtResource("1_iwcyj")
+spacing_bottom = 1
