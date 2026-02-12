@@ -108,8 +108,8 @@ func on_till_tool_used() -> void:
 	add_till_soil_cell()
 
 func on_undo_till_tool_used() -> void:
-	if ToolManager.current_tool != DataType.Tools.PlantCorn:
-		return
+	#if ToolManager.current_tool != DataType.Tools.TillGround:
+		#return
 	if !update_target_cell():
 		return
 	remove_till_soil_cell()

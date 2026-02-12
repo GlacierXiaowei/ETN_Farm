@@ -9,9 +9,7 @@
 [ext_resource type="Script" uid="uid://brvtxufs44faw" path="res://scene/characters/player/chopping.gd" id="7_8nhx4"]
 [ext_resource type="Script" uid="uid://bthyoy221pksc" path="res://scene/characters/player/tilling_state.gd" id="8_wf2u3"]
 [ext_resource type="Script" uid="uid://bcmtkub70fcon" path="res://scene/characters/player/watering_state.gd" id="9_efkcd"]
-[ext_resource type="Script" uid="uid://eknolrwp14yo" path="res://scene/characters/player/plant_corn.gd" id="10_a6bj1"]
 [ext_resource type="PackedScene" uid="uid://dt17h0pl2bom1" path="res://scene/components/hit_component.tscn" id="10_uy7wp"]
-[ext_resource type="Script" uid="uid://05veqfrtcrs" path="res://scene/characters/player/plant_tomato.gd" id="11_8gxq7"]
 [ext_resource type="Texture2D" uid="uid://cypot74r1fwp7" path="res://assets/game/25半透明工具提示贴图.png" id="11_tg3vd"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_viwsh"]
@@ -449,14 +447,6 @@ script = ExtResource("9_efkcd")
 player = NodePath("../..")
 animated_sprite_2d = NodePath("../../AnimatedSprite2D")
 hit_component_collision_shape = NodePath("../../HitComponentt/HitComponentCollisionShape2D")
-
-[node name="PlantCorn" type="Node" parent="StateMachine" unique_id=2099466745 node_paths=PackedStringArray("player")]
-script = ExtResource("10_a6bj1")
-player = NodePath("../..")
-
-[node name="PlantTomato" type="Node" parent="StateMachine" unique_id=878888729 node_paths=PackedStringArray("player")]
-script = ExtResource("11_8gxq7")
-player = NodePath("../..")
 
 [node name="HitComponentt" parent="." unique_id=252061593 instance=ExtResource("10_uy7wp")]
 

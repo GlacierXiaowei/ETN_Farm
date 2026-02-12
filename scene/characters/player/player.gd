@@ -3,12 +3,12 @@ extends CharacterBody2D
 
 @export var current_tool:DataType.Tools = DataType.Tools.None
 @export var dirt_cursor_component: DirtCursorComponent 
-@export var crops_cursor_component: CropsCursorComponent
+#@export var crops_cursor_component: CropsCursorComponent
 
 @onready var hit_componentt: HitComponent = $HitComponentt
 @onready var tilling: NodeState = $StateMachine/Tilling
-@onready var plant_corn: NodeState = $StateMachine/PlantCorn
-@onready var plant_tomato: NodeState = $StateMachine/PlantTomato
+#@onready var plant_corn: NodeState = $StateMachine/PlantCorn
+#@onready var plant_tomato: NodeState = $StateMachine/PlantTomato
 
 
 
@@ -39,18 +39,18 @@ func _ready() -> void:
 		dirt_cursor_component.player = self
 		dirt_cursor_component.preview_sprite=self.get_node("DirtPreview")
 	
-	for child in self.get_children():
-		if child is CropsCursorComponent:
-			crops_cursor_component = child
-			break
-	if get_parent() :
-		crops_cursor_component = get_parent().get_node_or_null("CropsCursorComponent") as CropsCursorComponent
-		crops_cursor_component.player = self
-		crops_cursor_component.preview_sprite=self.get_node("DirtPreview")
+	#for child in self.get_children():
+		#if child is CropsCursorComponent:
+			#crops_cursor_component = child
+			#break
+	#if get_parent() :
+		#crops_cursor_component = get_parent().get_node_or_null("CropsCursorComponent") as CropsCursorComponent
+		#crops_cursor_component.player = self
+		#crops_cursor_component.preview_sprite=self.get_node("DirtPreview")
 	
 	tilling.till_tool_used.connect(on_till_tool_used)
-	plant_corn.corn_planted_used.connect(on_plant_crop_used)
-	plant_tomato.tomato_planted_used.connect(on_plant_crop_used)
+	#plant_corn.corn_planted_used.connect(on_plant_crop_used)
+	#plant_tomato.tomato_planted_used.connect(on_plant_crop_used)
 	
 func on_tool_selected(tool: DataType.Tools) ->void:
 	current_tool=tool
@@ -88,22 +88,22 @@ func on_till_tool_used():
 	##由于 咱们会公用 快捷键左键 为了安全起见 可以先检查 undo 再用elif/else 检查另一个 
 	if dirt_cursor_component:
 		if is_undo_use_tool_mode:
-			if crops_cursor_component:
-				crops_cursor_component.on_undo_plant_crop_used()
-			else:
-				print("错误: 清除耕地应该先清除上面的作物 但是无法连接CropCursorComponent节点。")
+			#if crops_cursor_component:
+				#crops_cursor_component.on_undo_plant_crop_used()
+			#else:
+				#print("错误: 清除耕地应该先清除上面的作物 但是无法连接CropCursorComponent节点。")
 			dirt_cursor_component.on_undo_till_tool_used()
 		else:
 			dirt_cursor_component.on_till_tool_used()
 	else:
 		print("player未能够获取dirt_cursor_component")
 
-
-func on_plant_crop_used():
-	if crops_cursor_component:
-		if is_undo_use_tool_mode:
-			crops_cursor_component.on_undo_plant_crop_used()
-		else:
-			crops_cursor_component.on_plant_crop_used()
-	else:
-		print("player未能够获取crops_cursor_component")
+#
+#func on_plant_crop_used():
+	#if crops_cursor_component:
+		#if is_undo_use_tool_mode:
+			#crops_cursor_component.on_undo_plant_crop_used()
+		#else:
+			#crops_cursor_component.on_plant_crop_used()
+	#else:
+		#print("player未能够获取crops_cursor_component")

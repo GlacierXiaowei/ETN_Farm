@@ -7,8 +7,6 @@
 [ext_resource type="PackedScene" uid="uid://cvuydps5hqpt5" path="res://scene/UI/game_screen.tscn" id="5_adxik"]
 [ext_resource type="PackedScene" uid="uid://d2wfu51np2iji" path="res://scene/components/dirt_cursor_component.tscn" id="5_cid1b"]
 [ext_resource type="PackedScene" uid="uid://bmx54tmbpia5t" path="res://scene/objects/plant/tomato.tscn" id="6_eaaj8"]
-[ext_resource type="PackedScene" uid="uid://knm2stpmtlrv" path="res://scene/components/crops_cursor_component.tscn" id="8_o8krn"]
-[ext_resource type="Script" uid="uid://gg04utlavqdf" path="res://scene/components/crops_cursor_component.gd" id="9_adxik"]
 
 [node name="TestSceneCrop" type="Node2D" unique_id=1629816625]
 
@@ -50,16 +48,9 @@ grass_tilemap_layer = NodePath("../GameTileMap/Grass")
 dirt_tilemap_layer = NodePath("../GameTileMap/Dirt")
 use_mouse_mode = true
 
-[node name="CropsCursorComponent" parent="." unique_id=1984356985 node_paths=PackedStringArray("dirt_tilemap_layer", "player") instance=ExtResource("8_o8krn")]
-script = ExtResource("9_adxik")
-dirt_tilemap_layer = NodePath("../GameTileMap/Dirt")
-use_mouse_mode = true
-player = NodePath("../player")
-
-[node name="player" parent="." unique_id=1489117648 node_paths=PackedStringArray("dirt_cursor_component", "crops_cursor_component") groups=["player"] instance=ExtResource("4_o8krn")]
+[node name="player" parent="." unique_id=1489117648 node_paths=PackedStringArray("dirt_cursor_component") groups=["player"] instance=ExtResource("4_o8krn")]
 position = Vector2(212, 111)
 current_tool = 2
 dirt_cursor_component = NodePath("../DirtCursorComponent")
-crops_cursor_component = NodePath("../CropsCursorComponent")
 
 [node name="GameScreen" parent="." unique_id=1193212251 instance=ExtResource("5_adxik")]
