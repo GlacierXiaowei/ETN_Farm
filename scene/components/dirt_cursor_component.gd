@@ -116,6 +116,9 @@ func on_undo_till_tool_used() -> void:
 
 
 func update_preview() -> void:
+	if ToolManager.current_tool!= DataType.Tools.TillGround:
+		return
+	
 	if !enable_preview:
 		preview_sprite.visible = false
 		return

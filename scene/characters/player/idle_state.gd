@@ -45,6 +45,13 @@ func _on_next_transitions() -> void:
 	if  player.current_tool==DataType.Tools.WaterCrops && GameInputEvent.is_use_tool_request():
 		transition.emit("Watering")
 		return
+	
+	## 分支 B: 如果是作物种子 -> 切换到 Planting 状态 (新增逻辑)
+	##由于 在这个时候 撤销和正常的 目前信号上没有区别 而是在player的节点获取点击的时候 就给标记了 所以我二合一
+	if GameInputEvent.is_use_tool_request() and GameInputEvent.is_undo_use_tool_request():
+		if player.current_tool == DataType.Tools.PlantCorn or player.current_tool == DataType.Tools.PlantTomato:
+			transition.emit("Planting")
+			return
 		
 	#if  player.current_tool==DataType.Tools.PlantCorn && GameInputEvent.is_undo_use_tool_request():
 		#transition.emit("PlantCorn")
@@ -59,8 +66,6 @@ func _on_next_transitions() -> void:
 	#if  player.current_tool==DataType.Tools.PlantCorn && GameInputEvent.is_use_tool_request():
 		#transition.emit("PlantTomato")
 		#return
-
-
 
 	if GameInputEvent.is_movement_input():
 		transition.emit("Walking")

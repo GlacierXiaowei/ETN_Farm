@@ -65,15 +65,17 @@ func _on_next_transitions() -> void:
 	#if !GameInputEvent.is_movement_input():
 	if player.velocity.length() <= 1.0 :
 		transition.emit("idle")
-		#GameInputEvent.movement_input()
+		GameInputEvent.movement_input()
 	##↑ 注意 这里应该先获取movement数据 执行这个函数之后 is__函数的direction才会被更新
 	##↑和虚幻/unity一样遵循先获取数据 在进行判断哦
-	#if  player.current_tool==DataType.Tools.AxeWood && GameInputEvent.use_tool():
+	#if  player.current_tool==DataType.Tools.AxeWood && GameInputEvent.is_use_tool():
 		#transition.emit("Chopping")
 	#if  player.current_tool==DataType.Tools.TillGround && GameInputEvent.use_tool():
 		#transition.emit("Tilling")
 	#if  player.current_tool==DataType.Tools.WaterCrops && GameInputEvent.use_tool():
 		#transition.emit("Watering")
+	
+	
 	#if GameInputEvent.is_movement_input():
 		#transition.emit("Walking")
 
