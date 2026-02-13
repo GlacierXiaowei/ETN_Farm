@@ -21,14 +21,11 @@ func _on_next_transitions() -> void:
 func _on_enter() -> void:
 	if GameInputEvent.is_undo_use_tool_request():
 		player.is_undo_use_tool_mode = true
-		print("[调试-Planting] 检测到撤销操作，已通知 Player")
 	else:
 		player.is_undo_use_tool_mode = false
-		print("[调试-Planting] 检测到种植操作，已通知 Player")
 	
 	GameInputEvent.undo_use_tool()
 	GameInputEvent.use_tool()
-	print("[调试-PlantingState] 已消耗输入请求 (use_tool = false)")
 	
 	match player.player_direction:
 		Vector2.UP:
@@ -41,9 +38,8 @@ func _on_enter() -> void:
 			animated_sprite_2d.play("tilling_right")
 		Vector2.ZERO:
 			animated_sprite_2d.play("tilling_front")
-	
-	print("[调试-PlantingState] 发射 plant_tool_used 信号...")
-	# 3. 通知 Player (指挥官) 执行种植逻辑
+
+	# 3. 通知 Player执行种植逻辑
 	plant_tool_used.emit()
 
 func _on_exit() -> void:

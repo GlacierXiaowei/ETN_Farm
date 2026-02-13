@@ -28,19 +28,8 @@ func _on_physics_process(_delta: float) -> void:
 
 func _on_next_transitions() -> void:
 	GameInputEvent.movement_input()
-	
-	
-	# --- [调试] 获取当前状态快照 ---
-	var is_use = GameInputEvent.is_use_tool_request()
-	var is_undo = GameInputEvent.is_undo_use_tool_request()
-	var tool = player.current_tool
-	# 只有当有按键按下时才打印，防止刷屏
-	if is_use or is_undo:
-		print("[调试-Idle] 输入检测 -> Tool:", tool, " | 左键(Use):", is_use, " | 右键(Undo):", is_undo)
-
-	
-	#↑ 注意 这里应该先获取movement数据 执行这个函数之后 is__函数的direction才会被更新
-	#↑和虚幻/unity一样遵循先获取数据 在进行判断哦
+	#↑ 注意 这里应该先获取movement数据 执行这个函数之后 is_函数的direction才会被更新
+	#↑先获取数据 在进行判断
 	if  player.current_tool==DataType.Tools.AxeWood && GameInputEvent.is_use_tool_request():
 		transition.emit("Chopping")
 		return
@@ -61,24 +50,9 @@ func _on_next_transitions() -> void:
 	##由于 在这个时候 撤销和正常的 目前信号上没有区别 而是在player的节点获取点击的时候 就给标记了 所以我二合一
 	if GameInputEvent.is_use_tool_request() or GameInputEvent.is_undo_use_tool_request():
 		if player.current_tool == DataType.Tools.PlantCorn or player.current_tool == DataType.Tools.PlantTomato:
-			print("[调试-Idle] >>> 条件满足！切换到 Planting 状态")
 			transition.emit("Planting")
 			return
 		
-	#if  player.current_tool==DataType.Tools.PlantCorn && GameInputEvent.is_undo_use_tool_request():
-		#transition.emit("PlantCorn")
-		#return
-	#if  player.current_tool==DataType.Tools.PlantCorn && GameInputEvent.is_use_tool_request():
-		#transition.emit("PlantCorn")
-		#return
-		#
-	#if  player.current_tool==DataType.Tools.PlantTomato && GameInputEvent.is_undo_use_tool_request():
-		#transition.emit("PlantTomato")
-		#return
-	#if  player.current_tool==DataType.Tools.PlantCorn && GameInputEvent.is_use_tool_request():
-		#transition.emit("PlantTomato")
-		#return
-
 	if GameInputEvent.is_movement_input():
 		transition.emit("Walking")
 		return

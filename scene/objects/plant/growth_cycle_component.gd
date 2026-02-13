@@ -44,11 +44,10 @@ func growth_state(_starting_day: int,_current_day: int) -> void :
 	
 	##因为从 Germination(1) 开始
 	##注意 只改变显示逻辑 但是内部的stage 是代表var num_state: int = 4 这个的 
-	##我们尽量不该百年 stage内部的10-3的顺序
+	##我们尽量不该本来 stage内部的10-3的顺序
 	current_growth_state = (stage_index+1) as DataType.GrowthState
 	
 	var _name = DataType.GrowthState.keys()[current_growth_state]
-	print("current growth state: ",_name," State index: ",stage_index+1)
 	
 	if current_growth_state == DataType.GrowthState.Maturity:
 		crop_maturity.emit()

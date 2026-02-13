@@ -63,8 +63,7 @@ func get_cell_under_mouse() ->void:
 	local_cell_position = grass_tilemap_layer.map_to_local(cell_position)
 	var cell_global_position = grass_tilemap_layer.to_global(local_cell_position)
 	distance = player.global_position.distance_to(cell_global_position)
-	#print("mouse_position: ",mouse_position," cell_position: ",cell_position," cell_source_id",cell_source_id)
-	#print("distance: ",distance)
+
 
 
 func get_cell_in_front_of_player() -> void:

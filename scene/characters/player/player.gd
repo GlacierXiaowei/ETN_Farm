@@ -20,7 +20,7 @@ func _ready() -> void:
 	GameInputEvent.player = self
 	GameInputEvent.set_mode(GameInputEvent.current_mode)
 	
-	# --- 自动查找 DirtCursorComponent (保持原样) ---
+	# --- 自动查找 DirtCursorComponent
 	if !dirt_cursor_component:
 		for child in self.get_children():
 			if child is DirtCursorComponent:
@@ -38,7 +38,7 @@ func _ready() -> void:
 			dirt_cursor_component.preview_sprite = get_node("DirtPreview")
 			crops_cursor_component.preview_sprite = get_node("DirtPreview")
 	
-	# --- 新增: 自动查找 CropsCursorComponent ---
+	# 自动查找 CropsCursorComponent ---
 	if !crops_cursor_component:
 		# 1. 先找自己的子节点
 		for child in self.get_children():
@@ -54,9 +54,7 @@ func _ready() -> void:
 	# 初始化 Crops 组件
 	if crops_cursor_component:
 		crops_cursor_component.player = self
-		# crops_cursor_component 内部自己有 preview_sprite 的引用逻辑，这里不用强制赋值
-	else:
-		print("注意: Player 未能找到 CropsCursorComponent")
+
 
 	tilling.till_tool_used.connect(on_till_tool_used)
 	planting.plant_tool_used.connect(on_plant_tool_used)
@@ -109,11 +107,9 @@ func perform_hit_action() -> void:
 				
 			# 4. 种植逻辑移到这里
 			DataType.Tools.PlantCorn, DataType.Tools.PlantTomato:
-				print("[调试-Player] 正在调用 CropsCursorComponent...")
 				if crops_cursor_component:
 					crops_cursor_component.on_plant_crop_used()
-				else:
-					print("[调试-Player] !!! 严重错误 !!! crops_cursor_component 为空 (null)！请检查 Player 脚本的 _ready 或编辑器赋值！")
+
 
 func perform_undo_action() -> void:
 		match current_tool:
@@ -122,19 +118,16 @@ func perform_undo_action() -> void:
 				# 1. 先尝试移除该位置的作物 (如果有的话)
 				# 我们直接借用 crops 组件的移除逻辑，因为它会自动计算坐标
 					if crops_cursor_component:
-						print("[Player] 正在填坑，尝试顺便清理作物...")
-					crops_cursor_component.on_undo_plant_crop_used()
+						crops_cursor_component.on_undo_plant_crop_used()
 					
 					dirt_cursor_component.on_undo_till_tool_used()
 				
 				# 5. 移除逻辑移到这里
 			DataType.Tools.PlantCorn, DataType.Tools.PlantTomato:
-				print("[调试-Player] 正在调用undo情况下的 CropsCursorComponent...")
 				if crops_cursor_component:
 					crops_cursor_component.on_undo_plant_crop_used()
-				else:
-					print("[调试-Player] （undo情况）!!! 严重错误 !!! crops_cursor_component 为空 (null)！请检查 Player 脚本的 _ready 或编辑器赋值！")
-# --- 核心修改：统一的工具行为回调 ---
+
+# 统一的工具行为回调 ---
 func on_till_tool_used():
 	# 根据当前是否是“撤销模式”分流
 	if is_undo_use_tool_mode:
@@ -144,38 +137,8 @@ func on_till_tool_used():
 
 # 专门处理种植的回调
 func on_plant_tool_used() -> void:
-	print("[调试-Player] 收到 plant_tool_used 信号！")
-	
 	if is_undo_use_tool_mode:
-		print("[调试-Player] 当前是撤销模式")
+		
 		perform_undo_action()
 	else:
-		print("[调试-Player] 当前是种植模式")
 		perform_hit_action()
-## 执行工具的主要功能 (左键)
-#func perform_hit_action() -> void:
-	#match current_tool:
-		#DataType.Tools.TillGround:
-			#if dirt_cursor_component:
-				#dirt_cursor_component.on_till_tool_used()
-		#
-		## 在这里添加作物工具
-		#DataType.Tools.PlantCorn, DataType.Tools.PlantTomato:
-			#if crops_cursor_component:
-				#crops_cursor_component.on_plant_crop_used()
-			#else:
-				#print("无法种植：缺少 CropsCursorComponent")
-#
-## 执行工具的撤销功能 (右键/Back)
-#func perform_undo_action() -> void:
-	#match current_tool:
-		#DataType.Tools.TillGround:
-			#if dirt_cursor_component:
-				#dirt_cursor_component.on_undo_till_tool_used()
-		#
-		## 在这里添加作物移除工具
-		#DataType.Tools.PlantCorn, DataType.Tools.PlantTomato:
-			#if crops_cursor_component:
-				#crops_cursor_component.on_undo_plant_crop_used()
-			#else:
-				#print("无法移除：缺少 CropsCursorComponent")

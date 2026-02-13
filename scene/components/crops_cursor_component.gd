@@ -103,7 +103,6 @@ func on_undo_plant_crop_used() -> void:
 func add_crop() -> void:
 	# 照搬 Dirt：动作执行时才检查距离
 	if distance > max_interaction_distance:
-		print("[调试] 距离太远，无法种植")
 		return
 
 	if is_crop_at_position(target_global_position):
@@ -124,7 +123,6 @@ func remove_crop() -> void:
 	# 照搬 Dirt：动作执行时才检查距离
 	# 这样 Undo 时，只要选中了格子（哪怕在脚下），距离检查通过就能铲
 	if distance > max_interaction_distance:
-		print("[调试] 距离太远，无法铲除")
 		return
 
 	if !crop_parent: return
