@@ -57,6 +57,7 @@ static var _use_tool_requested:bool =false
 static func request_use_tool() -> void:
 	##解耦合 用于处理 使用工具意图的请求
 	_use_tool_requested = true
+	print("[调试-Input] 收到使用工具请求！当前 use_tool = true")
 	
 ##该函数是 只被（状态机）请求 并消耗
 static func use_tool() -> bool:

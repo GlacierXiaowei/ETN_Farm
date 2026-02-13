@@ -103,26 +103,37 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func perform_hit_action() -> void:
 		match current_tool:
-				DataType.Tools.TillGround:
-						if dirt_cursor_component:
-								dirt_cursor_component.on_till_tool_used()
+			DataType.Tools.TillGround:
+				if dirt_cursor_component:
+					dirt_cursor_component.on_till_tool_used()
 				
-				# 4. 种植逻辑移到这里
-				DataType.Tools.PlantCorn, DataType.Tools.PlantTomato:
-						if crops_cursor_component:
-								crops_cursor_component.on_plant_crop_used()
+			# 4. 种植逻辑移到这里
+			DataType.Tools.PlantCorn, DataType.Tools.PlantTomato:
+				print("[调试-Player] 正在调用 CropsCursorComponent...")
+				if crops_cursor_component:
+					crops_cursor_component.on_plant_crop_used()
+				else:
+					print("[调试-Player] !!! 严重错误 !!! crops_cursor_component 为空 (null)！请检查 Player 脚本的 _ready 或编辑器赋值！")
 
 func perform_undo_action() -> void:
 		match current_tool:
-				DataType.Tools.TillGround:
-						if dirt_cursor_component:
-								dirt_cursor_component.on_undo_till_tool_used()
+			DataType.Tools.TillGround:
+				if dirt_cursor_component:
+				# 1. 先尝试移除该位置的作物 (如果有的话)
+				# 我们直接借用 crops 组件的移除逻辑，因为它会自动计算坐标
+					if crops_cursor_component:
+						print("[Player] 正在填坑，尝试顺便清理作物...")
+					crops_cursor_component.on_undo_plant_crop_used()
+					
+					dirt_cursor_component.on_undo_till_tool_used()
 				
 				# 5. 移除逻辑移到这里
-				DataType.Tools.PlantCorn, DataType.Tools.PlantTomato:
-						if crops_cursor_component:
-								crops_cursor_component.on_undo_plant_crop_used()
-
+			DataType.Tools.PlantCorn, DataType.Tools.PlantTomato:
+				print("[调试-Player] 正在调用undo情况下的 CropsCursorComponent...")
+				if crops_cursor_component:
+					crops_cursor_component.on_undo_plant_crop_used()
+				else:
+					print("[调试-Player] （undo情况）!!! 严重错误 !!! crops_cursor_component 为空 (null)！请检查 Player 脚本的 _ready 或编辑器赋值！")
 # --- 核心修改：统一的工具行为回调 ---
 func on_till_tool_used():
 	# 根据当前是否是“撤销模式”分流
@@ -133,12 +144,14 @@ func on_till_tool_used():
 
 # 专门处理种植的回调
 func on_plant_tool_used() -> void:
-	# 同样支持撤销模式
+	print("[调试-Player] 收到 plant_tool_used 信号！")
+	
 	if is_undo_use_tool_mode:
+		print("[调试-Player] 当前是撤销模式")
 		perform_undo_action()
 	else:
+		print("[调试-Player] 当前是种植模式")
 		perform_hit_action()
-
 ## 执行工具的主要功能 (左键)
 #func perform_hit_action() -> void:
 	#match current_tool:

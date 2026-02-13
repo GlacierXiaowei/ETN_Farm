@@ -45,8 +45,12 @@ position = Vector2(128, 89)
 y_sort_enabled = false
 position = Vector2(179, 103)
 
-[node name="CropsCursorComponent" parent="." unique_id=1725522496 instance=ExtResource("8_o8krn")]
+[node name="CropsCursorComponent" parent="." unique_id=1725522496 node_paths=PackedStringArray("dirt_tilemap_layer", "player", "crop_parent") instance=ExtResource("8_o8krn")]
 script = ExtResource("9_adxik")
+dirt_tilemap_layer = NodePath("../GameTileMap/Dirt")
+player = NodePath("../player")
+crop_parent = NodePath("../CropField")
+use_mouse_mode = true
 
 [node name="DirtCursorComponent" parent="." unique_id=1564254375 node_paths=PackedStringArray("grass_tilemap_layer", "dirt_tilemap_layer") instance=ExtResource("5_cid1b")]
 grass_tilemap_layer = NodePath("../GameTileMap/Grass")

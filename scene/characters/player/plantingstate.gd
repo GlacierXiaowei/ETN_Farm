@@ -19,9 +19,16 @@ func _on_next_transitions() -> void:
 		transition.emit("Idle")
 
 func _on_enter() -> void:
-	# 1. 消耗输入请求 (关键！)
-	# 一旦进入这个状态，说明我们已经响应了按键，必须重置信号，防止重复触发
+	if GameInputEvent.is_undo_use_tool_request():
+		player.is_undo_use_tool_mode = true
+		print("[调试-Planting] 检测到撤销操作，已通知 Player")
+	else:
+		player.is_undo_use_tool_mode = false
+		print("[调试-Planting] 检测到种植操作，已通知 Player")
+	
+	GameInputEvent.undo_use_tool()
 	GameInputEvent.use_tool()
+	print("[调试-PlantingState] 已消耗输入请求 (use_tool = false)")
 	
 	match player.player_direction:
 		Vector2.UP:
@@ -35,6 +42,7 @@ func _on_enter() -> void:
 		Vector2.ZERO:
 			animated_sprite_2d.play("tilling_front")
 	
+	print("[调试-PlantingState] 发射 plant_tool_used 信号...")
 	# 3. 通知 Player (指挥官) 执行种植逻辑
 	plant_tool_used.emit()
 

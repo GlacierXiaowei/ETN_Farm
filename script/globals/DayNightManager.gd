@@ -30,8 +30,10 @@ func _process(delta: float) -> void:
 	
 func recalculate_time() -> void:
 	var total_minute:int = int(time / GAME_MINUTE_DURATION)
+	@warning_ignore("integer_division")
 	var day: int = int(total_minute / MINUTE_PER_DAY)
 	var current_day_minute : int = total_minute % MINUTE_PER_DAY 
+	@warning_ignore("integer_division")
 	var hour: int = int(current_day_minute / MINUTE_PER_HOUR)
 	var minute : int =  int(current_day_minute % MINUTE_PER_HOUR)
 	
