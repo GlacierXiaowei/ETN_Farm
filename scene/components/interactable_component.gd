@@ -9,10 +9,16 @@ extends Area2D
 signal interactable_activated
 signal interactable_deactivated
 
+func _ready() -> void:
+	## 自动连接 Area2D 的信号到内部函数
+	if not body_entered.is_connected(_on_body_entered):
+		body_entered.connect(_on_body_entered)
+	
+	if not body_exited.is_connected(_on_body_exited):
+		body_exited.connect(_on_body_exited)
 
 func _on_body_entered(_body: Node2D) -> void:
 	interactable_activated.emit()
-
 
 func _on_body_exited(_body: Node2D) -> void:
 	interactable_deactivated.emit()

@@ -1,8 +1,14 @@
 [gd_scene format=4 uid="uid://cjbxfsyxjpref"]
 
+[ext_resource type="PackedScene" uid="uid://dxjffr7genjh1" path="res://scene/components/Interactable_component.tscn" id="1_0cgsr"]
 [ext_resource type="TileSet" uid="uid://c6oap5ub147gh" path="res://Tilesets/house_tile_set.tres" id="1_05tud"]
 
-[node name="MediumHouse" type="Node2D" unique_id=1257293254]
+[node name="SmallHouse" type="Node2D" unique_id=1257293254 groups=["no_placement_zone"]]
+
+[node name="InteractableComponetnt" parent="." unique_id=1307587226 instance=ExtResource("1_0cgsr")]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="InteractableComponetnt" unique_id=137842889]
+polygon = PackedVector2Array(-24, 16, -24, -112, 104, -112, 104, 16)
 
 [node name="HouseTilemap" type="Node2D" parent="." unique_id=1424718821]
 

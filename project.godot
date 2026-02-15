@@ -55,6 +55,7 @@ folder_colors={
 
 navigation_polygon_source_geometry_group=""
 player=""
+no_placement_zone="用于设置不可放置地区，包括房子内部不能耕地。需要为房子配置intereactcomponent。"
 
 [input]
 
@@ -149,6 +150,7 @@ undo_hit={
 2d_physics/layer_5="Object"
 2d_physics/layer_6="Collectable"
 2d_physics/layer_7="NPC"
+2d_physics/layer_8="No Placement"
 
 [physics]
 

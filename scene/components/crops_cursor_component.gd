@@ -1,4 +1,4 @@
-extends Node
+extends Node2D
 class_name CropsCursorComponent
 
 # --- 1. 核心引用 ---
@@ -6,7 +6,10 @@ class_name CropsCursorComponent
 @export var dirt_tilemap_layer: TileMapLayer 
 @export var player: Player 
 @export var preview_sprite : Sprite2D
-@export var crop_parent: Node2D 
+@export var crop_parent: Node2D
+
+##障碍物层数组（树、石头等TileMap层），这些位置不能种植
+@export var obstacle_layers: Array[TileMapLayer] = []
 
 @export_group("Settings")
 @export var enable_preview: bool = true
@@ -51,7 +54,37 @@ func update_target_cell() -> bool:
 	if cell_source_id == -1:
 		return false
 	
+	# 检测是否有障碍物（树、石头等）
+	if is_obstacle_at_cell(cell_position):
+		return false
+	
 	return true
+
+##检测指定格子是否有障碍物
+func is_obstacle_at_cell(pos: Vector2i) -> bool:
+	# 1. 检测 TileMap 障碍物层
+	for layer in obstacle_layers:
+		if layer and layer.get_cell_source_id(pos) != -1:
+			return true
+	
+	# 2. 检测禁止种植区域（通过 Player 的 NoPlacement 组件）
+	if is_in_no_placement_zone():
+		return true
+	
+	return false
+
+##检测玩家是否在禁止放置区域（如房子内部）
+##通过 Player 的 NoPlacement 组件判断
+func is_in_no_placement_zone() -> bool:
+	if not is_instance_valid(player):
+		return false
+	
+	## 防御性编程：检查 Player 是否有 NoPlacement 组件
+	if not player.is_NoPlacement_valid():
+		return false
+	
+	## 调用 Player 的函数获取状态
+	return player.is_in_no_placement_zone()
 
 func get_cell_under_mouse() -> void:
 	mouse_position = dirt_tilemap_layer.get_local_mouse_position()
@@ -155,7 +188,11 @@ func update_preview() -> void:
 	# 照搬 Dirt：就算距离远，只要 update_target_cell 返回 true (有耕地)，就显示预览
 	# Dirt 是这么做的，这样你会看到远处的红框，但按键没反应（被 distance 拦截）
 	if update_target_cell():
-		preview_sprite.visible = true
-		preview_sprite.global_position = target_global_position
+		# 额外检测：只有耕地才能显示预览框（cell_source_id != -1 表示有耕地）
+		if cell_source_id != -1:
+			preview_sprite.visible = true
+			preview_sprite.global_position = target_global_position
+		else:
+			preview_sprite.visible = false
 	else:
 		preview_sprite.visible = false

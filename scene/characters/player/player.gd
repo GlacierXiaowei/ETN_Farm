@@ -11,6 +11,10 @@ extends CharacterBody2D
 @onready var tilling: NodeState = $StateMachine/Tilling
 @onready var planting: NodeState = $StateMachine/Planting 
 
+## 禁止放置区域组件（Component/NoPlacement）
+## 用于检测玩家是否在房子等禁止耕种区域
+@onready var no_placement_component : NoPlacement = $Component/"NoPlacement"
+
 var player_direction: Vector2 = Vector2.ZERO
 var is_undo_use_tool_mode: bool = false
 
@@ -77,28 +81,6 @@ func _unhandled_input(event: InputEvent) -> void:
 		GameInputEvent.request_undo_use_tool()
 
 
-#func perform_hit_action() -> void:
-	#match current_tool:
-		#DataType.Tools.TillGround:
-			#if dirt_cursor_component:
-				#dirt_cursor_component.on_till_tool_used()
-		#
-		## 4. 种植逻辑移到这里
-		#DataType.Tools.PlantCorn, DataType.Tools.PlantTomato:
-			#if crops_cursor_component:
-				#crops_cursor_component.on_plant_crop_used()
-#
-#func perform_undo_action() -> void:
-	#match current_tool:
-		#DataType.Tools.TillGround:
-			#if dirt_cursor_component:
-				#dirt_cursor_component.on_undo_till_tool_used()
-		#
-		## 5. 移除逻辑移到这里
-		#DataType.Tools.PlantCorn, DataType.Tools.PlantTomato:
-			#if crops_cursor_component:
-				#crops_cursor_component.on_undo_plant_crop_used()
-
 func perform_hit_action() -> void:
 		match current_tool:
 			DataType.Tools.TillGround:
@@ -142,3 +124,16 @@ func on_plant_tool_used() -> void:
 		perform_undo_action()
 	else:
 		perform_hit_action()
+
+## 检查 NoPlacement 组件是否已加载
+## 用于防御性编程，避免组件不存在时报错
+func is_NoPlacement_valid() -> bool:
+	return is_instance_valid(no_placement_component) and no_placement_component != null
+
+## 检查玩家是否在禁止放置区域（如房子内部）
+## 返回 true 表示当前在禁止区域，不能耕地/种植
+func is_in_no_placement_zone() -> bool:
+	## 防御性编程：组件不存在时返回 false（允许操作）
+	if not is_NoPlacement_valid():
+		return false
+	return no_placement_component.is_in_no_placement_zone()

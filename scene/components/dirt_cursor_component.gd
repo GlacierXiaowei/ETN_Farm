@@ -1,4 +1,4 @@
-extends Node
+extends Node2D
 class_name DirtCursorComponent
 
 @export var grass_tilemap_layer: TileMapLayer
@@ -6,6 +6,9 @@ class_name DirtCursorComponent
 @export var terrain_set: int = 0
 ##这个指的是 地形的id(=4) 不是sorce id(=9) 填写正确
 @export var terrain: int = 4
+
+##障碍物层数组（树、石头等TileMap层），这些位置不能锄地
+@export var obstacle_layers: Array[TileMapLayer] = []
 
 ##耕地预览格
 @export var enable_preview: bool = true
@@ -50,7 +53,37 @@ func update_target_cell() -> bool:
 	if cell_source_id == -1:
 		return false
 	
+	# 检测是否有障碍物（树、石头等）
+	if is_obstacle_at_cell(cell_position):
+		return false
+	
 	return true
+
+##检测指定格子是否有障碍物
+func is_obstacle_at_cell(pos: Vector2i) -> bool:
+	# 1. 检测 TileMap 障碍物层
+	for layer in obstacle_layers:
+		if layer and layer.get_cell_source_id(pos) != -1:
+			return true
+	
+	# 2. 检测禁止耕种区域（通过 Player 的 NoPlacement 组件）
+	if is_in_no_placement_zone():
+		return true
+	
+	return false
+
+##检测玩家是否在禁止放置区域（如房子内部）
+##通过 Player 的 NoPlacement 组件判断
+func is_in_no_placement_zone() -> bool:
+	if not is_instance_valid(player):
+		return false
+	
+	## 防御性编程：检查 Player 是否有 NoPlacement 组件
+	if not player.is_NoPlacement_valid():
+		return false
+	
+	## 调用 Player 的函数获取状态
+	return player.is_in_no_placement_zone()
 
 
 ##用于获取 鼠标下方对应的（草地）瓦片地图的位置 （这里会使用到咱们的本地地图）
@@ -127,6 +160,11 @@ func update_preview() -> void:
 		return
 	
 	if !update_target_cell():
+		preview_sprite.visible = false
+		return
+	
+	# 额外检测：只有草地才能显示预览框
+	if cell_source_id != 1:
 		preview_sprite.visible = false
 		return
 	

@@ -16,9 +16,9 @@ func on_interactable_activated() -> void:
 	animated_sprite_2d.play("open_door")
 	#和玩家同为2蹭（player）以关闭碰撞
 	self.collision_layer = 2
-	print("门已激活")
+	#print("门已激活")
 	
 func on_interactable_deactivated() -> void:
 	animated_sprite_2d.play("close_door")
 	self.collision_layer = 1
-	print("门停止激活")
+	#print("门停止激活")
