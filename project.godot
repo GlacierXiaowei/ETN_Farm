@@ -17,6 +17,7 @@ custom_settings_enabled=true
 config/name="farm_exercise"
 config/features=PackedStringArray("4.6", "Forward Plus")
 config/icon="res://icon.svg"
+config/tags=PackedStringArray("alpha")
 
 [audio]
 
