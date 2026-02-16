@@ -27,6 +27,7 @@ buses/default_bus_layout=""
 ToolManager="*uid://ctxdppq3k6fsq"
 InventoryManager="*uid://pvylqgdke05l"
 DayNightManager="*uid://d2e5afkvgm3aq"
+SaveGameManager="*uid://vvk6rp0hnqyb"
 
 [display]
 
@@ -47,6 +48,7 @@ folder_colors={
 "res://Tilesets/": "yellow",
 "res://addons/": "gray",
 "res://assets/": "orange",
+"res://resource/": "purple",
 "res://scene/": "green",
 "res://script/": "pink"
 }
@@ -56,6 +58,7 @@ folder_colors={
 navigation_polygon_source_geometry_group=""
 player=""
 no_placement_zone="用于设置不可放置地区，包括房子内部不能耕地。需要为房子配置intereactcomponent。"
+save_data_component="用于存档数据"
 
 [input]
 
@@ -137,6 +140,10 @@ undo_hit={
 "deadzone": 0.2,
 "events": [Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":true,"meta_pressed":false,"button_mask":1,"position":Vector2(579, 18),"global_position":Vector2(598, 114),"factor":1.0,"button_index":1,"canceled":false,"pressed":true,"double_click":false,"script":null)
 ]
+}
+save_game={
+"deadzone": 0.2,
+"events": []
 }
 
 [layer_names]

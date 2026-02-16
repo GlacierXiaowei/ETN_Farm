@@ -4,8 +4,10 @@
 [ext_resource type="Script" uid="uid://d35jjqte2a1qb" path="res://scene/objects/plant/corn.gd" id="1_ojxu1"]
 [ext_resource type="Texture2D" uid="uid://bpdv4catil6wf" path="res://assets/game/objects/basic_plants.png" id="1_qdh6g"]
 [ext_resource type="PackedScene" uid="uid://dcmvn883sl1nn" path="res://scene/objects/plant/flower_particles.tscn" id="2_0d0tk"]
+[ext_resource type="PackedScene" uid="uid://bhlsgyuovq0lx" path="res://scene/components/crucial/save_date_component.tscn" id="2_3a44u"]
 [ext_resource type="PackedScene" uid="uid://f04ci442hypm" path="res://scene/components/hurt_component.tscn" id="2_qylb3"]
 [ext_resource type="PackedScene" uid="uid://bxwnwfdla8ttc" path="res://scene/objects/plant/growth_cycle_component.tscn" id="5_3a44u"]
+[ext_resource type="Resource" uid="uid://cnr7v427gqdb2" path="res://resource/scene_data_resource.tres" id="8_py8ux"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kgrvb"]
 size = Vector2(15.5, 10)
@@ -13,6 +15,8 @@ size = Vector2(15.5, 10)
 [node name="Corn" type="Node2D" unique_id=442746861]
 y_sort_enabled = true
 script = ExtResource("1_ojxu1")
+
+[node name="SaveDateComponent" parent="." unique_id=672273542 instance=ExtResource("2_3a44u")]
 
 [node name="WaterParticles" parent="." unique_id=1692519086 instance=ExtResource("1_kgrvb")]
 
@@ -34,3 +38,6 @@ tool = 3
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HurtComponent" unique_id=1581299021]
 position = Vector2(-0.75, 3)
 shape = SubResource("RectangleShape2D_kgrvb")
+
+[node name="SaveDateComponent2" parent="." unique_id=22427412 instance=ExtResource("2_3a44u")]
+save_data_resource = ExtResource("8_py8ux")
