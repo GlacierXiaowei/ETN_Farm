@@ -59,10 +59,12 @@ static func request_use_tool() -> void:
 	_use_tool_requested = true
 	
 ##该函数是 只被（状态机）请求 并消耗
+##如果当前不是GAMEPLAY模式，直接返回false，不消耗请求
 static func use_tool() -> bool:
-	#var use_tool_value: bool = Input.is_action_pressed("hit") and GameInputEvent.current_mode==GameInputEvent.Mode.GAMEPLAY
-
-	#return use_tool_value
+	# 检查游戏模式，非GAMEPLAY模式下不允许使用工具
+	if current_mode != Mode.GAMEPLAY:
+		return false
+	
 	if _use_tool_requested:
 		_use_tool_requested = false  # ← 消耗掉这次输入
 		return true
@@ -82,9 +84,12 @@ static func request_undo_use_tool():
 	_undo_tool_requested = true
 
 static func undo_use_tool() -> bool:
+	# 检查游戏模式，非GAMEPLAY模式下不允许撤销工具
+	if current_mode != Mode.GAMEPLAY:
+		return false
+	
 	if _undo_tool_requested:
 		_undo_tool_requested = false
-
 		return true
 	return false
 
@@ -103,6 +108,10 @@ static var _tool_select_requested : int = -1
 static func request_tool_select(slot_index: int) -> void:
 	_tool_select_requested = slot_index
 static func use_tool_select() -> int:
+	# 检查游戏模式，非GAMEPLAY模式下不允许切换工具
+	if current_mode != Mode.GAMEPLAY:
+		return -1
+	
 	if _tool_select_requested != -1:
 		var slot := _tool_select_requested
 		_tool_select_requested = -1

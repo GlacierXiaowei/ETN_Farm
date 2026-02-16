@@ -1,5 +1,15 @@
 # PROJECT_CONTEXT.md
 
+## 更新日志
+
+### 2026-02-16 - 输入控制系统改进
+- 实现双重保险输入控制机制
+- 新增 GameInputEvent.Mode 检查，防止 UI 交互时触发游戏动作
+- 更新输入管理系统文档，详细说明 MouseFilter STOP + Mode 检查的实现
+- 参考 `AI_CONTEXT.md` 获取详细技术说明
+
+---
+
 ## 1. Project Overview
 
 | Property | Value |
@@ -130,16 +140,44 @@ farm-exercise/
 | num_1~num_9 | 1~9 | 快捷工具选择 |
 
 **输入模式** (`GameInputEvent.Mode`):
-- `GAMEPLAY`: 正常游戏输入
-- `UI`: UI 交互模式，禁用角色移动
-- `CUTSCENE`: 过场动画模式
+- `GAMEPLAY`: 正常游戏输入，所有输入功能可用
+- `UI`: UI 交互模式，禁用角色移动和工具操作
+- `CUTSCENE`: 过场动画模式，完全禁用玩家输入
 - `DISABLED`: 完全禁用输入
+
+**双重保险机制**:
+
+为了可靠地阻止 UI 交互时的游戏输入，系统采用双重保险策略：
+
+1. **Godot 原生 MouseFilter STOP**: 
+   - UI 根节点（PanelContainer/Control）默认使用 `mouse_filter = 0 (STOP)`
+   - 自动捕获鼠标事件，阻止事件传递到下层游戏世界
+   - 无需额外代码，Godot 4.x 默认行为
+
+2. **GameInputEvent.Mode 检查**:
+   - `set_mode(mode)` 方法切换输入模式
+   - 在 `use_tool()`、`undo_use_tool()`、`use_tool_select()`、`movement_input()` 中检查 `current_mode == GAMEPLAY`
+   - 非 GAMEPLAY 模式下这些函数返回无效值（false/-1）
+
+3. **Player._unhandled_input 保护**:
+   - 函数开头检查 `GameInputEvent.current_mode != GAMEPLAY`
+   - 非游戏模式时直接返回，不处理任何输入
+
+**使用方法**:
+```gdscript
+# 打开 UI 时禁用游戏输入
+GameInputEvent.set_mode(GameInputEvent.Mode.UI)
+
+# 关闭 UI 后恢复游戏输入
+GameInputEvent.set_mode(GameInputEvent.Mode.GAMEPLAY)
+```
 
 **请求缓存机制**:
 - `request_use_tool()`: 缓存工具使用请求
 - `request_undo_use_tool()`: 缓存撤销请求
 - `request_tool_select()`: 缓存工具切换请求
 - 状态机在 `_physics_process` 中消耗请求
+- 所有消耗函数都检查模式，非 GAMEPLAY 模式不执行
 
 ### 6.4 作物系统 (Crop System)
 

@@ -70,6 +70,13 @@ func on_tool_selected(tool: DataType.Tools) -> void:
 	print("Tool Selected: ", tool)
 
 func _unhandled_input(event: InputEvent) -> void:
+	## 如果当前不是GAMEPLAY模式，不处理任何游戏输入
+	## 这个检查与GameInputEvent.current_mode的检查是双重保险
+	## 因为_unhandled_input在set_mode(GameInputEvent.Mode.UI)时已被禁用
+	## 但为了代码健壮性，这里保留检查
+	if GameInputEvent.current_mode != GameInputEvent.Mode.GAMEPLAY:
+		return
+	
 	for i in range(1, 10):
 		if event.is_action_pressed("num_%d" % i):
 			GameInputEvent.request_tool_select(i)
