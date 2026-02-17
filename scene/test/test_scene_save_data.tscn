@@ -3,8 +3,9 @@
 [ext_resource type="PackedScene" uid="uid://dgsmku2jgi8mw" path="res://scene/components/crucial/test_scene_save_data_manager_component.tscn" id="1_4xbu6"]
 [ext_resource type="PackedScene" uid="uid://mbwyoa4i4eyi" path="res://scene/components/day_night_cycle_component.tscn" id="1_wmvny"]
 [ext_resource type="PackedScene" uid="uid://cjbxfsyxjpref" path="res://scene/houses/small_house.tscn" id="2_rlkud"]
-[ext_resource type="PackedScene" uid="uid://bhlsgyuovq0lx" path="res://scene/components/crucial/save_date_component.tscn" id="2_vuu7o"]
+[ext_resource type="PackedScene" uid="uid://bhlsgyuovq0lx" path="res://scene/components/crucial/save_data_component.tscn" id="2_vuu7o"]
 [ext_resource type="TileSet" uid="uid://dw7ut02febnhv" path="res://Tilesets/game_tile_set.tres" id="3_4xbu6"]
+[ext_resource type="Resource" uid="uid://cnr7v427gqdb2" path="res://resource/scene_data_resource.tres" id="3_pb4wg"]
 [ext_resource type="PackedScene" uid="uid://bmx54tmbpia5t" path="res://scene/objects/plant/tomato.tscn" id="4_vuu7o"]
 [ext_resource type="PackedScene" uid="uid://bt27ml1bhbsxe" path="res://scene/characters/player/player.tscn" id="5_pb4wg"]
 [ext_resource type="PackedScene" uid="uid://gad1djna68ku" path="res://scene/objects/plant/corn.tscn" id="6_o55at"]
@@ -12,12 +13,16 @@
 [ext_resource type="PackedScene" uid="uid://d2wfu51np2iji" path="res://scene/components/dirt_cursor_component.tscn" id="8_lvtdo"]
 [ext_resource type="PackedScene" uid="uid://cvuydps5hqpt5" path="res://scene/UI/game_screen.tscn" id="9_c1fn1"]
 [ext_resource type="Resource" uid="uid://p28mhfompcu2" path="res://resource/tilemap_layer_data_resource.tres" id="10_vuu7o"]
+[ext_resource type="PackedScene" uid="uid://cf30a2gg84rlt" path="res://scene/components/crucial/save_level_data_component.tscn" id="14_o55at"]
 
 [node name="TestSceneCrop" type="Node2D" unique_id=1629816625]
 
 [node name="TestSceneSaveDataManagerComponent" parent="." unique_id=721689621 instance=ExtResource("1_4xbu6")]
 
+[node name="SaveLevelDataComponent" parent="." unique_id=1278032610 instance=ExtResource("14_o55at")]
+
 [node name="SaveDateComponent" parent="." unique_id=672273542 instance=ExtResource("2_vuu7o")]
+save_data_resource = ExtResource("3_pb4wg")
 
 [node name="CropsCursorComponent" parent="." unique_id=1725522496 node_paths=PackedStringArray("dirt_tilemap_layer", "player", "crop_parent", "obstacle_layers") instance=ExtResource("7_m1uy1")]
 dirt_tilemap_layer = NodePath("../GameTileMap/Dirt")
