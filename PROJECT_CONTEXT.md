@@ -223,6 +223,46 @@ farm-exercise/
 - 检测目标格子是否为耕地 (通过 `dirt_tilemap_layer` 的 source_id)
 - 实例化作物体到 `crop_parent` 节点下
 
+### 6.8 存档系统 (Save System)
+
+**系统架构**: 组件化 + Resource 资源驱动
+
+**核心组件**:
+
+| 组件 | 脚本 | 组名 | 职责 |
+| :--- | :--- | :--- | :--- |
+| SaveGameManager | `script/globals/save_game_manager.gd` | - | 全局入口，提供 save_game() / load_game() |
+| SaveLevelDataComponent | `scene/components/crucial/save_level_data_component.gd` | `save_level_data_manager` | 场景级存档管理器，每个场景1个 |
+| SaveDataComponent | `scene/components/crucial/save_data_component.gd` | `save_data_component` | 节点级数据收集器，标记需要保存的节点 |
+
+**两个组的分工**:
+- `save_level_data_manager`: 供 SaveGameManager 查找，定位当前场景的存档管理器
+- `save_data_component`: 供 SaveLevelDataComponent 查找，收集所有需要保存的节点
+
+**存储路径**:
+- Windows: `%APPDATA%/Godot/app_userdata/farm_exercise/game_data/`
+- 文件名: `save_{场景名}_game_data.tres`
+
+**数据资源类**:
+- `NodeDataResource` (`resource/node_data_resource.gd`): 基础数据（位置、路径）
+- `SceneDataResource` (`resource/scene_data_resource.gd`): 场景对象（玩家、NPC、作物）
+- `TileMapLayerDataResource` (`resource/tilemap_layer_data_resource.gd`): 地图层（耕地状态）
+- `SaveGameDataResource` (`resource/save_game_data_resource.gd`): 存档容器，聚合所有数据
+
+**使用步骤**:
+1. 场景根节点添加 `SaveLevelDataComponent`（必须！）
+2. 需要保存的节点添加 `SaveDataComponent`，并配置 `save_data_resource`:
+   - 普通节点/NPC/作物 → 拖拽 `scene_data_resource.tres`
+   - TileMapLayer（耕地层） → 拖拽 `tilemap_layer_data_resource.tres`
+3. 调用 `SaveGameManager.save_game()` / `load_game()`
+
+**已知问题**:
+- `get_used_cells()` 返回顺序不确定，保存 TileMap 时需遍历所有格子寻找正确 terrain
+- 作物状态（生长阶段等）尚未实现保存
+- 玩家位置恢复已修复（SceneDataResource 优先查找已存在节点）
+
+**重要**: `.tscn` 场景文件只能由用户在 Godot 编辑器中手动操作，不应直接修改，以免破坏 UID 引用。
+
 ## 7. Physics Layers
 
 | Layer | Name | 用途 |

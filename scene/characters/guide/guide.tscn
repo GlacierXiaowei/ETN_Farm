@@ -1,0 +1,74 @@
+[gd_scene format=3 uid="uid://cculwk6783gia"]
+
+[ext_resource type="Script" uid="uid://ckai4es0m53pw" path="res://scene/characters/guide/guide.gd" id="1_1uvtl"]
+[ext_resource type="Shader" uid="uid://d3nqsjiqjhg3o" path="res://assets/game/characters/replace_color_shader.gdshader" id="1_yfajb"]
+[ext_resource type="Texture2D" uid="uid://nb44kappc56b" path="res://assets/game/characters/basic_character_sprite.png" id="2_7fbcc"]
+[ext_resource type="PackedScene" uid="uid://dxjffr7genjh1" path="res://scene/components/Interactable_component.tscn" id="3_7fbcc"]
+[ext_resource type="PackedScene" uid="uid://bhbwsw5cm5c3k" path="res://scene/components/interactable_label_component.tscn" id="4_7khqe"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_7khqe"]
+shader = ExtResource("1_yfajb")
+shader_parameter/original_0 = Color(0.36078432, 0.30588236, 0.57254905, 1)
+shader_parameter/original_1 = Color(0.4627451, 0.42745098, 0.6666667, 1)
+shader_parameter/original_2 = Color(0.9529412, 0.9490196, 0.7529412, 1)
+shader_parameter/original_3 = Color(0.8666667, 0.8352941, 0.87058824, 1)
+shader_parameter/replace_0 = Color(0.5262359, 0.6993991, 0.9233733, 1)
+shader_parameter/replace_1 = Color(0.8589188, 0.82671756, 0.9695011, 1)
+shader_parameter/replace_2 = Color(0.809665, 0.8611501, 0.9772927, 1)
+shader_parameter/replace_3 = Color(0.3327098, 0.5049727, 0.86352175, 1)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1uvtl"]
+atlas = ExtResource("2_7fbcc")
+region = Rect2(0, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oback"]
+atlas = ExtResource("2_7fbcc")
+region = Rect2(48, 0, 48, 48)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_svabx"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1uvtl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_oback")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 3.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_7khqe"]
+radius = 25.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1uvtl"]
+size = Vector2(8, 9)
+
+[node name="Guide" type="Node2D" unique_id=204264781]
+script = ExtResource("1_1uvtl")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=453478917]
+material = SubResource("ShaderMaterial_7khqe")
+position = Vector2(0, -8)
+sprite_frames = SubResource("SpriteFrames_svabx")
+animation = &"idle"
+
+[node name="InteractableComponetnt" parent="." unique_id=1307587226 instance=ExtResource("3_7fbcc")]
+position = Vector2(0, -8)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractableComponetnt" unique_id=1571345323]
+shape = SubResource("CircleShape2D_7khqe")
+debug_color = Color(0.712985, 0.38338187, 0.67478055, 0.41960785)
+
+[node name="InteractableLabelComponent" parent="." unique_id=1306688582 instance=ExtResource("4_7khqe")]
+offset_left = -9.0
+offset_top = -37.0
+offset_right = 9.0
+offset_bottom = -19.0
+
+[node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=57212964]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=1355656838]
+position = Vector2(0, -4.5)
+shape = SubResource("RectangleShape2D_1uvtl")
