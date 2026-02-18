@@ -20,6 +20,8 @@ func _ready() -> void:
 			button.focus_mode=Control.FOCUS_NONE
 			button.pressed.connect(on_button_pressed.bind(button))
 			slot_buttons.append(button)
+	
+	
 
 func on_button_pressed(button:Button) -> void:
 	var tool_name: String = button.get_meta("Tool_Name")

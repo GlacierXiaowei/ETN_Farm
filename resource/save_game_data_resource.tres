@@ -1,5 +1,6 @@
-[gd_resource type="Resource" format=3 uid="uid://deyfoipa5fvnd"]
+[gd_resource type="Resource" script_class="SaveGameDataResource" format=3 uid="uid://deyfoipa5fvnd"]
 
+[ext_resource type="Script" uid="uid://drn5b1b05yu7p" path="res://resource/node_data_resource.gd" id="1_0ijty"]
 [ext_resource type="Script" uid="uid://ctiy5ibswrr4e" path="res://resource/save_game_data_resource.gd" id="1_v37i5"]
 
 [resource]

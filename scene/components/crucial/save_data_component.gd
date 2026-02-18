@@ -29,6 +29,5 @@ func _save_data() -> Resource:
 		return null
 	
 	save_data_resource._save_data(parent_node)
-	print("[SaveDataComponent] Data saved for: ", parent_node.name)
 	
 	return save_data_resource

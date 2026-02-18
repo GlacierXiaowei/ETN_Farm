@@ -7,7 +7,6 @@
 [ext_resource type="PackedScene" uid="uid://cvuydps5hqpt5" path="res://scene/UI/game_screen.tscn" id="4_3ip2q"]
 [ext_resource type="PackedScene" uid="uid://bmx54tmbpia5t" path="res://scene/objects/plant/tomato.tscn" id="6_51sny"]
 [ext_resource type="PackedScene" uid="uid://cf30a2gg84rlt" path="res://scene/components/crucial/save_level_data_component.tscn" id="7_ul4dr"]
-[ext_resource type="Script" uid="uid://bs6xotgcpctgr" path="res://scene/components/crucial/save_level_data_component.gd" id="8_b45e0"]
 [ext_resource type="PackedScene" uid="uid://dgsmku2jgi8mw" path="res://scene/components/crucial/test_scene_save_data_manager_component.tscn" id="9_b45e0"]
 
 [node name="TestSceneCrop" type="Node2D" unique_id=1629816625]
@@ -17,7 +16,6 @@
 [node name="TestSceneSaveDataManagerComponent" parent="." unique_id=721689621 instance=ExtResource("9_b45e0")]
 
 [node name="SaveLevelDataComponent" parent="." unique_id=1278032610 instance=ExtResource("7_ul4dr")]
-script = ExtResource("8_b45e0")
 
 [node name="GameScreen" parent="." unique_id=1193212251 instance=ExtResource("4_3ip2q")]
 

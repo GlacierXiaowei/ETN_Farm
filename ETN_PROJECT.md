@@ -309,6 +309,71 @@ func calculate_checksum(data: SaveDataContainer) -> String:
 
 ---
 
-**文档版本**: 1.0  
-**最后更新**: 2026-02-17  
-**下次讨论**: 待确认具体实现细节
+## 🎮 对话系统集成设计
+
+### 概述
+
+对话系统使用 **Dialogue Manager** 插件，通过 **Mutation** 机制在对话中调用游戏逻辑。
+
+### 架构设计
+
+```
+Dialogue Manager (插件)
+    ↓ mutated 信号 (do 命令)
+DialogAction (单例处理器)
+    ↓ 调用
+InventoryManager / 未来其他管理器
+```
+
+### 核心文件
+
+| 文件 | 路径 | 作用 |
+|-----|------|------|
+| DialogAction | `res://script/globals/dialog_action.gd` | 对话回调处理器，暴露给 .dialogue 文件 |
+| 对话文件 | `res://dialog/conversation/*.dialogue` | 对话内容，包含 do 命令调用游戏逻辑 |
+| Balloon 场景 | `res://dialog/game_dialog_balloon.tscn` | 对话UI显示 |
+
+### 使用方法
+
+**1. 给予物品：**
+```dialogue
+~ start
+Glacier: Here are some seeds!
+do DialogAction.give_item("Corn", 3)
+=> END
+```
+
+**2. DialogAction 接口：**
+```gdscript
+# 给予物品
+func give_item(item_name: String, amount: int = 1)
+
+# 未来扩展：
+# func add_affection(npc_id: String, value: int)
+# func set_story_flag(flag_name: String, value: bool)
+# func mark_dialogue_completed(dialogue_id: String)
+# func start_quest(quest_id: String)
+```
+
+### 扩展计划
+
+**第一阶段（当前）：**
+- ✅ 基础物品给予系统
+
+**第二阶段（未来）：**
+- [ ] 好感度系统 (`add_affection`)
+- [ ] 剧情标记系统 (`set_story_flag`)
+- [ ] 对话完成记录 (`mark_dialogue_completed`)
+- [ ] 任务系统集成 (`start_quest`, `advance_quest`)
+- [ ] 条件判断支持 (if/else 在对话中检查标记)
+
+**第三阶段（高级）：**
+- [ ] 随机奖励 (`give_random_item`)
+- [ ] 每日限制 (`can_talk_today`)
+- [ ] 多步骤对话状态跟踪
+
+---
+
+**文档版本**: 1.1  
+**最后更新**: 2026-02-18  
+**下次讨论**: 对话系统功能扩展实现

@@ -13,35 +13,15 @@ func _ready() -> void:
 
 func save_node_data() -> void:
 	var node = get_tree().get_nodes_in_group("save_data_component")
-	
-	print("[DEBUG] 找到的 SaveDataComponent 数量: ", node.size())
-	for i in range(node.size()):
-		var parent = node[i].get_parent()
-		var parent_name = parent.name if parent != null else "no parent"
-		print("[DEBUG] 组件 ", i, ": ", parent_name)
-	
 	game_data_resource = SaveGameDataResource.new()
-	print("[DEBUG] game_data_resource 创建成功, save_data_node 大小: ", game_data_resource.save_data_node.size())
 	
 	if node != null:
 		for _node:SaveDataComponent in node:
-			var parent = _node.get_parent()
-			var parent_name = parent.name if parent != null else "no parent"
-			print("[DEBUG] 正在处理节点: ", parent_name)
 			if _node is SaveDataComponent:
-				print("[DEBUG] 节点是 SaveDataComponent，开始保存数据...")
 				var save_data_resource: NodeDataResource = _node._save_data()
 				if save_data_resource != null:
-					print("[DEBUG] 获取到资源: ", save_data_resource)
 					var save_final_resource = save_data_resource.duplicate()
 					game_data_resource.save_data_node.append(save_final_resource)
-					print("[DEBUG] 资源已添加到数组，当前数组大小: ", game_data_resource.save_data_node.size())
-				else:
-					print("[ERROR] _save_data() 返回了 null!")
-			else:
-				print("[DEBUG] 节点不是 SaveDataComponent，跳过")
-	
-	print("[DEBUG] 保存循环结束，最终数组大小: ", game_data_resource.save_data_node.size())
 
 
 func save_game() -> void:

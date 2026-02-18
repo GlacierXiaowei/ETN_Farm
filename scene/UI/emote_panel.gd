@@ -1,0 +1,31 @@
+extends Panel
+
+@onready var animated_sprite_2d: AnimatedSprite2D = $Emote/AnimatedSprite2D
+@onready var emote_idle_timer: Timer = $EmoteIdleTimer
+
+var idle_emotes: Array = ["emote_1_idle","emote_2_smile","emote_3_ear_wave","emote_4_blink"]
+
+
+func _ready() -> void:
+	animated_sprite_2d.play("emote_1_idle")
+	
+	InventoryManager.inventory_change.connect(on_inventory_changed)
+	DialogAction.on_feed_animal.connect(on_feed_the_animal)
+
+func play_emote(animation:String) -> void:
+	animated_sprite_2d.play(animation)
+
+
+func _on_emote_idle_timer_timeout() -> void:
+	var index : int= randi_range(0,3)
+	var animation : String = idle_emotes[index]
+	
+	play_emote(animation)
+
+
+func on_inventory_changed()-> void:
+	animated_sprite_2d.play("emote_7_excited")
+
+func on_feed_the_animal()->void:
+	animated_sprite_2d.play("emote_6_love_kiss")
+	

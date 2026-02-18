@@ -18,6 +18,8 @@
 | ToolManager | `res://script/globals/tool_manager.gd` | 工具选择系统，管理当前选中的工具 |
 | InventoryManager | `res://script/globals/inventory_manager.gd` | 库存系统，管理玩家物品收集 |
 | DayNightManager | `res://script/globals/DayNightManager.gd` | 日夜循环系统，控制游戏时间流逝 |
+| DialogAction | `res://script/globals/dialog_action.gd` | 对话动作处理器，暴露回调给对话系统 |
+| SaveGameManager | `res://script/globals/save_game_manager.gd` | 存档系统全局入口 |
 
 ## 3. Key Class Index
 
@@ -37,31 +39,59 @@
 | InteractableComponent | `res://scene/components/interactable_component.gd` | 可交互组件 |
 | CollectableComponent | `res://scene/components/collectable_component.gd` | 可收集物品组件 |
 | NoPlacement | `res://scene/characters/player/no_placement.gd` | 禁止放置区域检测 |
+| DialogAction | `res://script/globals/dialog_action.gd` | 对话动作处理器，暴露回调给对话系统 |
+| BaseGameDialogBalloon | `res://dialog/base_game_dialog_balloon.gd` | 对话气泡基础类 |
+| GameDialogBalloon | `res://dialog/game_dialog_balloon.gd` | 游戏对话气泡，继承基础类 |
+| Guide | `res://scene/characters/guide/guide.gd` | 引导NPC，提供种子和对话 |
+| SaveLevelDataComponent | `res://scene/components/crucial/save_level_data_component.gd` | 场景级存档管理器 |
+| SaveDataComponent | `res://scene/components/crucial/save_data_component.gd` | 节点级数据收集器 |
+| Chest | `res://scene/objects/chest/chest.gd` | 宝箱系统，提交作物获得奖励 |
+| FeedComponent | `res://scene/components/feed_component.gd` | 食物接收组件，检测作物提交 |
 
 ## 4. Directory Structure
 
 ```
 farm-exercise/
 ├── addons/                    # Godot 插件
+│   └── dialogue_manager/      # Dialogue Manager 对话系统插件
 ├── assets/                    # 外部资源（图片、音频等）
+├── dialog/                    # 对话系统
+│   ├── conversation/          # 对话内容文件
+│   │   └── guide.dialogue     # Guide NPC 对话
+│   ├── base_game_dialog_balloon.gd  # 对话气泡基础类
+│   ├── game_dialog_balloon.gd       # 游戏对话气泡
+│   └── dialog_balloon_theme.tres    # 对话主题
 ├── scene/                     # 场景文件
 │   ├── characters/            # 角色相关
 │   │   ├── player/            # 玩家（Player.tscn + 状态脚本）
 │   │   ├── chicken/           # 鸡 NPC
-│   │   └── cow/               # 牛 NPC
+│   │   ├── cow/               # 牛 NPC
+│   │   └── guide/             # 引导NPC
 │   ├── components/            # 组件系统
+│   │   └── crucial/           # 核心组件
+│   │       ├── save_level_data_component.gd   # 场景存档管理器
+│   │       ├── save_data_component.gd         # 节点存档收集器
+│   │       └── test_scene_save_data_manager_component.gd  # 测试场景加载器
 │   ├── houses/                # 建筑（小屋、中屋、大屋、门）
 │   ├── objects/               # 可交互物体
 │   │   ├── plant/             # 作物（玉米、番茄）+ 生长组件
 │   │   ├── rock/              # 石头
-│   │   └── tree/              # 树木
+│   │   ├── tree/              # 树木
+│   │   └── chest/             # 宝箱（作物提交奖励系统）
 │   ├── UI/                    # 用户界面
 │   ├── pck_loader/           # PCK 加载器
 │   └── test/                  # 测试场景
 ├── script/                    # GDScript 脚本
 │   ├── globals/               # 全局管理器
+│   │   ├── dialog_action.gd   # 对话动作处理器
+│   │   └── save_game_manager.gd  # 存档管理器
 │   ├── InputManager/          # 输入系统
 │   └── state_machine/         # 状态机系统
+├── resource/                  # 资源数据文件
+│   ├── node_data_resource.gd          # 节点数据基类
+│   ├── scene_data_resource.gd         # 场景对象数据
+│   ├── tilemap_layer_data_resource.gd # 地图层数据
+│   └── save_game_data_resource.gd     # 存档容器
 ├── Tilesets/                  # 瓦片集
 └── project.godot              # 项目配置
 ```
@@ -207,6 +237,7 @@ farm-exercise/
 | CropsCursorComponent | `crops_cursor_component.gd` | 负责种植/移除作物，检测目标格子是否为耕地 |
 | InteractableComponent | `interactable_component.gd` | 可交互物体基础组件 |
 | CollectableComponent | `collectable_component.gd` | 可收集物品组件 |
+| FeedComponent | `feed_component.gd` | 食物接收组件，用于宝箱提交作物检测 |
 | DamageComponent | `damage_component.gd` | 伤害组件 |
 | HurtComponent | `hurt_component.gd` | 受伤组件 |
 | HitComponent | `hit_component.gd` | 打击组件 |
@@ -223,7 +254,39 @@ farm-exercise/
 - 检测目标格子是否为耕地 (通过 `dirt_tilemap_layer` 的 source_id)
 - 实例化作物体到 `crop_parent` 节点下
 
-### 6.8 存档系统 (Save System)
+### 6.8 对话系统 (Dialogue System)
+
+**系统架构**: Dialogue Manager 插件 + Mutation 回调机制
+
+**核心组件**:
+
+| 组件 | 脚本 | 描述 |
+| :--- | :--- | :--- |
+| DialogAction | `script/globals/dialog_action.gd` | 对话动作处理器，暴露给 `.dialogue` 文件的回调接口 |
+| BaseGameDialogBalloon | `dialog/base_game_dialog_balloon.gd` | 对话气泡基础类，处理对话显示逻辑 |
+| GameDialogBalloon | `dialog/game_dialog_balloon.gd` | 游戏对话气泡，继承基础类，添加表情等功能 |
+| Guide | `scene/characters/guide/guide.gd` | 引导NPC，演示对话系统使用 |
+
+**对话文件格式** (`.dialogue`):
+```
+~ start
+Glacier: Hi! Welcome to your farm!
+do DialogAction.give_item("Corn", 3)
+Glacier: I've given you 3 corn seeds!
+=> END
+```
+
+**Mutation 回调**: 使用 `do` 命令调用游戏代码
+- `do DialogAction.give_item(item_name, amount)` - 给予物品
+- 支持 InventoryManager / 未来的 QuestManager / AffectionManager 等
+
+**使用步骤**:
+1. 安装 Dialogue Manager 插件到 `addons/dialogue_manager/`
+2. 创建 `DialogAction` Autoload 单例
+3. 创建 `.dialogue` 对话文件
+4. NPC 脚本中实例化 Balloon 并调用 `start()` 开始对话
+
+### 6.9 存档系统 (Save System)
 
 **系统架构**: 组件化 + Resource 资源驱动
 
@@ -232,11 +295,11 @@ farm-exercise/
 | 组件 | 脚本 | 组名 | 职责 |
 | :--- | :--- | :--- | :--- |
 | SaveGameManager | `script/globals/save_game_manager.gd` | - | 全局入口，提供 save_game() / load_game() |
-| SaveLevelDataComponent | `scene/components/crucial/save_level_data_component.gd` | `save_level_data_manager` | 场景级存档管理器，每个场景1个 |
+| SaveLevelDataComponent | `scene/components/crucial/save_level_data_component.gd` | `save_level_manager` | 场景级存档管理器，每个场景1个 |
 | SaveDataComponent | `scene/components/crucial/save_data_component.gd` | `save_data_component` | 节点级数据收集器，标记需要保存的节点 |
 
 **两个组的分工**:
-- `save_level_data_manager`: 供 SaveGameManager 查找，定位当前场景的存档管理器
+- `save_level_manager`: 供 SaveGameManager 查找，定位当前场景的存档管理器
 - `save_data_component`: 供 SaveLevelDataComponent 查找，收集所有需要保存的节点
 
 **存储路径**:
@@ -262,6 +325,33 @@ farm-exercise/
 - 玩家位置恢复已修复（SceneDataResource 优先查找已存在节点）
 
 **重要**: `.tscn` 场景文件只能由用户在 Godot 编辑器中手动操作，不应直接修改，以免破坏 UID 引用。
+
+### 6.10 宝箱提交奖励系统 (Chest Reward System)
+
+**系统功能**: 玩家向宝箱提交收集的作物，获得随机奖励
+
+**核心组件**:
+
+| 组件 | 脚本 | 描述 |
+| :--- | :--- | :--- |
+| Chest | `scene/objects/chest/chest.gd` | 宝箱主体，管理提交动画和奖励生成 |
+| FeedComponent | `scene/components/feed_component.gd` | 食物接收区域检测 |
+| InteractableComponent | `scene/components/interactable_component.gd` | 玩家交互检测 |
+
+**工作流程**:
+1. 玩家靠近宝箱，按交互键打开对话
+2. 对话中触发 `DialogAction.on_feed_animal` 信号
+3. 宝箱播放开启动画
+4. 玩家库存中的作物逐个飞向宝箱（tween动画）
+5. `FeedComponent` 检测到作物进入触发区域
+6. 调用 `add_reward_scene()` 在奖励标记点周围随机位置生成奖励
+
+**配置属性**:
+- `food_drop_height`: 作物飞入高度偏移（默认40像素）
+- `reward_output_radius`: 奖励生成半径（默认20像素）
+- `output_reward_scenes`: 奖励场景数组（可配置多种奖励）
+
+**测试场景**: `test_scene_chest.tscn`
 
 ## 7. Physics Layers
 
@@ -301,5 +391,9 @@ farm-exercise/
 - `test_scene_layer.tscn`: 图层测试
 - `test_scene_npc_chicken.tscn`: 鸡 NPC 测试
 - `test_scene_npc_cow.tscn`: 牛 NPC 测试
+- `test_scene_npc_guide.tscn`: Guide NPC（对话系统）测试
 - `test_scene_objects_rock.tscn`: 石头物体测试
 - `test_scene_objects_tree.tscn`: 树木物体测试
+- `test_scene_save_data.tscn`: 存档系统测试
+- `test_scene_dialogue.tscn`: 对话系统测试
+- `test_scene_chest.tscn`: 宝箱提交奖励系统测试
