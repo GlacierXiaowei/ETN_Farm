@@ -47,6 +47,7 @@
 | SaveDataComponent | `res://scene/components/crucial/save_data_component.gd` | 节点级数据收集器 |
 | Chest | `res://scene/objects/chest/chest.gd` | 宝箱系统，提交作物获得奖励 |
 | FeedComponent | `res://scene/components/feed_component.gd` | 食物接收组件，检测作物提交 |
+| BoundaryGenerator | `res://scene/level/game_tile_map.gd` | 地图边界碰撞生成器，基于可行走区域自动生成碰撞边界 |
 
 ## 4. Directory Structure
 
@@ -105,6 +106,45 @@ farm-exercise/
 - **导出属性**: `@export` 标记可配置属性
 - **延迟初始化**: `@onready` 延迟节点引用初始化
 - **注释**: 使用注释说明复杂逻辑和意图
+
+### 5.1 GDScript 类型系统注意事项
+
+**Array 类型严格性**:
+在 Godot 4.x 中，`Array` 和 `Array[Type]` 是不同的类型，不能直接混用。
+
+```gdscript
+# ❌ 错误：类型不匹配
+func process_items(items: Array[Dictionary]) -> Array[Dictionary]:
+    if items.size() <= 1:
+        return items  # 错误：items 是 Array[Dictionary]，但返回 Array
+
+# ❌ 错误：变量类型声明不一致  
+var items: Array = get_items()  # 返回 Array[Dictionary]
+items.sort_custom(...)  # 编译错误
+
+# ✅ 正确：统一使用 Array[Dictionary]
+func process_items(items: Array[Dictionary]) -> Array[Dictionary]:
+    if items.size() <= 1:
+        return items  # 正确：类型一致
+    
+var items: Array[Dictionary] = get_items()
+items.sort_custom(...)  # 正确
+
+# ✅ 正确：空数组初始化
+var empty: Array[Dictionary] = Array[Dictionary]([])
+```
+
+**常见错误及解决方案**:
+| 错误信息 | 原因 | 解决方案 |
+|:---|:---|:---|
+| `Trying to return an array of type "Array" where expected return type is "Array[Dictionary]"` | 函数参数/返回值类型不匹配 | 统一改为 `Array[Dictionary]` |
+| 无法调用数组方法 | 变量声明为 `Array` 但实际是 `Array[Type]` | 改为 `var items: Array[Type] = ...` |
+
+**最佳实践**:
+1. 函数参数和返回值明确标注类型：`func process(items: Array[Dictionary]) -> Array[Dictionary]`
+2. 变量声明使用完整类型：`var items: Array[Dictionary] = []`
+3. 空数组初始化：`Array[Type]([])`
+4. 避免使用裸 `Array` 类型，除非确实需要混合类型
 
 ## 6. Systems Architecture
 
@@ -352,6 +392,40 @@ Glacier: I've given you 3 corn seeds!
 - `output_reward_scenes`: 奖励场景数组（可配置多种奖励）
 
 **测试场景**: `test_scene_chest.tscn`
+
+### 6.11 地图边界碰撞生成系统 (Boundary Generator System)
+
+**系统功能**: 根据可行走区域自动生成碰撞边界，防止玩家走出安全区域（如草地边缘）
+
+**核心组件**:
+
+| 组件 | 脚本 | 描述 |
+| :--- | :--- | :--- |
+| BoundaryGenerator | `scene/level/game_tile_map.gd` | 挂在 GameTileMap 上，运行时生成边界碰撞 |
+
+**工作流程**:
+1. 读取配置的 `walkable_layers`（如 Grass、UnderGrowth 等）
+2. 收集所有安全区域的瓦片格子
+3. 检测每个格子的四个邻居方向
+4. 如果邻居不在安全区域，则在该方向生成边界
+5. 合并相邻的边界段（优化碰撞体数量）
+6. 生成 `StaticBody2D` + `RectangleShape2D` 碰撞体
+
+**配置参数**:
+| 参数 | 类型 | 说明 |
+|:---|:---|:---|
+| `walkable_layers` | `Array[TileMapLayer]` | 哪些层构成安全行走区域 |
+| `require_all_layers` | `bool` | false=任一存在即安全，true=全部存在才安全 |
+| `boundary_mode` | `BoundaryMode` | OUTER_ONLY/INNER_ONLY/BOTH |
+| `merge_segments` | `bool` | 是否合并相邻碰撞段（优化性能） |
+| `collision_layer` | `int` | 碰撞层（默认1=Wall） |
+
+**支持的地图结构**:
+- 水铺满底层 + 草地在上方（OUTER_ONLY）
+- 草地中的水洞（INNER_ONLY）
+- 多个装饰层叠加（多层检测）
+
+**复用方式**: 复制 GameTileMap 节点到其他关卡，修改 `walkable_layers` 指向新层即可
 
 ## 7. Physics Layers
 

@@ -141,4 +141,4 @@ offset_right = 9.0
 offset_bottom = -17.0
 
 [node name="RewardMark" type="Marker2D" parent="." unique_id=1963621240]
-position = Vector2(26, 19)
+position = Vector2(33, 26)
