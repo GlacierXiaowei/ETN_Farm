@@ -13,9 +13,9 @@ source_geometry_mode = 2
 cell_size = 4.0
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_ba474"]
-vertices = PackedVector2Array(315, 182, 315, 209.14844, 308.5703, 195.88281, 319.84375, 150, 341, 182, 338.3125, 150, 341, 102, 443, 102, 443, 183, 379, 183, 341, 128.61719, 340.54688, 132.17188, 341.10156, 138.82031, 341, 247, 379, 214, 427, 247, 427, 231, 443, 214, 429, 230, 443, 230, 429, 231)
-polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2), PackedInt32Array(0, 2, 3), PackedInt32Array(4, 0, 3, 5), PackedInt32Array(6, 7, 8, 9, 10), PackedInt32Array(11, 10, 9, 12), PackedInt32Array(5, 12, 9, 4), PackedInt32Array(13, 4, 9, 14), PackedInt32Array(15, 13, 14, 16), PackedInt32Array(16, 14, 17, 18), PackedInt32Array(17, 19, 18), PackedInt32Array(16, 18, 20)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(326, 83, 457, 85, 457, 244, 431, 261, 329, 261, 298, 197)])
+vertices = PackedVector2Array(287.64063, 196.29688, 315, 133.38281, 315, 150, 315, 182, 315, 228.82031, 338.3125, 150, 341, 102, 443, 102, 443, 183, 379, 183, 341, 128.61719, 340.54688, 132.17188, 341.10156, 138.82031, 341, 182, 379, 214, 443, 214, 443, 230, 429, 230, 429, 231, 427, 231, 427, 247, 341, 247)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2), PackedInt32Array(3, 4, 0), PackedInt32Array(3, 0, 2, 5), PackedInt32Array(6, 7, 8, 9, 10), PackedInt32Array(11, 10, 9, 12), PackedInt32Array(13, 5, 12, 9, 14), PackedInt32Array(14, 15, 16, 17), PackedInt32Array(17, 18, 19, 14), PackedInt32Array(19, 20, 21, 14), PackedInt32Array(14, 21, 13), PackedInt32Array(5, 13, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(326, 83, 457, 85, 457, 244, 431, 261, 329, 261, 276, 198)])
 source_geometry_mode = 2
 
 [node name="TestNpcNavigation" type="Node2D" unique_id=1629816625]
@@ -91,7 +91,7 @@ position = Vector2(380, 115)
 collision_layer = 64
 
 [node name="Cow2" parent="Cows" unique_id=1713745951 instance=ExtResource("4_iqu0b")]
-position = Vector2(376, 141)
+position = Vector2(391, 148)
 collision_layer = 64
 
 [node name="Cow3" parent="Cows" unique_id=994470490 instance=ExtResource("4_iqu0b")]

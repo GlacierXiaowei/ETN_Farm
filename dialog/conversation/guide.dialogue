@@ -5,8 +5,8 @@ Glacier: Maybe you could grow some crops to feed hungry cows and chicken.
 Glacier: Here are some seeds to grow.
 - Thank you.
 	Nathan: Here you are.
-	do DialogAction.give_item("Corn", 3)
-	do DialogAction.give_item("Tomato", 3)
+	do DialogAction.give_item("CornSeed", 3)
+	do DialogAction.give_item("TomatoSeed", 3)
 - Can you tell me the controls/keybinds?
 	Glacier: Left-click a target to use your tool.
 	Glacier: Press P to save your game.

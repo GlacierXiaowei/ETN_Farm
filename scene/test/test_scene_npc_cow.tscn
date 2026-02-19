@@ -42,17 +42,17 @@ zoom = Vector2(2, 2)
 limit_enabled = false
 limit_smoothed = true
 
-[node name="Node2D" type="Node2D" parent="." unique_id=1343319833]
+[node name="Cows" type="Node2D" parent="." unique_id=1343319833]
 
-[node name="NavigationRegion2D" type="NavigationRegion2D" parent="Node2D" unique_id=441783442]
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="Cows" unique_id=441783442]
 navigation_polygon = SubResource("NavigationPolygon_m5mxq")
 navigation_layers = 2
 
-[node name="Cow" parent="Node2D" unique_id=481571308 instance=ExtResource("3_5lwam")]
+[node name="Cow" parent="Cows" unique_id=481571308 instance=ExtResource("3_5lwam")]
 position = Vector2(215, 170)
 
-[node name="Cow2" parent="Node2D" unique_id=3959485 instance=ExtResource("3_5lwam")]
+[node name="Cow2" parent="Cows" unique_id=3959485 instance=ExtResource("3_5lwam")]
 position = Vector2(289, 189)
 
-[node name="Cow3" parent="Node2D" unique_id=956365503 instance=ExtResource("3_5lwam")]
+[node name="Cow3" parent="Cows" unique_id=956365503 instance=ExtResource("3_5lwam")]
 position = Vector2(234, 209)

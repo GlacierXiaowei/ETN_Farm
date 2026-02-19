@@ -2,9 +2,54 @@
 
 [ext_resource type="Script" uid="uid://dtb5sarnrev2p" path="res://scene/level/game_tile_map.gd" id="1_ke3pq"]
 [ext_resource type="TileSet" uid="uid://dw7ut02febnhv" path="res://Tilesets/game_tile_set.tres" id="1_mm6v6"]
+[ext_resource type="PackedScene" uid="uid://c2npqhu5n5ccq" path="res://scene/characters/chicken/chicken.tscn" id="3_dpoj0"]
+[ext_resource type="PackedScene" uid="uid://bt27ml1bhbsxe" path="res://scene/characters/player/player.tscn" id="5_4chbn"]
+[ext_resource type="PackedScene" uid="uid://dkwso3kvsr16f" path="res://scene/characters/cow/Cow.tscn" id="6_elp6i"]
+[ext_resource type="PackedScene" uid="uid://bh3yofviuri15" path="res://scene/objects/chest/chest.tscn" id="6_x4chx"]
+[ext_resource type="PackedScene" uid="uid://n0cmml15s0dc" path="res://scene/objects/egg.tscn" id="7_qclw6"]
+[ext_resource type="PackedScene" uid="uid://buf61mj1erts" path="res://scene/objects/milk.tscn" id="8_855lb"]
+[ext_resource type="PackedScene" uid="uid://knm2stpmtlrv" path="res://scene/components/crops_cursor_component.tscn" id="9_byq42"]
+[ext_resource type="PackedScene" uid="uid://d2wfu51np2iji" path="res://scene/components/dirt_cursor_component.tscn" id="10_rg71t"]
+[ext_resource type="PackedScene" uid="uid://cculwk6783gia" path="res://scene/characters/guide/guide.tscn" id="11_x4chx"]
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_k43e5"]
+vertices = PackedVector2Array(444, 151.34375, 436.46875, 297.42188, 402.46875, 299, 118, 299, 118, 90, 444, 90)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3, 4, 5)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(106, 77, 458, 74, 446, 307, 101, 323)])
+source_geometry_mode = 2
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_4chbn"]
+vertices = PackedVector2Array(250.90625, 220, 155, 220, 155, 59, 254.67188, 167.22656, 129, 59, 129, 220, -18.140625, 220, -20.851563, 33, 334.9297, 33, 334.0625, 165.24219)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3), PackedInt32Array(4, 5, 6, 7), PackedInt32Array(4, 7, 8, 2), PackedInt32Array(3, 2, 8, 9)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-28, 230, 260, 233, 264, 177, 344, 175, 345, 23, -31, 23)])
+source_geometry_mode = 2
 
 [node name="Level1" type="Node2D" unique_id=509608867]
 y_sort_enabled = true
+
+[node name="CropsCursorComponent" parent="." unique_id=1069226041 node_paths=PackedStringArray("dirt_tilemap_layer", "player", "crop_parent", "obstacle_layers") instance=ExtResource("9_byq42")]
+dirt_tilemap_layer = NodePath("../GameTileMap/Dirt")
+player = NodePath("../player")
+crop_parent = NodePath("../GameTileMap/CropField")
+obstacle_layers = [NodePath("../GameTileMap/Object"), NodePath("../GameTileMap/UnderGrowth"), NodePath("../GameTileMap/OverGrowth"), NodePath("../GameTileMap/Fence"), NodePath("../GameTileMap/House")]
+
+[node name="DirtCursorComponent" parent="." unique_id=26805733 node_paths=PackedStringArray("grass_tilemap_layer", "dirt_tilemap_layer", "obstacle_layers") instance=ExtResource("10_rg71t")]
+grass_tilemap_layer = NodePath("../GameTileMap/Grass")
+dirt_tilemap_layer = NodePath("../GameTileMap/Dirt")
+obstacle_layers = [NodePath("../GameTileMap/Object"), NodePath("../GameTileMap/UnderGrowth"), NodePath("../GameTileMap/OverGrowth"), NodePath("../GameTileMap/House"), NodePath("../GameTileMap/Fence")]
+
+[node name="player" parent="." unique_id=1489117648 node_paths=PackedStringArray("dirt_cursor_component", "crops_cursor_component") instance=ExtResource("5_4chbn")]
+y_sort_enabled = true
+position = Vector2(325, 203)
+dirt_cursor_component = NodePath("../DirtCursorComponent")
+crops_cursor_component = NodePath("../CropsCursorComponent")
+
+[node name="Camera2D" type="Camera2D" parent="player" unique_id=2031452173]
+zoom = Vector2(2, 2)
+limit_enabled = false
+limit_smoothed = true
+position_smoothing_enabled = true
+rotation_smoothing_enabled = true
 
 [node name="GameTileMap" type="Node2D" parent="." unique_id=1777881241 node_paths=PackedStringArray("walkable_layers")]
 y_sort_enabled = true
@@ -27,13 +72,108 @@ tile_set = ExtResource("1_mm6v6")
 [node name="Object" type="TileMapLayer" parent="GameTileMap" unique_id=558556789]
 y_sort_enabled = true
 position = Vector2(147, 247)
-tile_map_data = PackedByteArray("AAD0/wcABQAAAAAAAgDz//7/BQAAAAAAAgDx/wAABQAAAAAAAgAGABYABQAAAAAAAgD4/x4ABQAAAAAAAgAfAAcABQAAAAAAAgAzABsABQAAAAAAAgA/AAYABQAAAAAAAgBIAA8ABQAAAAAAAgAWABAABQAAAAAAAgAPAAUABQAAAAAAAgBNABgABQAAAAAAAgBAABEABQAAAAAAAQATABsABQAAAAAAAQAoABEABQAAAAAAAQD5/wwABQAAAAAAAQAUAPv/BQAAAAAAAQATACQABQAAAAAAAQAcAPv/BQAAAAAAAQBCAP//BQAAAAAAAQBDAP//BQAAAAAAAQAWAP7/BQAAAAAAAQA=")
+tile_map_data = PackedByteArray("AAD0/wcABQAAAAAAAgDz//7/BQAAAAAAAgDx/wAABQAAAAAAAgD4/x4ABQAAAAAAAgAzABsABQAAAAAAAgA/AAYABQAAAAAAAgBIAA8ABQAAAAAAAgAWABAABQAAAAAAAgAPAAUABQAAAAAAAgBNABgABQAAAAAAAgBAABEABQAAAAAAAQATABsABQAAAAAAAQAoABEABQAAAAAAAQD5/wwABQAAAAAAAQAUAPv/BQAAAAAAAQATACQABQAAAAAAAQAcAPv/BQAAAAAAAQBCAP//BQAAAAAAAQBDAP//BQAAAAAAAQAWAP7/BQAAAAAAAQD5/xYAAwAEAAIAAAAGAAsAAwAEAAIAAAAlABoAAwAEAAIAAAA3AA0AAwAEAAIAAAANABMABQAAAAAAAwAVAAUABQAAAAAAAwD3/xAABQAAAAAAAwAaABkABQAAAAAAAwA9ABYABQAAAAAAAwA0AB8ABQAAAAAAAwAwAA4ABQAAAAAAAwA5AP3/BQAAAAAAAwArAP7/BQAAAAAAAwAFAB0ABQAAAAAAAgAHABsABQAAAAAAAgAHABkABQAAAAAAAgD3/xMABQAAAAAAAgD1/xQABQAAAAAAAgDz/xgABQAAAAAAAgDz/xkABQAAAAAAAgD2/xgABQAAAAAAAgD2/xUABQAAAAAAAQD6/xMABQAAAAAAAwD0/xYABQAAAAAAAwAiAPv/BQAAAAAAAgAoAAsABQAAAAAAAgAmAAsABQAAAAAAAgA+AAAABQAAAAAAAgBLAAQABQAAAAAAAgBDAAsABQAAAAAAAQA1ABIABQAAAAAAAQAuABsABQAAAAAAAwAwABoABQAAAAAAAwAyABcABQAAAAAAAwAxABMABQAAAAAAAwAxABUABQAAAAAAAwAxABcABQAAAAAAAwAFAA8ABQAAAAAAAwA=")
 tile_set = ExtResource("1_mm6v6")
 
 [node name="UnderGrowth" type="TileMapLayer" parent="GameTileMap" unique_id=924258617]
 y_sort_enabled = true
+tile_map_data = PackedByteArray("AAA1ACsAAwAIAAIAAAANABkAAwAHAAIAAAD8/ykAAwAHAAIAAAAVAA0AAwAHAAIAAABGABEAAwAHAAIAAABTACYAAwAHAAIAAAD2/y4AAwAGAAIAAAD3/xQAAwAHAAMAAAAXAAwAAwAHAAMAAAAWABAAAwAGAAMAAAAOACsAAwAGAAIAAAAIACUAAwAGAAIAAAA=")
 tile_set = ExtResource("1_mm6v6")
 
 [node name="OverGrowth" type="TileMapLayer" parent="GameTileMap" unique_id=231380837]
 y_sort_enabled = true
+tile_map_data = PackedByteArray("AAAWAB8AAwAFAAMAAAAzAC8AAwAFAAMAAAA8AB0AAwAFAAMAAAAZACQAAwAFAAAAAAAMABQAAwAFAAAAAAAHAB8AAwAFAAAAAADy/yQAAwAFAAQAAADz/ycAAwAFAAQAAADy/xoAAwAFAAQAAADz/zEAAwAFAAQAAAAWADYAAwAFAAQAAAAuADMAAwAFAAQAAABCADMAAwAFAAQAAABbACsAAwAFAAQAAABcABUAAwAFAAQAAAA+AAkAAwAFAAQAAAA6ABEAAwAHAAQAAAA7ABQAAwAHAAQAAAA1ABUAAwAGAAQAAAA2ABcAAwAGAAQAAAA5AA0AAwAGAAQAAABCABcAAwAHAAMAAABOABkAAwAHAAMAAABFACkAAwAHAAMAAAAmACYAAwAHAAMAAAAxAAcAAwAGAAQAAAAhAAYAAwAGAAQAAAAqAAQAAwAGAAQAAAAFAAcAAwAGAAQAAAD2/woAAwAIAAQAAAANAAYAAwAHAAQAAADs/xUAAwAHAAQAAAD4/yMAAwAHAAQAAAADADMAAwAHAAQAAAAhADAAAwAGAAQAAABWADAAAwAIAAQAAABaACcAAwAIAAQAAABWAA0AAwAIAAQAAABQAAoAAwAIAAQAAABUAAoAAwAFAAQAAABWAAsAAwAGAAQAAAAsADEAAwAGAAQAAAA=")
 tile_set = ExtResource("1_mm6v6")
+
+[node name="Fence" type="TileMapLayer" parent="GameTileMap" unique_id=1580410977 groups=["navigation_polygon_source_geometry_group"]]
+y_sort_enabled = true
+tile_map_data = PackedByteArray("AAD//xoABgAAAAEAAAD//xkABgAAAAEAAAD//xgABgAAAAEAAAD//xcABgAAAAEAAAD//xYABgAAAAEAAAD//xUABgAAAAEAAAD//xQABgAAAAEAAAD//xMABgAAAAEAAAD//xIABgAAAAEAAAD//xEABgAAAAEAAAD//xAABgAAAAEAAAD//w8ABgAAAAEAAAAVAA4ABgADAAAAAAAUAA4ABgACAAMAAAATAA4ABgACAAMAAAASAA4ABgACAAMAAAARAA4ABgACAAMAAAAQAA4ABgACAAMAAAAPAA4ABgACAAMAAAAOAA4ABgACAAMAAAANAA4ABgACAAMAAAAMAA4ABgACAAMAAAALAA4ABgACAAMAAAAKAA4ABgACAAMAAAAJAA4ABgACAAMAAAAIAA4ABgACAAMAAAAHAA4ABgACAAMAAAAGAA4ABgACAAMAAAAFAA4ABgACAAMAAAAEAA4ABgACAAMAAAADAA4ABgACAAMAAAACAA4ABgACAAMAAAABAA4ABgACAAMAAAAAAA4ABgACAAMAAAD//w4ABgABAAAAAAAVABUABgAAAAIAAAAVABQABgAAAAEAAAAVABMABgAAAAEAAAAVABIABgAAAAEAAAAVABEABgAAAAEAAAAVABAABgAAAAEAAAAVAA8ABgAAAAEAAAD//x0ABgABAAIAAAD//xwABgAAAAEAAAD//xsABgAAAAEAAAAUAB0ABgACAAMAAAATAB0ABgACAAMAAAASAB0ABgACAAMAAAARAB0ABgACAAMAAAAQAB0ABgACAAMAAAAPAB0ABgACAAMAAAAOAB0ABgACAAMAAAANAB0ABgACAAMAAAAMAB0ABgACAAMAAAALAB0ABgACAAMAAAAKAB0ABgACAAMAAAAJAB0ABgACAAMAAAAIAB0ABgACAAMAAAAHAB0ABgACAAMAAAAGAB0ABgACAAMAAAAFAB0ABgACAAMAAAAEAB0ABgACAAMAAAADAB0ABgACAAMAAAACAB0ABgACAAMAAAABAB0ABgACAAMAAAAAAB0ABgACAAMAAAAVAB0ABgADAAIAAAAVABwABgAAAAEAAAAVABsABgAAAAAAAAAhACwABgABAAIAAAAhACsABgAAAAEAAAAhACoABgAAAAEAAAAhACkABgAAAAEAAAAhACgABgAAAAEAAAAhACcABgAAAAEAAAAhACYABgAAAAEAAAAhACUABgAAAAEAAAAhACQABgAAAAEAAAAhACMABgAAAAEAAAAhACIABgAAAAEAAAAhACEABgAAAAEAAAAhACAABgAAAAEAAAAhAB8ABgAAAAEAAAAhAB4ABgABAAAAAAAzACwABgACAAMAAAAyACwABgACAAMAAAAxACwABgACAAMAAAAwACwABgACAAMAAAAvACwABgACAAMAAAAuACwABgACAAMAAAAtACwABgACAAMAAAAsACwABgACAAIAAAArACwABgACAAMAAAAqACwABgACAAMAAAApACwABgACAAMAAAAoACwABgACAAMAAAAnACwABgACAAMAAAAmACwABgACAAMAAAAlACwABgACAAMAAAAkACwABgACAAMAAAAjACwABgACAAMAAAAiACwABgACAAMAAAA0ACwABgADAAIAAAA0ACsABgAAAAEAAAA0ACoABgAAAAEAAAA0ACkABgABAAAAAAA5ACkABgADAAIAAAA4ACkABgACAAMAAAA3ACkABgACAAMAAAA2ACkABgACAAMAAAA1ACkABgACAAMAAAA5ACgABgAAAAEAAAA5ACcABgAAAAEAAAA5ACYABgAAAAEAAAA5ACUABgAAAAEAAAA5ACQABgAAAAEAAAA5ACMABgAAAAEAAAA5ACIABgAAAAEAAAA5ACEABgAAAAEAAAA5ACAABgAAAAEAAAA5AB8ABgAAAAEAAAA5AB4ABgADAAAAAAAlAB4ABgADAAMAAAAkAB4ABgACAAMAAAAjAB4ABgACAAMAAAAiAB4ABgACAAMAAAA4AB4ABgACAAMAAAA3AB4ABgACAAMAAAA2AB4ABgACAAMAAAA1AB4ABgACAAMAAAA0AB4ABgACAAMAAAAzAB4ABgACAAMAAAAyAB4ABgACAAMAAAAxAB4ABgACAAMAAAAwAB4ABgACAAMAAAAvAB4ABgACAAMAAAAuAB4ABgACAAMAAAAtAB4ABgABAAMAAAAsACsABgAAAAEAAAAsACoABgAAAAEAAAAsACkABgAAAAEAAAAsACgABgAAAAEAAAAsACcABgAAAAEAAAAsACYABgAAAAEAAAAsACUABgAAAAEAAAAsACQABgAAAAEAAAAsACMABgAAAAEAAAAsACIABgAAAAAAAAA=")
+tile_set = ExtResource("1_mm6v6")
+
+[node name="House" type="TileMapLayer" parent="GameTileMap" unique_id=2063450884 groups=["no_placement_zone"]]
+tile_map_data = PackedByteArray("AAAhABgABAAAAAAAAQBMABYABAAAAAAAAwADACwABAAAAAAAAgA=")
+tile_set = ExtResource("1_mm6v6")
+
+[node name="Dirt" type="TileMapLayer" parent="GameTileMap" unique_id=1821607016]
+tile_set = ExtResource("1_mm6v6")
+
+[node name="CropField" type="Node2D" parent="GameTileMap" unique_id=1046653086]
+
+[node name="Cows" type="Node2D" parent="GameTileMap" unique_id=1635835341]
+position = Vector2(-116, 146)
+
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="GameTileMap/Cows" unique_id=407759978]
+position = Vector2(3, 10)
+navigation_polygon = SubResource("NavigationPolygon_k43e5")
+navigation_layers = 2
+
+[node name="Cow" parent="GameTileMap/Cows" unique_id=481571308 instance=ExtResource("6_elp6i")]
+position = Vector2(215, 170)
+
+[node name="Cow2" parent="GameTileMap/Cows" unique_id=81253262 instance=ExtResource("6_elp6i")]
+position = Vector2(289, 189)
+
+[node name="Cow3" parent="GameTileMap/Cows" unique_id=1114004364 instance=ExtResource("6_elp6i")]
+position = Vector2(234, 209)
+
+[node name="Cow4" parent="GameTileMap/Cows" unique_id=917517830 instance=ExtResource("6_elp6i")]
+position = Vector2(300, 293)
+
+[node name="Cow5" parent="GameTileMap/Cows" unique_id=627208659 instance=ExtResource("6_elp6i")]
+position = Vector2(373, 149)
+
+[node name="Cow6" parent="GameTileMap/Cows" unique_id=394920974 instance=ExtResource("6_elp6i")]
+position = Vector2(177, 249)
+
+[node name="Chickens" type="Node2D" parent="GameTileMap" unique_id=881586472]
+position = Vector2(-11, 243)
+
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="GameTileMap/Chickens" unique_id=401934161]
+position = Vector2(581, 232)
+navigation_polygon = SubResource("NavigationPolygon_4chbn")
+
+[node name="Chicken" parent="GameTileMap/Chickens" unique_id=1748535590 instance=ExtResource("3_dpoj0")]
+position = Vector2(610, 332)
+
+[node name="Chicken2" parent="GameTileMap/Chickens" unique_id=758816255 instance=ExtResource("3_dpoj0")]
+position = Vector2(632, 305)
+
+[node name="Chicken3" parent="GameTileMap/Chickens" unique_id=1455197761 instance=ExtResource("3_dpoj0")]
+position = Vector2(656, 304)
+
+[node name="Chicken4" parent="GameTileMap/Chickens" unique_id=1641908181 instance=ExtResource("3_dpoj0")]
+position = Vector2(696, 335)
+
+[node name="Chicken5" parent="GameTileMap/Chickens" unique_id=1196903553 instance=ExtResource("3_dpoj0")]
+position = Vector2(828, 372)
+
+[node name="Chicken6" parent="GameTileMap/Chickens" unique_id=496903602 instance=ExtResource("3_dpoj0")]
+position = Vector2(830, 341)
+
+[node name="Chicken7" parent="GameTileMap/Chickens" unique_id=1750079993 instance=ExtResource("3_dpoj0")]
+position = Vector2(841, 331)
+
+[node name="Chicken8" parent="GameTileMap/Chickens" unique_id=884276756 instance=ExtResource("3_dpoj0")]
+position = Vector2(779, 380)
+
+[node name="Chicken9" parent="GameTileMap/Chickens" unique_id=586893955 instance=ExtResource("3_dpoj0")]
+position = Vector2(871, 284)
+
+[node name="Chicken10" parent="GameTileMap/Chickens" unique_id=1691168372 instance=ExtResource("3_dpoj0")]
+position = Vector2(649, 422)
+
+[node name="Chicken11" parent="GameTileMap/Chickens" unique_id=1101108646 instance=ExtResource("3_dpoj0")]
+position = Vector2(655, 367)
+
+[node name="ChickenPastureBox" parent="." unique_id=275909983 instance=ExtResource("6_x4chx")]
+position = Vector2(963, 511)
+dialog_start_command = "start_chicken_pasture_box"
+output_reward_scenes = Array[PackedScene]([ExtResource("7_qclw6")])
+
+[node name="CowPastureBox" parent="." unique_id=687288679 instance=ExtResource("6_x4chx")]
+position = Vector2(386, 478)
+dialog_start_command = "start_cow_pasture_box"
+output_reward_scenes = Array[PackedScene]([ExtResource("8_855lb")])
+
+[node name="Guide" parent="." unique_id=204264781 instance=ExtResource("11_x4chx")]
+position = Vector2(423, 219)

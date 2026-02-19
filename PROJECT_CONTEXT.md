@@ -471,3 +471,9 @@ Glacier: I've given you 3 corn seeds!
 - `test_scene_save_data.tscn`: 存档系统测试
 - `test_scene_dialogue.tscn`: 对话系统测试
 - `test_scene_chest.tscn`: 宝箱提交奖励系统测试
+
+## 10. Troubleshooting / 故障排除
+
+| 问题 | 解决方案 |
+| :--- | :--- |
+| Camera2D 节点开启平滑后出现画面问题 | 将屏幕刷新率调整为 60Hz |

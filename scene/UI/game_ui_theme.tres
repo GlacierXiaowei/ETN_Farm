@@ -2,6 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://dytpp6l7me5po" path="res://assets/UI/game_used/basic_ui_sprites.png" id="1_8yb7i"]
 [ext_resource type="FontVariation" uid="uid://b2w4msloabfqr" path="res://assets/UI/fonts/pixelFont_variation.tres" id="2_g8upg"]
+[ext_resource type="FontFile" uid="uid://k32w7iord1r8" path="res://assets/UI/fonts/ark-pixel-12px-proportional-zh_cn.otf" id="3_hwgc3"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_g8upg"]
 atlas = ExtResource("1_8yb7i")
@@ -198,7 +199,7 @@ InventoryItemPanel/base_type = &"PanelContainer"
 InventoryItemPanel/styles/panel = SubResource("StyleBoxTexture_g8upg")
 InventoryLabel/base_type = &"Label"
 InventoryLabel/font_sizes/font_size = 8
-InventoryLabel/fonts/font = ExtResource("2_g8upg")
+InventoryLabel/fonts/font = ExtResource("3_hwgc3")
 MarginContainer/constants/margin_bottom = 10
 MarginContainer/constants/margin_left = 10
 MarginContainer/constants/margin_right = 10

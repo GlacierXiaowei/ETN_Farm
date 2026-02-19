@@ -8,25 +8,27 @@ signal inventory_change
 
 func add_collectable(collectable_name: String,amount:int =1) -> void:
 	##添加物品，可选数量
-	inventory.get_or_add(collectable_name.capitalize())
+	var key = collectable_name.capitalize()
+	inventory.get_or_add(key)
 	
-	if inventory[collectable_name] == null:
-		inventory[collectable_name] = 1
+	if inventory[key] == null:
+		inventory[key] = 1
 	else:
 		for i in amount:
-			inventory[collectable_name] +=1
+			inventory[key] +=1
 		
 
 	inventory_change.emit()
 
 
 func remove_collectable(collectable_name: String,amount:int =1) -> void:
-	if inventory[collectable_name] == null:
-		inventory[collectable_name] = 0
+	var key = collectable_name.capitalize()
+	if inventory[key] == null:
+		inventory[key] = 0
 	else:
-		if inventory[collectable_name] > 0 :
+		if inventory[key] > 0 :
 			for i in amount:
-				inventory[collectable_name] -=1
+				inventory[key] -=1
 		
 	
 	inventory_change.emit()

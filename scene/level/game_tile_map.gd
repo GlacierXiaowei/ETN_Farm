@@ -311,6 +311,7 @@ func _create_collision_shapes(edges: Array[Dictionary]) -> void:
 		# 稍微加厚边界以提高碰撞稳定性
 		var direction: Vector2 = (edge.end_pos - edge.start_pos).normalized()
 		var normal: Vector2 = Vector2(-direction.y, direction.x)
+		@warning_ignore("unused_variable")
 		var offset: Vector2 = normal * (boundary_thickness / 2.0)
 		
 		segment.a = edge.start_pos

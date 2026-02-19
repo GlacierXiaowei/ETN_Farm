@@ -13,7 +13,7 @@ class_name CropsCursorComponent
 
 @export_group("Settings")
 @export var enable_preview: bool = true
-@export var use_mouse_mode: bool = false
+@export var use_mouse_mode: bool = true
 @export var max_interaction_distance: float = 25.0 
 
 # 内部变量 (保持和 Dirt 一致)
@@ -142,12 +142,23 @@ func add_crop() -> void:
 		return
 
 	var plant_scene: PackedScene = null
+	var seed_name: String = ""
+	
 	if ToolManager.selected_tool == DataType.Tools.PlantCorn:
 		plant_scene = load("res://scene/objects/plant/corn.tscn")
+		seed_name = "CornSeed".capitalize()
 	elif ToolManager.selected_tool == DataType.Tools.PlantTomato:
 		plant_scene = load("res://scene/objects/plant/tomato.tscn")
+		seed_name = "TomatoSeed".capitalize()
+	
+	# 检查库存是否充足
+	if seed_name != "" and InventoryManager.inventory.get(seed_name, 0) <= 0:
+		return
 	
 	if plant_scene and crop_parent:
+		# 扣除库存
+		InventoryManager.remove_collectable(seed_name, 1)
+		
 		var plant_instance = plant_scene.instantiate() as Node2D
 		plant_instance.global_position = target_global_position
 		crop_parent.add_child(plant_instance)

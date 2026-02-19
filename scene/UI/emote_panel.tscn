@@ -169,7 +169,7 @@ animations = [{
 }]
 
 [node name="EmotePanel" type="Panel" unique_id=546615964]
-custom_minimum_size = Vector2(50, 50)
+custom_minimum_size = Vector2(46, 46)
 theme = ExtResource("1_kqmi0")
 theme_type_variation = &"DarkWoodPanel"
 script = ExtResource("2_ap0ch")
