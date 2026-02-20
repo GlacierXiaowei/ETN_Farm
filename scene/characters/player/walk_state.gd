@@ -66,6 +66,11 @@ func _on_next_transitions() -> void:
 	if player.velocity.length() <= 1.0 :
 		transition.emit("idle")
 		GameInputEvent.movement_input()
+
+	if GameInputEvent.is_use_tool_request():
+		GameInputEvent.use_tool()
+	if GameInputEvent.is_undo_use_tool_request():
+		GameInputEvent.clear_undo_tool_request()
 	##↑ 注意 这里应该先获取movement数据 执行这个函数之后 is__函数的direction才会被更新
 	##↑和虚幻/unity一样遵循先获取数据 在进行判断哦
 	#if  player.current_tool==DataType.Tools.AxeWood && GameInputEvent.is_use_tool():

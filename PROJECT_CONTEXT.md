@@ -1,5 +1,22 @@
 # PROJECT_CONTEXT.md
 
+## 更新日志
+
+### 2026-02-21 - 存档系统扩展 + 状态机Bug修复
+- 扩展存档系统支持库存保存（InventoryManager）
+- 扩展存档系统支持工具状态保存（ToolManager）
+- 修复工具为None时点击左键导致状态无限循环的Bug（idle_state/walk_state）
+
+---
+
+### 2026-02-16 - 输入控制系统改进
+- 实现双重保险输入控制机制
+- 新增 GameInputEvent.Mode 检查，防止 UI 交互时触发游戏动作
+- 更新输入管理系统文档，详细说明 MouseFilter STOP + Mode 检查的实现
+- 参考 `AI_CONTEXT.md` 获取详细技术说明
+
+---
+
 ## 1. Project Overview
 
 | Property | Value |
@@ -359,6 +376,12 @@ Glacier: I've given you 3 corn seeds!
 - `SceneDataResource` (`resource/scene_data_resource.gd`): 场景对象（玩家、NPC、作物）
 - `TileMapLayerDataResource` (`resource/tilemap_layer_data_resource.gd`): 地图层（耕地状态）
 - `SaveGameDataResource` (`resource/save_game_data_resource.gd`): 存档容器，聚合所有数据
+
+**保存的数据类型**:
+- 玩家位置（需添加 SaveDataComponent + scene_data_resource.tres）
+- 库存物品（自动保存，无需额外操作）
+- 当前选中的工具（自动保存，无需额外操作）
+- 地图修改（需添加 SaveDataComponent + tilemap_layer_data_resource.tres）
 
 **使用步骤**:
 1. 场景根节点添加 `SaveLevelDataComponent`（必须！）

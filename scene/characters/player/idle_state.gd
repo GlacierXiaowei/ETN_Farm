@@ -52,6 +52,11 @@ func _on_next_transitions() -> void:
 		if player.current_tool == DataType.Tools.PlantCorn or player.current_tool == DataType.Tools.PlantTomato:
 			transition.emit("Planting")
 			return
+	
+	if GameInputEvent.is_use_tool_request():
+		GameInputEvent.use_tool()
+	if GameInputEvent.is_undo_use_tool_request():
+		GameInputEvent.clear_undo_tool_request()
 		
 	if GameInputEvent.is_movement_input():
 		transition.emit("Walking")

@@ -29,8 +29,17 @@ func remove_collectable(collectable_name: String,amount:int =1) -> void:
 		if inventory[key] > 0 :
 			for i in amount:
 				inventory[key] -=1
-		
+			
 	
+	inventory_change.emit()
+
+
+func get_inventory() -> Dictionary:
+	return inventory.duplicate(true)
+
+
+func set_inventory(new_inventory: Dictionary) -> void:
+	inventory = new_inventory.duplicate(true)
 	inventory_change.emit()
 
 

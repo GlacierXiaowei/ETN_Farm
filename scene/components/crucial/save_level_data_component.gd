@@ -31,6 +31,8 @@ func save_game() -> void:
 	var level_save_file_name : String= save_file_name % level_scene_name
 	
 	save_node_data()
+	game_data_resource.inventory = InventoryManager.get_inventory()
+	game_data_resource.selected_tool = ToolManager.get_tool()
 	
 	var result : int = ResourceSaver.save(game_data_resource,save_game_data_path + level_save_file_name)
 	print("Save result: ",result)
@@ -47,6 +49,12 @@ func load_game() ->void:
 	
 	if game_data_resource == null :
 		return
+
+	if game_data_resource.inventory != null:
+		InventoryManager.set_inventory(game_data_resource.inventory)
+		
+	if "selected_tool" in game_data_resource:
+		ToolManager.set_tool(game_data_resource.selected_tool)
 		
 	var root_node: Window = get_tree().root
 	
