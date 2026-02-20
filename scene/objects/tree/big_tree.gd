@@ -4,6 +4,8 @@ extends Sprite2D
 @onready var hurt_component: HurtComponent = $HurtComponent
 @onready var hp_component: HpComponent = $HpComponent
 
+@export var drop_radius: int = 8
+
 var pre_log_scene = preload("res://scene/objects/tree/log.tscn")
 
 func _ready() -> void:
@@ -28,7 +30,16 @@ func on_zero_hp() -> void :
 	print("受击对象现在生命值为0") 
 	queue_free()
 
-func add_log_scene() ->void:
+func add_log_scene() -> void:
 	var log_scene = pre_log_scene.instantiate() as Node2D
-	log_scene.global_position = self.global_position + Vector2(0,12)
-	get_parent().add_child(log_scene)
+	var base_position = self.global_position #+ Vector2(0, 12)
+	var random_offset = get_random_offset_in_circle(drop_radius)
+	log_scene.global_position = base_position + random_offset
+	get_tree().root.add_child(log_scene)
+
+func get_random_offset_in_circle(radius: int) -> Vector2:
+	var angle = randf() * TAU
+	var distance_from_center = sqrt(randf()) * radius
+	var x = distance_from_center * cos(angle)
+	var y = distance_from_center * sin(angle)
+	return Vector2(x, y)
