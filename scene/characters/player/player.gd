@@ -19,6 +19,8 @@ var player_direction: Vector2 = Vector2.ZERO
 var is_undo_use_tool_mode: bool = false
 
 func _ready() -> void:
+	await get_tree().physics_frame
+	
 	ToolManager.tool_selected.connect(on_tool_selected)
 	# 新增：确保当前工具与 ToolManager 同步
 	current_tool = ToolManager.selected_tool

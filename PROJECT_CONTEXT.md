@@ -479,8 +479,64 @@ Glacier: I've given you 3 corn seeds!
 - `test_scene_save_data.tscn`: 存档系统测试
 - `test_scene_dialogue.tscn`: 对话系统测试
 - `test_scene_chest.tscn`: 宝箱提交奖励系统测试
+- `test_audio_scene.tscn`: 音频系统测试
 
-## 10. Troubleshooting / 故障排除
+## 11. Audio System
+
+### 11.1 音频总线布局
+
+项目使用自定义音频总线布局 (`audio/game_audio_bus_layout.tres`):
+
+| Bus | 用途 | 默认音量 |
+| :--- | :--- | :--- |
+| Master | 主输出 | 0 dB (默认) |
+| Music | 背景音乐 | -4.5 dB |
+| Sfx | 音效 | -14.6 dB |
+
+### 11.2 背景音乐 (BGM)
+
+| 场景 | 路径 | 描述 |
+| :--- | :--- | :--- |
+| OnTheFarmAudio | `audio/music/on_the_farm_audio.tscn` | 农场主题背景音乐，循环播放 |
+
+**配置**:
+- 类型: `AudioStreamPlayer2D`
+- 总线: `Music`
+- 自动播放: `autoplay = true`
+
+### 11.3 音效 (SFX)
+
+| 音效 | 路径 | 描述 |
+| :--- | :--- | :--- |
+| ChickenCluckMultipleSFX | `audio/sfx/chicken_cluck_multiple_sfx.tscn` | 鸡叫声（随机播放3种变体） |
+| CowMooSFX | `audio/sfx/cow_moo_sfx.tscn` | 牛叫声 |
+
+**音效资源**:
+- `chicken-cluck-1.ogg` / `chicken-cluck-2.ogg` / `chicken-cluck-3.ogg`: 鸡叫变体
+- `cow-moo.ogg`: 牛叫声
+
+**使用方式**:
+- 作为子场景挂载到 NPC 节点上
+- 通过代码调用 `play()` 方法播放
+
+### 11.4 音频播放时间组件
+
+**组件**: `audio_play_time_component.gd` (`scene/components/crucial/audio_play_time_component.gd`)
+
+**功能**: 定时触发音频播放
+
+**使用方式**:
+1. 挂载到 `Timer` 节点
+2. 导出 `AudioStreamPlayer2D` 引用
+3. 超时时自动调用 `play()`
+
+### 11.5 对话系统音效
+
+对话气泡中包含音频播放器 (`base_game_dialog_balloon.gd`):
+- 打字时播放音效
+- 通过 `AudioStreamPlayer` 节点实现
+
+## 12. Troubleshooting / 故障排除
 
 | 问题 | 解决方案 |
 | :--- | :--- |
