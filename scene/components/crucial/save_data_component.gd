@@ -1,5 +1,5 @@
 extends Node
-class_name SaveDataComponent
+#class_name SaveDataComponent
 
 ##注意 父节点将会被强制转换为Node2d
 @onready var parent_node: Node2D = self.get_parent() as Node2D

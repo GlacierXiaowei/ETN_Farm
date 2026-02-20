@@ -4,7 +4,7 @@
 [ext_resource type="TileSet" uid="uid://dw7ut02febnhv" path="res://Tilesets/game_tile_set.tres" id="1_mm6v6"]
 [ext_resource type="PackedScene" uid="uid://c2npqhu5n5ccq" path="res://scene/characters/chicken/chicken.tscn" id="3_dpoj0"]
 [ext_resource type="PackedScene" uid="uid://bt27ml1bhbsxe" path="res://scene/characters/player/player.tscn" id="5_4chbn"]
-[ext_resource type="PackedScene" uid="uid://bhlsgyuovq0lx" path="res://scene/components/crucial/save_data_component.tscn" id="6_855lb"]
+[ext_resource type="PackedScene" uid="uid://bhlsgyuovq0lx" path="res://scene/components/crucial/save_date_component.tscn" id="6_855lb"]
 [ext_resource type="PackedScene" uid="uid://dkwso3kvsr16f" path="res://scene/characters/cow/Cow.tscn" id="6_elp6i"]
 [ext_resource type="PackedScene" uid="uid://bh3yofviuri15" path="res://scene/objects/chest/chest.tscn" id="6_x4chx"]
 [ext_resource type="Resource" uid="uid://p28mhfompcu2" path="res://resource/tilemap_layer_data_resource.tres" id="7_byq42"]

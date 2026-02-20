@@ -11,7 +11,9 @@
 [ext_resource type="Script" uid="uid://bcmtkub70fcon" path="res://scene/characters/player/watering_state.gd" id="9_efkcd"]
 [ext_resource type="Script" uid="uid://q72g48eqegof" path="res://scene/characters/player/plantingstate.gd" id="10_a6bj1"]
 [ext_resource type="PackedScene" uid="uid://dt17h0pl2bom1" path="res://scene/components/hit_component.tscn" id="10_uy7wp"]
+[ext_resource type="PackedScene" uid="uid://bhlsgyuovq0lx" path="res://scene/components/crucial/save_data_component.tscn" id="11_mmjh5"]
 [ext_resource type="Texture2D" uid="uid://cypot74r1fwp7" path="res://assets/game/25半透明工具提示贴图.png" id="11_tg3vd"]
+[ext_resource type="Resource" uid="uid://cnr7v427gqdb2" path="res://resource/scene_data_resource.tres" id="12_mmjh5"]
 [ext_resource type="Script" uid="uid://b5ew3ojqs8gpc" path="res://scene/characters/player/no_placement.gd" id="13_8gxq7"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_viwsh"]
@@ -470,3 +472,6 @@ texture = ExtResource("11_tg3vd")
 
 [node name="NoPlacement" type="Node" parent="Component" unique_id=1916731526]
 script = ExtResource("13_8gxq7")
+
+[node name="SaveDataComponent" parent="." unique_id=1104899350 instance=ExtResource("11_mmjh5")]
+save_data_resource = ExtResource("12_mmjh5")

@@ -9,3 +9,13 @@ func select_tool (tool: DataType.Tools) -> void:
 	tool_selected.emit(tool)
 	selected_tool = tool
 	current_tool = tool
+
+
+func get_tool() -> DataType.Tools:
+	return selected_tool
+
+
+func set_tool(tool: DataType.Tools) -> void:
+	selected_tool = tool
+	current_tool = tool
+	tool_selected.emit(tool)

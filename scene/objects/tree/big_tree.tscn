@@ -27,6 +27,7 @@ material = SubResource("ShaderMaterial_mkvj6")
 texture = SubResource("AtlasTexture_mkvj6")
 offset = Vector2(0, -16)
 script = ExtResource("2_ga8oq")
+drop_radius = 10
 
 [node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=1551195031]
 position = Vector2(0, -9)

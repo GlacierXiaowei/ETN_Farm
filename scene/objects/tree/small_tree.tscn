@@ -28,6 +28,7 @@ position = Vector2(0, -1)
 texture = SubResource("AtlasTexture_ntqnk")
 offset = Vector2(0, -11)
 script = ExtResource("2_wkdqh")
+drop_radius = 5
 
 [node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=86701499]
 collision_mask = 2

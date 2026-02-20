@@ -1,5 +1,22 @@
 # PROJECT_CONTEXT.md
 
+## 更新日志
+
+### 2026-02-21 - 存档系统扩展 + 状态机Bug修复
+- 扩展存档系统支持库存保存（InventoryManager）
+- 扩展存档系统支持工具状态保存（ToolManager）
+- 修复工具为None时点击左键导致状态无限循环的Bug（idle_state/walk_state）
+
+---
+
+### 2026-02-16 - 输入控制系统改进
+- 实现双重保险输入控制机制
+- 新增 GameInputEvent.Mode 检查，防止 UI 交互时触发游戏动作
+- 更新输入管理系统文档，详细说明 MouseFilter STOP + Mode 检查的实现
+- 参考 `AI_CONTEXT.md` 获取详细技术说明
+
+---
+
 ## 1. Project Overview
 
 | Property | Value |
@@ -360,6 +377,12 @@ Glacier: I've given you 3 corn seeds!
 - `TileMapLayerDataResource` (`resource/tilemap_layer_data_resource.gd`): 地图层（耕地状态）
 - `SaveGameDataResource` (`resource/save_game_data_resource.gd`): 存档容器，聚合所有数据
 
+**保存的数据类型**:
+- 玩家位置（需添加 SaveDataComponent + scene_data_resource.tres）
+- 库存物品（自动保存，无需额外操作）
+- 当前选中的工具（自动保存，无需额外操作）
+- 地图修改（需添加 SaveDataComponent + tilemap_layer_data_resource.tres）
+
 **使用步骤**:
 1. 场景根节点添加 `SaveLevelDataComponent`（必须！）
 2. 需要保存的节点添加 `SaveDataComponent`，并配置 `save_data_resource`:
@@ -479,8 +502,64 @@ Glacier: I've given you 3 corn seeds!
 - `test_scene_save_data.tscn`: 存档系统测试
 - `test_scene_dialogue.tscn`: 对话系统测试
 - `test_scene_chest.tscn`: 宝箱提交奖励系统测试
+- `test_audio_scene.tscn`: 音频系统测试
 
-## 10. Troubleshooting / 故障排除
+## 11. Audio System
+
+### 11.1 音频总线布局
+
+项目使用自定义音频总线布局 (`audio/game_audio_bus_layout.tres`):
+
+| Bus | 用途 | 默认音量 |
+| :--- | :--- | :--- |
+| Master | 主输出 | 0 dB (默认) |
+| Music | 背景音乐 | -4.5 dB |
+| Sfx | 音效 | -14.6 dB |
+
+### 11.2 背景音乐 (BGM)
+
+| 场景 | 路径 | 描述 |
+| :--- | :--- | :--- |
+| OnTheFarmAudio | `audio/music/on_the_farm_audio.tscn` | 农场主题背景音乐，循环播放 |
+
+**配置**:
+- 类型: `AudioStreamPlayer2D`
+- 总线: `Music`
+- 自动播放: `autoplay = true`
+
+### 11.3 音效 (SFX)
+
+| 音效 | 路径 | 描述 |
+| :--- | :--- | :--- |
+| ChickenCluckMultipleSFX | `audio/sfx/chicken_cluck_multiple_sfx.tscn` | 鸡叫声（随机播放3种变体） |
+| CowMooSFX | `audio/sfx/cow_moo_sfx.tscn` | 牛叫声 |
+
+**音效资源**:
+- `chicken-cluck-1.ogg` / `chicken-cluck-2.ogg` / `chicken-cluck-3.ogg`: 鸡叫变体
+- `cow-moo.ogg`: 牛叫声
+
+**使用方式**:
+- 作为子场景挂载到 NPC 节点上
+- 通过代码调用 `play()` 方法播放
+
+### 11.4 音频播放时间组件
+
+**组件**: `audio_play_time_component.gd` (`scene/components/crucial/audio_play_time_component.gd`)
+
+**功能**: 定时触发音频播放
+
+**使用方式**:
+1. 挂载到 `Timer` 节点
+2. 导出 `AudioStreamPlayer2D` 引用
+3. 超时时自动调用 `play()`
+
+### 11.5 对话系统音效
+
+对话气泡中包含音频播放器 (`base_game_dialog_balloon.gd`):
+- 打字时播放音效
+- 通过 `AudioStreamPlayer` 节点实现
+
+## 12. Troubleshooting / 故障排除
 
 | 问题 | 解决方案 |
 | :--- | :--- |

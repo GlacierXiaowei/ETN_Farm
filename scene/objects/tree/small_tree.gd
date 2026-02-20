@@ -3,6 +3,8 @@ extends Sprite2D
 @onready var hurt_component: HurtComponent = $HurtComponent
 @onready var hp_component: HpComponent = $HpComponent
 
+@export var drop_radius: int = 8
+
 var pre_log_scene = preload("res://scene/objects/tree/log.tscn")
 
 func _ready() -> void:
@@ -46,15 +48,15 @@ func on_zero_hp() -> void :
 	queue_free()
 
 func add_log_scene() ->void:
-	##以node2d节点 来实例化
-	##！！！如果 不使用as 他就会默认变成node 导致node子类性质丢失
-	##另外 这里之所以使用node2d 而不是采用sprit2d 是为了低耦合 让这个函数 以后可以直接复用
-	##也就是说 如果没有使用到sprite2d这个子类特有的性质 那么 就没有必要非常具体到sprite2d
-	##我们的log节点本身就间接继承自 Node 下面的操作肯定也没有问题
-	##如果变成character2d 肯定就null 了哈
 	var log_scene = pre_log_scene.instantiate() as Node2D
-	##这个地方按理说 是queue_free后执行 那么self存在 如果发现问题 可以采用传值 
-	##即 在调用的时候 把坐标传进来
-	log_scene.global_position = self.global_position + Vector2(0,8)
-	##注意 这里是找树的父节点 在树的子节点生成原木 后者肯定要不得哈 
-	get_parent().add_child(log_scene)
+	var base_position = self.global_position #+ Vector2(0, 8)
+	var random_offset = get_random_offset_in_circle(drop_radius)
+	log_scene.global_position = base_position + random_offset
+	get_tree().root.add_child(log_scene)
+
+func get_random_offset_in_circle(radius: int) -> Vector2:
+	var angle = randf() * TAU
+	var distance_from_center = sqrt(randf()) * radius
+	var x = distance_from_center * cos(angle)
+	var y = distance_from_center * sin(angle)
+	return Vector2(x, y)
