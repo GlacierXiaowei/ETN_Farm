@@ -27,7 +27,7 @@ func _on_physics_process(_delta: float) -> void:
 
 
 func _on_next_transitions() -> void:
-	GameInputEvent.movement_input()
+	player.movement_input()
 	#↑ 注意 这里应该先获取movement数据 执行这个函数之后 is_函数的direction才会被更新
 	#↑先获取数据 在进行判断
 	if  player.current_tool==DataType.Tools.AxeWood && GameInputEvent.is_use_tool_request():
@@ -53,7 +53,7 @@ func _on_next_transitions() -> void:
 			transition.emit("Planting")
 			return
 		
-	if GameInputEvent.is_movement_input():
+	if player.is_movement_input():
 		transition.emit("Walking")
 		return
 

@@ -209,6 +209,23 @@ var empty: Array[Dictionary] = Array[Dictionary]([])
 | undo_hit | Ctrl + Left Mouse Button | 撤销工具操作 |
 | num_1~num_9 | 1~9 | 快捷工具选择 |
 
+**[Alpha] 移动输入事件驱动** (实验性):
+
+> ⚠️ 此功能为 Alpha 版本，可能存在不稳定因素
+
+移动逻辑已迁移至 `Player.gd`，通过 `_unhandled_input` 事件驱动处理。
+
+- `player.dir`: 方向缓冲变量
+- `player.movement_input()`: 返回归一化方向向量
+- `player.is_movement_input()`: 判断是否有移动输入
+- 状态机（walk_state.gd / idle_state.gd）调用 `player.movement_input()` 和 `player.is_movement_input()`
+
+当 UI 阻挡输入时，事件不会传到 `player._unhandled_input`，`dir` 不会被更新，角色自动停止。
+
+**原始输入系统（保留）**:
+
+原 `GameInputEvent` 中的移动相关逻辑保持不变，作为备用系统。
+
 **输入模式** (`GameInputEvent.Mode`):
 - `GAMEPLAY`: 正常游戏输入，所有输入功能可用
 - `UI`: UI 交互模式，禁用角色移动和工具操作
@@ -226,7 +243,7 @@ var empty: Array[Dictionary] = Array[Dictionary]([])
 
 2. **GameInputEvent.Mode 检查**:
    - `set_mode(mode)` 方法切换输入模式
-   - 在 `use_tool()`、`undo_use_tool()`、`use_tool_select()`、`movement_input()` 中检查 `current_mode == GAMEPLAY`
+   - 在 `use_tool()`、`undo_use_tool()`、`use_tool_select()` 中检查 `current_mode == GAMEPLAY`
    - 非 GAMEPLAY 模式下这些函数返回无效值（false/-1）
 
 3. **Player._unhandled_input 保护**:

@@ -69,6 +69,23 @@ func _ready() -> void:
 	planting.plant_tool_used.connect(on_plant_tool_used)
 
 
+
+##角色移动管理
+var dir :Vector2= Vector2.ZERO
+var direction: Vector2
+func movement_input() -> Vector2:
+	
+	if GameInputEvent.current_mode!=GameInputEvent.Mode.GAMEPLAY:
+		return Vector2.ZERO
+
+	return dir.normalized()
+func is_movement_input() -> bool:
+	#await get_tree().physics_frame
+	return movement_input() != Vector2.ZERO
+
+
+
+
 func on_tool_selected(tool: DataType.Tools) -> void:
 	current_tool = tool
 	hit_componentt.current_tool = tool
@@ -94,6 +111,17 @@ func _unhandled_input(event: InputEvent) -> void:
 	
 	if event.is_action_pressed("save_game"):
 		SaveGameManager.save_game()
+		
+	dir= Vector2.ZERO
+	if Input.is_action_pressed("walk_left"):
+		dir.x -= 1
+	if Input.is_action_pressed("walk_right"):
+		dir.x += 1
+	if Input.is_action_pressed("walk_up"):
+		dir.y -= 1
+	if Input.is_action_pressed("walk_down"):
+		dir.y += 1
+
 
 func perform_hit_action() -> void:
 		match current_tool:

@@ -28,26 +28,6 @@ static func set_mode(mode: Mode) -> void:
 		player.set_process_unhandled_input(mode == Mode.GAMEPLAY)	
 
 
-##角色移动管理
-static var direction: Vector2
-static func movement_input() -> Vector2:
-	var dir := Vector2.ZERO
-	if current_mode!=GameInputEvent.Mode.GAMEPLAY:
-		return dir
-
-	if Input.is_action_pressed("walk_left"):
-		dir.x -= 1
-	if Input.is_action_pressed("walk_right"):
-		dir.x += 1
-	if Input.is_action_pressed("walk_up"):
-		dir.y -= 1
-	if Input.is_action_pressed("walk_down"):
-		dir.y += 1
-
-	return dir.normalized()
-static func is_movement_input() -> bool:
-	return movement_input() != Vector2.ZERO
-
 
 
 ##工具使用管理（防止在更换工具的时候 触发hit）

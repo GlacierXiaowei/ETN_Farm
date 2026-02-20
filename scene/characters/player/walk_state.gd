@@ -43,7 +43,7 @@ func _on_physics_process(delta: float) -> void:
 	##基于当前的速度 但是最多变化 b 的量 所以每一帧都会增加b(因为代码成了delta)
 	##并且限制最大值为 a
 	##dir就是 direction
-	var dir := GameInputEvent.movement_input()
+	var dir = player.movement_input()
 	if dir != Vector2.ZERO:
 		player.velocity = player.velocity.move_toward(
 			dir * max_speed,
@@ -58,14 +58,14 @@ func _on_physics_process(delta: float) -> void:
 	player.move_and_slide()
 	
 
-##不需要使用GameInputEvent.movement_input()
+##不需要使用player.movement_input()
 ##代码优化之后 is_movement_input在调用的时候 就会调用一次 movement_input 
 func _on_next_transitions() -> void:
-	#GameInputEvent.movement_input()
-	#if !GameInputEvent.is_movement_input():
+	#player.movement_input()
+	#if !player.is_movement_input():
 	if player.velocity.length() <= 1.0 :
 		transition.emit("idle")
-		GameInputEvent.movement_input()
+		player.movement_input()
 	##↑ 注意 这里应该先获取movement数据 执行这个函数之后 is__函数的direction才会被更新
 	##↑和虚幻/unity一样遵循先获取数据 在进行判断哦
 	#if  player.current_tool==DataType.Tools.AxeWood && GameInputEvent.is_use_tool():
@@ -76,7 +76,7 @@ func _on_next_transitions() -> void:
 		#transition.emit("Watering")
 	
 	
-	#if GameInputEvent.is_movement_input():
+	#if player.is_movement_input():
 		#transition.emit("Walking")
 
 
