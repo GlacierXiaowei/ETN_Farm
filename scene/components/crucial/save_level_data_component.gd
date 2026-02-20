@@ -28,7 +28,7 @@ func save_game() -> void:
 	if !DirAccess.dir_exists_absolute(save_game_data_path):
 		DirAccess.make_dir_absolute(save_game_data_path)
 		
-	var level_save_file_name = save_file_name % level_scene_name
+	var level_save_file_name : String= save_file_name % level_scene_name
 	
 	save_node_data()
 	

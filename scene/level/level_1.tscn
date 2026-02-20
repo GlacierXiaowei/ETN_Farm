@@ -4,13 +4,16 @@
 [ext_resource type="TileSet" uid="uid://dw7ut02febnhv" path="res://Tilesets/game_tile_set.tres" id="1_mm6v6"]
 [ext_resource type="PackedScene" uid="uid://c2npqhu5n5ccq" path="res://scene/characters/chicken/chicken.tscn" id="3_dpoj0"]
 [ext_resource type="PackedScene" uid="uid://bt27ml1bhbsxe" path="res://scene/characters/player/player.tscn" id="5_4chbn"]
+[ext_resource type="PackedScene" uid="uid://bhlsgyuovq0lx" path="res://scene/components/crucial/save_data_component.tscn" id="6_855lb"]
 [ext_resource type="PackedScene" uid="uid://dkwso3kvsr16f" path="res://scene/characters/cow/Cow.tscn" id="6_elp6i"]
 [ext_resource type="PackedScene" uid="uid://bh3yofviuri15" path="res://scene/objects/chest/chest.tscn" id="6_x4chx"]
+[ext_resource type="Resource" uid="uid://p28mhfompcu2" path="res://resource/tilemap_layer_data_resource.tres" id="7_byq42"]
 [ext_resource type="PackedScene" uid="uid://n0cmml15s0dc" path="res://scene/objects/egg.tscn" id="7_qclw6"]
 [ext_resource type="PackedScene" uid="uid://buf61mj1erts" path="res://scene/objects/milk.tscn" id="8_855lb"]
 [ext_resource type="PackedScene" uid="uid://knm2stpmtlrv" path="res://scene/components/crops_cursor_component.tscn" id="9_byq42"]
 [ext_resource type="PackedScene" uid="uid://d2wfu51np2iji" path="res://scene/components/dirt_cursor_component.tscn" id="10_rg71t"]
 [ext_resource type="PackedScene" uid="uid://cculwk6783gia" path="res://scene/characters/guide/guide.tscn" id="11_x4chx"]
+[ext_resource type="PackedScene" uid="uid://cf30a2gg84rlt" path="res://scene/components/crucial/save_level_data_component.tscn" id="12_qclw6"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_k43e5"]
 vertices = PackedVector2Array(444, 151.34375, 436.46875, 297.42188, 402.46875, 299, 118, 299, 118, 90, 444, 90)
@@ -97,6 +100,9 @@ tile_set = ExtResource("1_mm6v6")
 [node name="Dirt" type="TileMapLayer" parent="GameTileMap" unique_id=1821607016]
 tile_set = ExtResource("1_mm6v6")
 
+[node name="SaveDataComponent" parent="GameTileMap/Dirt" unique_id=672273542 instance=ExtResource("6_855lb")]
+save_data_resource = ExtResource("7_byq42")
+
 [node name="CropField" type="Node2D" parent="GameTileMap" unique_id=1046653086]
 
 [node name="Cows" type="Node2D" parent="GameTileMap" unique_id=1635835341]
@@ -177,3 +183,5 @@ output_reward_scenes = Array[PackedScene]([ExtResource("8_855lb")])
 
 [node name="Guide" parent="." unique_id=204264781 instance=ExtResource("11_x4chx")]
 position = Vector2(423, 219)
+
+[node name="SaveLevelDataComponent" parent="." unique_id=1278032610 instance=ExtResource("12_qclw6")]

@@ -50,7 +50,7 @@ func _unhandled_input(event: InputEvent) -> void:
 			is_chest_open = true
 			
 			var balloon : BaseGameDialogBalloon = balloon_preload.instantiate()
-			get_tree().current_scene.add_child(balloon)
+			get_tree().root.add_child(balloon)
 			balloon.start(load("res://dialog/conversation/chest.dialogue"),dialog_start_command)
 
 

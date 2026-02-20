@@ -78,9 +78,10 @@ navigation_layers = 2
 path_postprocessing = 1
 avoidance_enabled = true
 
-[node name="StateMachine" type="Node" parent="." unique_id=1261981541 node_paths=PackedStringArray("initial_node_state")]
+[node name="StateMachine" type="Node" parent="." unique_id=1261981541 node_paths=PackedStringArray("initial_node_state", "current_node_state")]
 script = ExtResource("2_ah3uo")
 initial_node_state = NodePath("idle")
+current_node_state = NodePath("idle")
 
 [node name="idle" type="Node" parent="StateMachine" unique_id=2144415931 node_paths=PackedStringArray("character", "animated_sprite_2d")]
 script = ExtResource("4_mib2y")

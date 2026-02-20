@@ -53,6 +53,7 @@ material = SubResource("ShaderMaterial_7khqe")
 position = Vector2(0, -8)
 sprite_frames = SubResource("SpriteFrames_svabx")
 animation = &"idle"
+autoplay = "idle"
 
 [node name="InteractableComponetnt" parent="." unique_id=1307587226 instance=ExtResource("3_7fbcc")]
 position = Vector2(0, -8)

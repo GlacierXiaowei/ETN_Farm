@@ -258,14 +258,22 @@ var empty: Array[Dictionary] = Array[Dictionary]([])
 - 使用 `Dictionary` 存储，键为物品名称(首字母大写)
 - 值 为数量 (Integer)
 
+**大小写处理**:
+- **完全忽略大小写**: 无论输入 "CornSEED", "CORNSEED" 还是 "CornSeed"，都会被自动转为 "Cornseed"
+- 所有库存操作函数内部使用 `collectable_name.capitalize()` 统一处理键名
+- 使用时可自由混用大小写，无需担心大小写不匹配问题
+
 **可收集物品类型**:
 - 鸡蛋 (Egg): 来自鸡 NPC
 - 牛奶 (Milk): 来自牛 NPC
 - 玉米 (Corn): 来自成熟作物
 - 番茄 (Tomato): 来自成熟作物
+- 玉米种子 (CornSeed): 用于种植玉米
+- 番茄种子 (TomatoSeed): 用于种植番茄
 
 **API**:
-- `add_collectable(collectable_name: String)`: 添加物品，自动累加数量
+- `add_collectable(collectable_name: String, amount: int = 1)`: 添加物品，自动累加数量，自动处理大小写
+- `remove_collectable(collectable_name: String, amount: int = 1)`: 移除物品，自动处理大小写
 - `inventory_change` 信号: 库存变更时发送
 
 ### 6.7 组件系统 (Components)

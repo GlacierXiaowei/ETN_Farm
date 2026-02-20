@@ -25,7 +25,9 @@ func on_interactable_deactivated()->void:
 	dialog_able=false
 
 func _unhandled_input(event: InputEvent) -> void:
+	if !dialog_able:
+		return
 	if event.is_action_pressed("show_dialog"):
 		var balloon : BaseGameDialogBalloon = balloon_scene.instantiate()
-		get_tree().current_scene.add_child(balloon)
+		get_tree().root.add_child(balloon)
 		balloon.start(load("res://dialog/conversation/guide.dialogue"))

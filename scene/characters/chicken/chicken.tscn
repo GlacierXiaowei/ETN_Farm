@@ -86,9 +86,10 @@ path_postprocessing = 1
 avoidance_enabled = true
 radius = 5.0
 
-[node name="StateMachine" type="Node" parent="." unique_id=65454421 node_paths=PackedStringArray("initial_node_state")]
+[node name="StateMachine" type="Node" parent="." unique_id=65454421 node_paths=PackedStringArray("initial_node_state", "current_node_state")]
 script = ExtResource("2_k66kt")
 initial_node_state = NodePath("idle")
+current_node_state = NodePath("idle")
 
 [node name="idle" type="Node" parent="StateMachine" unique_id=766296878 node_paths=PackedStringArray("character", "animated_sprite_2d")]
 script = ExtResource("3_apnhc")

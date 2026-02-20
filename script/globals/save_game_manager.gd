@@ -7,6 +7,8 @@ extends Node
 	#↓
 #保存到文件
 
+var allow_save_game: bool
+
 ##save_game的调用也在player逻辑中
 
 func save_game()-> void:
@@ -16,6 +18,8 @@ func save_game()-> void:
 		save_level_data_component.save_game()
 		
 func load_game() -> void:
+	await get_tree().process_frame
+	
 	var save_level_data_component: SaveLevelDataComponent = get_tree().get_first_node_in_group("save_level_data_manager")
 	
 	if save_level_data_component != null:
