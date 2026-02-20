@@ -17,7 +17,7 @@ config/icon="res://icon.svg"
 
 [audio]
 
-buses/default_bus_layout=""
+buses/default_bus_layout="uid://cnwc6rbmja2cx"
 
 [autoload]
 
@@ -52,6 +52,7 @@ enabled=PackedStringArray("res://addons/dialogue_manager/plugin.cfg")
 folder_colors={
 "res://Tilesets/": "yellow",
 "res://assets/": "orange",
+"res://audio/": "red",
 "res://dialog/": "teal",
 "res://resource/": "purple",
 "res://scene/": "green",
