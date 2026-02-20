@@ -79,7 +79,9 @@ func _unhandled_input(event: InputEvent) -> void:
 		
 	if event.is_action_pressed("undo_hit"):
 		GameInputEvent.request_undo_use_tool()
-
+	
+	if event.is_action_pressed("save_game"):
+		SaveGameManager.save_game()
 
 func perform_hit_action() -> void:
 		match current_tool:

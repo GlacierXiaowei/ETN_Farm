@@ -2,6 +2,8 @@
 
 [ext_resource type="Texture2D" uid="uid://dytpp6l7me5po" path="res://assets/UI/game_used/basic_ui_sprites.png" id="1_8yb7i"]
 [ext_resource type="FontVariation" uid="uid://b2w4msloabfqr" path="res://assets/UI/fonts/pixelFont_variation.tres" id="2_g8upg"]
+[ext_resource type="FontFile" uid="uid://ml87pq2hf6ub" path="res://assets/UI/fonts/pixelFont-7-8x14-sproutLands.ttf" id="3_dcn12"]
+[ext_resource type="FontFile" uid="uid://k32w7iord1r8" path="res://assets/UI/fonts/ark-pixel-12px-proportional-zh_cn.otf" id="3_hwgc3"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_g8upg"]
 atlas = ExtResource("1_8yb7i")
@@ -93,6 +95,74 @@ texture_margin_top = 2.0
 texture_margin_right = 2.0
 texture_margin_bottom = 3.0
 region_rect = Rect2(0, 0, 35, 18)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_rwjc2"]
+load_path = "res://.godot/imported/basic_ui_sprites.png-24d910743e5aee1d9bb5f1451b3a4343.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wbgnr"]
+atlas = SubResource("CompressedTexture2D_rwjc2")
+region = Rect2(11, 11, 26, 28)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_j8o6r"]
+texture = SubResource("AtlasTexture_wbgnr")
+texture_margin_left = 4.0
+texture_margin_top = 4.0
+texture_margin_right = 4.0
+texture_margin_bottom = 6.0
+region_rect = Rect2(0, 0, 26, 28)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_2ri4k"]
+load_path = "res://.godot/imported/basic_ui_sprites.png-24d910743e5aee1d9bb5f1451b3a4343.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w33ge"]
+atlas = SubResource("CompressedTexture2D_2ri4k")
+region = Rect2(11, 59, 26, 28)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_r6ifc"]
+texture = SubResource("AtlasTexture_w33ge")
+texture_margin_left = 4.0
+texture_margin_top = 4.0
+texture_margin_right = 4.0
+texture_margin_bottom = 6.0
+region_rect = Rect2(0, 0, 26, 28)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_jgcnb"]
+texture = SubResource("AtlasTexture_w33ge")
+texture_margin_left = 4.0
+texture_margin_top = 4.0
+texture_margin_right = 4.0
+texture_margin_bottom = 6.0
+region_rect = Rect2(0, 0, 26, 28)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_4kjwd"]
+load_path = "res://.godot/imported/basic_ui_sprites.png-24d910743e5aee1d9bb5f1451b3a4343.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1prka"]
+atlas = SubResource("CompressedTexture2D_4kjwd")
+region = Rect2(11, 155, 26, 28)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_wk64o"]
+texture = SubResource("AtlasTexture_1prka")
+texture_margin_left = 4.0
+texture_margin_top = 4.0
+texture_margin_right = 4.0
+texture_margin_bottom = 6.0
+region_rect = Rect2(0, 0, 26, 28)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_2nhsr"]
+load_path = "res://.godot/imported/basic_ui_sprites.png-24d910743e5aee1d9bb5f1451b3a4343.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ggtsl"]
+atlas = SubResource("CompressedTexture2D_2nhsr")
+region = Rect2(11, 107, 26, 28)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_kjd4b"]
+texture = SubResource("AtlasTexture_ggtsl")
+texture_margin_left = 4.0
+texture_margin_top = 4.0
+texture_margin_right = 4.0
+texture_margin_bottom = 6.0
+region_rect = Rect2(0, 0, 26, 28)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_8yb7i"]
 atlas = ExtResource("1_8yb7i")
@@ -194,11 +264,21 @@ DayNightCounterPanel/styles/panel = SubResource("StyleBoxTexture_ad36a")
 DayNightLabel/base_type = &"Label"
 DayNightLabel/font_sizes/font_size = 18
 DayNightLabel/fonts/font = ExtResource("2_g8upg")
+GameMenuButton/base_type = &"Button"
+GameMenuButton/colors/font_disabled_color = Color(0.23392546, 0.23392546, 0.23392543, 1)
+GameMenuButton/fonts/font = ExtResource("3_dcn12")
+GameMenuButton/styles/disabled = SubResource("StyleBoxTexture_j8o6r")
+GameMenuButton/styles/focus = SubResource("StyleBoxTexture_r6ifc")
+GameMenuButton/styles/hover = SubResource("StyleBoxTexture_jgcnb")
+GameMenuButton/styles/normal = SubResource("StyleBoxTexture_wk64o")
+GameMenuButton/styles/pressed = SubResource("StyleBoxTexture_kjd4b")
 InventoryItemPanel/base_type = &"PanelContainer"
 InventoryItemPanel/styles/panel = SubResource("StyleBoxTexture_g8upg")
 InventoryLabel/base_type = &"Label"
 InventoryLabel/font_sizes/font_size = 8
-InventoryLabel/fonts/font = ExtResource("2_g8upg")
+InventoryLabel/fonts/font = ExtResource("3_hwgc3")
+Label/fonts/font = ExtResource("3_dcn12")
+Label/styles/focus = null
 MarginContainer/constants/margin_bottom = 10
 MarginContainer/constants/margin_left = 10
 MarginContainer/constants/margin_right = 10

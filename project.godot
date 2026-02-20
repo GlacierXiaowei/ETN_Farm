@@ -8,25 +8,31 @@
 
 config_version=5
 
-[GDScript_Formatter]
-
-custom_settings_enabled=true
-
 [application]
 
 config/name="farm_exercise"
+run/main_scene="uid://craulfir6f5sp"
 config/features=PackedStringArray("4.6", "Forward Plus")
 config/icon="res://icon.svg"
 
 [audio]
 
-buses/default_bus_layout=""
+buses/default_bus_layout="uid://cnwc6rbmja2cx"
 
 [autoload]
 
 ToolManager="*uid://ctxdppq3k6fsq"
 InventoryManager="*uid://pvylqgdke05l"
 DayNightManager="*uid://d2e5afkvgm3aq"
+SaveGameManager="*uid://vvk6rp0hnqyb"
+DialogueManager="*uid://c3rodes2l3gxb"
+DialogAction="*uid://cgurru171sjat"
+GameManager="*uid://2c7722myjers"
+SceneManager="*uid://ytm5nqumgsrb"
+
+[dialogue_manager]
+
+editor/advanced/custom_test_scene_path="res://addons/addons/dialogue_manager/test_scene.tscn"
 
 [display]
 
@@ -39,14 +45,16 @@ window/stretch/scale_mode="integer"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/gdgdtoolkit/plugin.cfg", "res://addons/gdscript_formatter/plugin.cfg")
+enabled=PackedStringArray("res://addons/dialogue_manager/plugin.cfg")
 
 [file_customization]
 
 folder_colors={
 "res://Tilesets/": "yellow",
-"res://addons/": "gray",
 "res://assets/": "orange",
+"res://audio/": "red",
+"res://dialog/": "teal",
+"res://resource/": "purple",
 "res://scene/": "green",
 "res://script/": "pink"
 }
@@ -135,9 +143,28 @@ num_9={
 }
 undo_hit={
 "deadzone": 0.2,
-"events": [Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":true,"meta_pressed":false,"button_mask":1,"position":Vector2(579, 18),"global_position":Vector2(598, 114),"factor":1.0,"button_index":1,"canceled":false,"pressed":true,"double_click":false,"script":null)
+"events": [Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"button_mask":2,"position":Vector2(494, 39),"global_position":Vector2(513, 135),"factor":1.0,"button_index":2,"canceled":false,"pressed":true,"double_click":false,"script":null)
 ]
 }
+save_game={
+"deadzone": 0.2,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":80,"key_label":0,"unicode":112,"location":0,"echo":false,"script":null)
+]
+}
+show_dialog={
+"deadzone": 0.2,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":69,"key_label":0,"unicode":101,"location":0,"echo":false,"script":null)
+]
+}
+game_menu={
+"deadzone": 0.2,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":4194305,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
+]
+}
+
+[internationalization]
+
+locale/translations_pot_files=PackedStringArray("res://dialog/conversation/guide.dialogue", "res://dialog/conversation/chest.dialogue")
 
 [layer_names]
 
@@ -151,6 +178,7 @@ undo_hit={
 2d_physics/layer_6="Collectable"
 2d_physics/layer_7="NPC"
 2d_physics/layer_8="No Placement"
+2d_physics/layer_9="Food"
 
 [physics]
 

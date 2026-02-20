@@ -16,7 +16,7 @@ class_name DirtCursorComponent
 
 
 ##是否使用 鼠标点击位置优先
-@export var use_mouse_mode: bool = false
+@export var use_mouse_mode: bool = true
 
 ##onready是指刚好在该节点的ready之前调用
 ##该函数获取子节点或者同级的player

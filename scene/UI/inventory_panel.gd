@@ -21,7 +21,8 @@ func on_inventory_change() -> void:
 		return
 	
 	for key in inventory_num :
-		if not inventory_label.has(key):
+		var capitalized_key = key.capitalize()
+		if not inventory_label.has(capitalized_key):
 			continue
 		##注意 Godot 不会将int 自动转换为str 这样手动操作一下会更加安全
-		inventory_label[key].text = str(inventory_num[key])
+		inventory_label[capitalized_key].text = str(inventory_num[key])

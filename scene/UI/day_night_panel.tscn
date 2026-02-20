@@ -2,7 +2,7 @@
 
 [ext_resource type="Theme" uid="uid://diiql63ofvsg2" path="res://scene/UI/game_ui_theme.tres" id="1_7keco"]
 [ext_resource type="Script" uid="uid://cq642hbceeaqh" path="res://scene/UI/day_night_panel.gd" id="2_p1am6"]
-[ext_resource type="Texture2D" uid="uid://dytpp6l7me5po" path="res://assets/UI/game_used/basic_ui_sprites.png" id="2_ybunr"]
+[ext_resource type="Texture2D" uid="uid://dytpp6l7me5po" path="res://assets/class_used/basic_ui_sprites.png" id="2_ybunr"]
 [ext_resource type="ButtonGroup" uid="uid://dpcgqksdsetha" path="res://scene/UI/day_night_panel_button_group.tres" id="3_rfkur"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_p1am6"]

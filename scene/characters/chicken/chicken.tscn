@@ -5,6 +5,8 @@
 [ext_resource type="Script" uid="uid://qgkfdaxn36ue" path="res://script/state_machine/node_state_machine.gd" id="2_k66kt"]
 [ext_resource type="Script" uid="uid://cword53hscjs" path="res://scene/characters/chicken/idle.gd" id="3_apnhc"]
 [ext_resource type="Script" uid="uid://2mry0yqaxtie" path="res://scene/characters/chicken/walk.gd" id="4_d68m8"]
+[ext_resource type="PackedScene" uid="uid://bi6u74pc1jgkd" path="res://audio/sfx/chicken_cluck_multiple_sfx.tscn" id="7_0cgfy"]
+[ext_resource type="PackedScene" uid="uid://ojdnrapxbius" path="res://scene/components/crucial/audio_play_time_component.tscn" id="7_tnhk2"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_qq6eo"]
 atlas = ExtResource("1_x27vm")
@@ -65,6 +67,7 @@ animations = [{
 radius = 4.0
 
 [node name="Chicken" type="CharacterBody2D" unique_id=1748535590]
+y_sort_enabled = true
 collision_layer = 64
 script = ExtResource("1_apnhc")
 
@@ -84,11 +87,11 @@ target_desired_distance = 5.0
 path_postprocessing = 1
 avoidance_enabled = true
 radius = 5.0
-debug_enabled = true
 
-[node name="StateMachine" type="Node" parent="." unique_id=65454421 node_paths=PackedStringArray("initial_node_state")]
+[node name="StateMachine" type="Node" parent="." unique_id=65454421 node_paths=PackedStringArray("initial_node_state", "current_node_state")]
 script = ExtResource("2_k66kt")
 initial_node_state = NodePath("idle")
+current_node_state = NodePath("idle")
 
 [node name="idle" type="Node" parent="StateMachine" unique_id=766296878 node_paths=PackedStringArray("character", "animated_sprite_2d")]
 script = ExtResource("3_apnhc")
@@ -100,3 +103,10 @@ script = ExtResource("4_d68m8")
 character = NodePath("../..")
 animated_sprite_2d = NodePath("../../AnimatedSprite2D")
 navigation_agent_2d = NodePath("../../NavigationAgent2D")
+
+[node name="AudioPlayTimeComponent" parent="." unique_id=1709845332 node_paths=PackedStringArray("audio_stream_player_2d") instance=ExtResource("7_tnhk2")]
+wait_time = 5.0
+autostart = true
+audio_stream_player_2d = NodePath("../ChickenCluckMultipleSFX")
+
+[node name="ChickenCluckMultipleSFX" parent="." unique_id=83138316 instance=ExtResource("7_0cgfy")]

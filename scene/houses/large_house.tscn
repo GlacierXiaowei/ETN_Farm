@@ -1,8 +1,9 @@
 [gd_scene format=4 uid="uid://btox16srosxt"]
 
 [ext_resource type="TileSet" uid="uid://c6oap5ub147gh" path="res://Tilesets/house_tile_set.tres" id="1_omf0g"]
+[ext_resource type="PackedScene" uid="uid://dxjffr7genjh1" path="res://scene/components/Interactable_component.tscn" id="2_fy11h"]
 
-[node name="LargeHouse" type="Node2D" unique_id=1257293254]
+[node name="LargeHouse" type="Node2D" unique_id=1257293254 groups=["no_placement_zone"]]
 
 [node name="HouseTilemap" type="Node2D" parent="." unique_id=1424718821]
 
@@ -17,3 +18,8 @@ tile_set = ExtResource("1_omf0g")
 [node name="Furniture" type="TileMapLayer" parent="HouseTilemap" unique_id=1364256617]
 tile_map_data = PackedByteArray("AAAFAPX/AQAAAAAAAAAIAPX/AQACAAAAAAAIAPb/AQAFAAAAAAALAPX/AQABAAAAAAAKAP7/AQADAAEAAAAEAP7/AQADAAEAAAAHAPX/AQAFAAMAAAAMAPf/AQACAAEAAAAMAPv/AQAAAAMAAAAKAPj/AQAFAAUAAGAKAPv/AQADAAUAAGAIAPr/AQAFAAIAAAAGAPr/AQAEAAIAAAAHAPv/AQAHAAIAAAAHAPn/AQAGAAIAAAABAPv/AQAHAAUAAGABAPf/AQABAAEAAAAHAPr/AQADAAMAAAAAAPf/AQADAAIAAAANAPf/AQADAAIAAAANAPv/AQADAAIAAAADAPj/AQAEAAMAAAA=")
 tile_set = ExtResource("1_omf0g")
+
+[node name="InteractableComponetnt" parent="." unique_id=1307587226 instance=ExtResource("2_fy11h")]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="InteractableComponetnt" unique_id=837215429]
+polygon = PackedVector2Array(-24, 16, -24, -192, 248, -192, 248, -16, 216, -16, 216, 16)

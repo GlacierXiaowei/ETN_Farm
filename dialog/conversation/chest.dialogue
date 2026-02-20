@@ -1,0 +1,24 @@
+~ start_cow_pasture_box
+
+Pasture Box: [[Hi|Hello|Howdy]],your animals are hungry.
+Pasture Box: Would you like to feed youoor cows?
+- Yes
+	Marlow: Yeah! Les's feed my cows.
+	do DialogAction.feed_animal()
+- No
+	Marlow: No, I don't need to feed them. I have enough milk. 
+
+=> END
+
+~ start_chicken_pasture_box
+
+Pasture Box: [[Hi|Hello|Howdy]],your animals are hungry.
+Pasture Box: Would you like to feed youoor chickens?
+- Yes
+	Marlow: Yeah! Les's feed my chicken.
+	do DialogAction.feed_animal()
+- No
+	Marlow: No, I don't need to feed them. I have enough milk. 
+
+=> END
+
