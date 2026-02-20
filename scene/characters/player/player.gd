@@ -20,6 +20,9 @@ var is_undo_use_tool_mode: bool = false
 
 func _ready() -> void:
 	ToolManager.tool_selected.connect(on_tool_selected)
+	# 新增：确保当前工具与 ToolManager 同步
+	current_tool = ToolManager.selected_tool
+	hit_componentt.current_tool = current_tool
 	
 	GameInputEvent.player = self
 	GameInputEvent.set_mode(GameInputEvent.current_mode)

@@ -9,10 +9,11 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func start_game()-> void:
+	SaveGameManager.allow_save_game = true
 	SceneManager.load_main_scene_container()
 	SceneManager.load_level("level1")
 	SaveGameManager.load_game()
-	SaveGameManager.allow_save_game = true
+
 
 
 func exit_game()-> void:
