@@ -3,7 +3,7 @@ extends CanvasLayer
 
 
 func _ready() -> void:
-	save.disabled = SaveGameManager.allow_save_game
+	save.disabled = not SaveGameManager.allow_save_game
 
 
 func _on_start_pressed() -> void:
