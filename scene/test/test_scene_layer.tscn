@@ -5,6 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://gad1djna68ku" path="res://scene/objects/plant/corn.tscn" id="2_60ttj"]
 [ext_resource type="PackedScene" uid="uid://bt27ml1bhbsxe" path="res://scene/characters/player/player.tscn" id="2_vy7xa"]
 [ext_resource type="PackedScene" uid="uid://bmx54tmbpia5t" path="res://scene/objects/plant/tomato.tscn" id="3_t3m02"]
+[ext_resource type="PackedScene" uid="uid://cjbxfsyxjpref" path="res://scene/houses/small_house.tscn" id="6_60ttj"]
 
 [node name="TestSceneObjectRock" type="Node2D" unique_id=1629816625]
 y_sort_enabled = true
@@ -36,7 +37,12 @@ y_sort_enabled = true
 tile_map_data = PackedByteArray("AAAIAAsABQAAAAAAAQANAAkABQAAAAAAAQAFAAkABQAAAAAAAgANAAUABQAAAAAAAgAKAAcABQAAAAAAAwAEAAMABQAAAAAAAwALAAIABQAAAAAAAwAQAAYABQAAAAAAAwAEAAYABQAAAAAAAwAUAAgABQAAAAAAAwA=")
 tile_set = ExtResource("1_cyl1d")
 
+[node name="SmallHouse" parent="." unique_id=1257293254 instance=ExtResource("6_60ttj")]
+y_sort_enabled = true
+position = Vector2(277, 275)
+
 [node name="player" parent="." unique_id=1489117648 instance=ExtResource("2_vy7xa")]
+y_sort_enabled = true
 position = Vector2(125, 85)
 
 [node name="Camera2D" type="Camera2D" parent="player" unique_id=1991632542]

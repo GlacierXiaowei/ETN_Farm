@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://dthfpt4xk1ke8"]
+
+[ext_resource type="Script" uid="uid://32cooga7qfjv" path="res://scene/main_scene.gd" id="1_4wnd8"]
+[ext_resource type="PackedScene" uid="uid://mbwyoa4i4eyi" path="res://scene/components/day_night_cycle_component.tscn" id="1_fb1ex"]
+[ext_resource type="PackedScene" uid="uid://cvuydps5hqpt5" path="res://scene/UI/game_screen.tscn" id="3_x5n27"]
+[ext_resource type="PackedScene" uid="uid://wv83iuys58hy" path="res://scene/components/crucial/mouse_cursor_component.tscn" id="5_x5n27"]
+
+[node name="MainScene" type="Node" unique_id=1359424499]
+script = ExtResource("1_4wnd8")
+
+[node name="MouseCursorComponent" parent="." unique_id=1771482439 instance=ExtResource("5_x5n27")]
+
+[node name="DayNightCycleComponent" parent="." unique_id=1325078519 instance=ExtResource("1_fb1ex")]
+
+[node name="GameRoot" type="Node2D" parent="." unique_id=815619932]
+y_sort_enabled = true
+
+[node name="LevelRoot" type="Node2D" parent="GameRoot" unique_id=979386028]
+y_sort_enabled = true
+
+[node name="GameScreen" parent="." unique_id=1193212251 instance=ExtResource("3_x5n27")]

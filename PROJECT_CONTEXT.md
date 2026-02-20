@@ -28,6 +28,8 @@
 | ToolManager | `res://script/globals/tool_manager.gd` | 工具选择系统，管理当前选中的工具 |
 | InventoryManager | `res://script/globals/inventory_manager.gd` | 库存系统，管理玩家物品收集 |
 | DayNightManager | `res://script/globals/DayNightManager.gd` | 日夜循环系统，控制游戏时间流逝 |
+| DialogAction | `res://script/globals/dialog_action.gd` | 对话动作处理器，暴露回调给对话系统 |
+| SaveGameManager | `res://script/globals/save_game_manager.gd` | 存档系统全局入口 |
 
 ## 3. Key Class Index
 
@@ -47,31 +49,60 @@
 | InteractableComponent | `res://scene/components/interactable_component.gd` | 可交互组件 |
 | CollectableComponent | `res://scene/components/collectable_component.gd` | 可收集物品组件 |
 | NoPlacement | `res://scene/characters/player/no_placement.gd` | 禁止放置区域检测 |
+| DialogAction | `res://script/globals/dialog_action.gd` | 对话动作处理器，暴露回调给对话系统 |
+| BaseGameDialogBalloon | `res://dialog/base_game_dialog_balloon.gd` | 对话气泡基础类 |
+| GameDialogBalloon | `res://dialog/game_dialog_balloon.gd` | 游戏对话气泡，继承基础类 |
+| Guide | `res://scene/characters/guide/guide.gd` | 引导NPC，提供种子和对话 |
+| SaveLevelDataComponent | `res://scene/components/crucial/save_level_data_component.gd` | 场景级存档管理器 |
+| SaveDataComponent | `res://scene/components/crucial/save_data_component.gd` | 节点级数据收集器 |
+| Chest | `res://scene/objects/chest/chest.gd` | 宝箱系统，提交作物获得奖励 |
+| FeedComponent | `res://scene/components/feed_component.gd` | 食物接收组件，检测作物提交 |
+| BoundaryGenerator | `res://scene/level/game_tile_map.gd` | 地图边界碰撞生成器，基于可行走区域自动生成碰撞边界 |
 
 ## 4. Directory Structure
 
 ```
 farm-exercise/
 ├── addons/                    # Godot 插件
+│   └── dialogue_manager/      # Dialogue Manager 对话系统插件
 ├── assets/                    # 外部资源（图片、音频等）
+├── dialog/                    # 对话系统
+│   ├── conversation/          # 对话内容文件
+│   │   └── guide.dialogue     # Guide NPC 对话
+│   ├── base_game_dialog_balloon.gd  # 对话气泡基础类
+│   ├── game_dialog_balloon.gd       # 游戏对话气泡
+│   └── dialog_balloon_theme.tres    # 对话主题
 ├── scene/                     # 场景文件
 │   ├── characters/            # 角色相关
 │   │   ├── player/            # 玩家（Player.tscn + 状态脚本）
 │   │   ├── chicken/           # 鸡 NPC
-│   │   └── cow/               # 牛 NPC
+│   │   ├── cow/               # 牛 NPC
+│   │   └── guide/             # 引导NPC
 │   ├── components/            # 组件系统
+│   │   └── crucial/           # 核心组件
+│   │       ├── save_level_data_component.gd   # 场景存档管理器
+│   │       ├── save_data_component.gd         # 节点存档收集器
+│   │       └── test_scene_save_data_manager_component.gd  # 测试场景加载器
 │   ├── houses/                # 建筑（小屋、中屋、大屋、门）
 │   ├── objects/               # 可交互物体
 │   │   ├── plant/             # 作物（玉米、番茄）+ 生长组件
 │   │   ├── rock/              # 石头
-│   │   └── tree/              # 树木
+│   │   ├── tree/              # 树木
+│   │   └── chest/             # 宝箱（作物提交奖励系统）
 │   ├── UI/                    # 用户界面
 │   ├── pck_loader/           # PCK 加载器
 │   └── test/                  # 测试场景
 ├── script/                    # GDScript 脚本
 │   ├── globals/               # 全局管理器
+│   │   ├── dialog_action.gd   # 对话动作处理器
+│   │   └── save_game_manager.gd  # 存档管理器
 │   ├── InputManager/          # 输入系统
 │   └── state_machine/         # 状态机系统
+├── resource/                  # 资源数据文件
+│   ├── node_data_resource.gd          # 节点数据基类
+│   ├── scene_data_resource.gd         # 场景对象数据
+│   ├── tilemap_layer_data_resource.gd # 地图层数据
+│   └── save_game_data_resource.gd     # 存档容器
 ├── Tilesets/                  # 瓦片集
 └── project.godot              # 项目配置
 ```
@@ -85,6 +116,45 @@ farm-exercise/
 - **导出属性**: `@export` 标记可配置属性
 - **延迟初始化**: `@onready` 延迟节点引用初始化
 - **注释**: 使用注释说明复杂逻辑和意图
+
+### 5.1 GDScript 类型系统注意事项
+
+**Array 类型严格性**:
+在 Godot 4.x 中，`Array` 和 `Array[Type]` 是不同的类型，不能直接混用。
+
+```gdscript
+# ❌ 错误：类型不匹配
+func process_items(items: Array[Dictionary]) -> Array[Dictionary]:
+    if items.size() <= 1:
+        return items  # 错误：items 是 Array[Dictionary]，但返回 Array
+
+# ❌ 错误：变量类型声明不一致  
+var items: Array = get_items()  # 返回 Array[Dictionary]
+items.sort_custom(...)  # 编译错误
+
+# ✅ 正确：统一使用 Array[Dictionary]
+func process_items(items: Array[Dictionary]) -> Array[Dictionary]:
+    if items.size() <= 1:
+        return items  # 正确：类型一致
+    
+var items: Array[Dictionary] = get_items()
+items.sort_custom(...)  # 正确
+
+# ✅ 正确：空数组初始化
+var empty: Array[Dictionary] = Array[Dictionary]([])
+```
+
+**常见错误及解决方案**:
+| 错误信息 | 原因 | 解决方案 |
+|:---|:---|:---|
+| `Trying to return an array of type "Array" where expected return type is "Array[Dictionary]"` | 函数参数/返回值类型不匹配 | 统一改为 `Array[Dictionary]` |
+| 无法调用数组方法 | 变量声明为 `Array` 但实际是 `Array[Type]` | 改为 `var items: Array[Type] = ...` |
+
+**最佳实践**:
+1. 函数参数和返回值明确标注类型：`func process(items: Array[Dictionary]) -> Array[Dictionary]`
+2. 变量声明使用完整类型：`var items: Array[Dictionary] = []`
+3. 空数组初始化：`Array[Type]([])`
+4. 避免使用裸 `Array` 类型，除非确实需要混合类型
 
 ## 6. Systems Architecture
 
@@ -226,14 +296,22 @@ GameInputEvent.set_mode(GameInputEvent.Mode.GAMEPLAY)
 - 使用 `Dictionary` 存储，键为物品名称(首字母大写)
 - 值 为数量 (Integer)
 
+**大小写处理**:
+- **完全忽略大小写**: 无论输入 "CornSEED", "CORNSEED" 还是 "CornSeed"，都会被自动转为 "Cornseed"
+- 所有库存操作函数内部使用 `collectable_name.capitalize()` 统一处理键名
+- 使用时可自由混用大小写，无需担心大小写不匹配问题
+
 **可收集物品类型**:
 - 鸡蛋 (Egg): 来自鸡 NPC
 - 牛奶 (Milk): 来自牛 NPC
 - 玉米 (Corn): 来自成熟作物
 - 番茄 (Tomato): 来自成熟作物
+- 玉米种子 (CornSeed): 用于种植玉米
+- 番茄种子 (TomatoSeed): 用于种植番茄
 
 **API**:
-- `add_collectable(collectable_name: String)`: 添加物品，自动累加数量
+- `add_collectable(collectable_name: String, amount: int = 1)`: 添加物品，自动累加数量，自动处理大小写
+- `remove_collectable(collectable_name: String, amount: int = 1)`: 移除物品，自动处理大小写
 - `inventory_change` 信号: 库存变更时发送
 
 ### 6.7 组件系统 (Components)
@@ -245,6 +323,7 @@ GameInputEvent.set_mode(GameInputEvent.Mode.GAMEPLAY)
 | CropsCursorComponent | `crops_cursor_component.gd` | 负责种植/移除作物，检测目标格子是否为耕地 |
 | InteractableComponent | `interactable_component.gd` | 可交互物体基础组件 |
 | CollectableComponent | `collectable_component.gd` | 可收集物品组件 |
+| FeedComponent | `feed_component.gd` | 食物接收组件，用于宝箱提交作物检测 |
 | DamageComponent | `damage_component.gd` | 伤害组件 |
 | HurtComponent | `hurt_component.gd` | 受伤组件 |
 | HitComponent | `hit_component.gd` | 打击组件 |
@@ -260,6 +339,139 @@ GameInputEvent.set_mode(GameInputEvent.Mode.GAMEPLAY)
 - 负责种植/移除作物
 - 检测目标格子是否为耕地 (通过 `dirt_tilemap_layer` 的 source_id)
 - 实例化作物体到 `crop_parent` 节点下
+
+### 6.8 对话系统 (Dialogue System)
+
+**系统架构**: Dialogue Manager 插件 + Mutation 回调机制
+
+**核心组件**:
+
+| 组件 | 脚本 | 描述 |
+| :--- | :--- | :--- |
+| DialogAction | `script/globals/dialog_action.gd` | 对话动作处理器，暴露给 `.dialogue` 文件的回调接口 |
+| BaseGameDialogBalloon | `dialog/base_game_dialog_balloon.gd` | 对话气泡基础类，处理对话显示逻辑 |
+| GameDialogBalloon | `dialog/game_dialog_balloon.gd` | 游戏对话气泡，继承基础类，添加表情等功能 |
+| Guide | `scene/characters/guide/guide.gd` | 引导NPC，演示对话系统使用 |
+
+**对话文件格式** (`.dialogue`):
+```
+~ start
+Glacier: Hi! Welcome to your farm!
+do DialogAction.give_item("Corn", 3)
+Glacier: I've given you 3 corn seeds!
+=> END
+```
+
+**Mutation 回调**: 使用 `do` 命令调用游戏代码
+- `do DialogAction.give_item(item_name, amount)` - 给予物品
+- 支持 InventoryManager / 未来的 QuestManager / AffectionManager 等
+
+**使用步骤**:
+1. 安装 Dialogue Manager 插件到 `addons/dialogue_manager/`
+2. 创建 `DialogAction` Autoload 单例
+3. 创建 `.dialogue` 对话文件
+4. NPC 脚本中实例化 Balloon 并调用 `start()` 开始对话
+
+### 6.9 存档系统 (Save System)
+
+**系统架构**: 组件化 + Resource 资源驱动
+
+**核心组件**:
+
+| 组件 | 脚本 | 组名 | 职责 |
+| :--- | :--- | :--- | :--- |
+| SaveGameManager | `script/globals/save_game_manager.gd` | - | 全局入口，提供 save_game() / load_game() |
+| SaveLevelDataComponent | `scene/components/crucial/save_level_data_component.gd` | `save_level_manager` | 场景级存档管理器，每个场景1个 |
+| SaveDataComponent | `scene/components/crucial/save_data_component.gd` | `save_data_component` | 节点级数据收集器，标记需要保存的节点 |
+
+**两个组的分工**:
+- `save_level_manager`: 供 SaveGameManager 查找，定位当前场景的存档管理器
+- `save_data_component`: 供 SaveLevelDataComponent 查找，收集所有需要保存的节点
+
+**存储路径**:
+- Windows: `%APPDATA%/Godot/app_userdata/farm_exercise/game_data/`
+- 文件名: `save_{场景名}_game_data.tres`
+
+**数据资源类**:
+- `NodeDataResource` (`resource/node_data_resource.gd`): 基础数据（位置、路径）
+- `SceneDataResource` (`resource/scene_data_resource.gd`): 场景对象（玩家、NPC、作物）
+- `TileMapLayerDataResource` (`resource/tilemap_layer_data_resource.gd`): 地图层（耕地状态）
+- `SaveGameDataResource` (`resource/save_game_data_resource.gd`): 存档容器，聚合所有数据
+
+**使用步骤**:
+1. 场景根节点添加 `SaveLevelDataComponent`（必须！）
+2. 需要保存的节点添加 `SaveDataComponent`，并配置 `save_data_resource`:
+   - 普通节点/NPC/作物 → 拖拽 `scene_data_resource.tres`
+   - TileMapLayer（耕地层） → 拖拽 `tilemap_layer_data_resource.tres`
+3. 调用 `SaveGameManager.save_game()` / `load_game()`
+
+**已知问题**:
+- `get_used_cells()` 返回顺序不确定，保存 TileMap 时需遍历所有格子寻找正确 terrain
+- 作物状态（生长阶段等）尚未实现保存
+- 玩家位置恢复已修复（SceneDataResource 优先查找已存在节点）
+
+**重要**: `.tscn` 场景文件只能由用户在 Godot 编辑器中手动操作，不应直接修改，以免破坏 UID 引用。
+
+### 6.10 宝箱提交奖励系统 (Chest Reward System)
+
+**系统功能**: 玩家向宝箱提交收集的作物，获得随机奖励
+
+**核心组件**:
+
+| 组件 | 脚本 | 描述 |
+| :--- | :--- | :--- |
+| Chest | `scene/objects/chest/chest.gd` | 宝箱主体，管理提交动画和奖励生成 |
+| FeedComponent | `scene/components/feed_component.gd` | 食物接收区域检测 |
+| InteractableComponent | `scene/components/interactable_component.gd` | 玩家交互检测 |
+
+**工作流程**:
+1. 玩家靠近宝箱，按交互键打开对话
+2. 对话中触发 `DialogAction.on_feed_animal` 信号
+3. 宝箱播放开启动画
+4. 玩家库存中的作物逐个飞向宝箱（tween动画）
+5. `FeedComponent` 检测到作物进入触发区域
+6. 调用 `add_reward_scene()` 在奖励标记点周围随机位置生成奖励
+
+**配置属性**:
+- `food_drop_height`: 作物飞入高度偏移（默认40像素）
+- `reward_output_radius`: 奖励生成半径（默认20像素）
+- `output_reward_scenes`: 奖励场景数组（可配置多种奖励）
+
+**测试场景**: `test_scene_chest.tscn`
+
+### 6.11 地图边界碰撞生成系统 (Boundary Generator System)
+
+**系统功能**: 根据可行走区域自动生成碰撞边界，防止玩家走出安全区域（如草地边缘）
+
+**核心组件**:
+
+| 组件 | 脚本 | 描述 |
+| :--- | :--- | :--- |
+| BoundaryGenerator | `scene/level/game_tile_map.gd` | 挂在 GameTileMap 上，运行时生成边界碰撞 |
+
+**工作流程**:
+1. 读取配置的 `walkable_layers`（如 Grass、UnderGrowth 等）
+2. 收集所有安全区域的瓦片格子
+3. 检测每个格子的四个邻居方向
+4. 如果邻居不在安全区域，则在该方向生成边界
+5. 合并相邻的边界段（优化碰撞体数量）
+6. 生成 `StaticBody2D` + `RectangleShape2D` 碰撞体
+
+**配置参数**:
+| 参数 | 类型 | 说明 |
+|:---|:---|:---|
+| `walkable_layers` | `Array[TileMapLayer]` | 哪些层构成安全行走区域 |
+| `require_all_layers` | `bool` | false=任一存在即安全，true=全部存在才安全 |
+| `boundary_mode` | `BoundaryMode` | OUTER_ONLY/INNER_ONLY/BOTH |
+| `merge_segments` | `bool` | 是否合并相邻碰撞段（优化性能） |
+| `collision_layer` | `int` | 碰撞层（默认1=Wall） |
+
+**支持的地图结构**:
+- 水铺满底层 + 草地在上方（OUTER_ONLY）
+- 草地中的水洞（INNER_ONLY）
+- 多个装饰层叠加（多层检测）
+
+**复用方式**: 复制 GameTileMap 节点到其他关卡，修改 `walkable_layers` 指向新层即可
 
 ## 7. Physics Layers
 
@@ -299,5 +511,71 @@ GameInputEvent.set_mode(GameInputEvent.Mode.GAMEPLAY)
 - `test_scene_layer.tscn`: 图层测试
 - `test_scene_npc_chicken.tscn`: 鸡 NPC 测试
 - `test_scene_npc_cow.tscn`: 牛 NPC 测试
+- `test_scene_npc_guide.tscn`: Guide NPC（对话系统）测试
 - `test_scene_objects_rock.tscn`: 石头物体测试
 - `test_scene_objects_tree.tscn`: 树木物体测试
+- `test_scene_save_data.tscn`: 存档系统测试
+- `test_scene_dialogue.tscn`: 对话系统测试
+- `test_scene_chest.tscn`: 宝箱提交奖励系统测试
+- `test_audio_scene.tscn`: 音频系统测试
+
+## 11. Audio System
+
+### 11.1 音频总线布局
+
+项目使用自定义音频总线布局 (`audio/game_audio_bus_layout.tres`):
+
+| Bus | 用途 | 默认音量 |
+| :--- | :--- | :--- |
+| Master | 主输出 | 0 dB (默认) |
+| Music | 背景音乐 | -4.5 dB |
+| Sfx | 音效 | -14.6 dB |
+
+### 11.2 背景音乐 (BGM)
+
+| 场景 | 路径 | 描述 |
+| :--- | :--- | :--- |
+| OnTheFarmAudio | `audio/music/on_the_farm_audio.tscn` | 农场主题背景音乐，循环播放 |
+
+**配置**:
+- 类型: `AudioStreamPlayer2D`
+- 总线: `Music`
+- 自动播放: `autoplay = true`
+
+### 11.3 音效 (SFX)
+
+| 音效 | 路径 | 描述 |
+| :--- | :--- | :--- |
+| ChickenCluckMultipleSFX | `audio/sfx/chicken_cluck_multiple_sfx.tscn` | 鸡叫声（随机播放3种变体） |
+| CowMooSFX | `audio/sfx/cow_moo_sfx.tscn` | 牛叫声 |
+
+**音效资源**:
+- `chicken-cluck-1.ogg` / `chicken-cluck-2.ogg` / `chicken-cluck-3.ogg`: 鸡叫变体
+- `cow-moo.ogg`: 牛叫声
+
+**使用方式**:
+- 作为子场景挂载到 NPC 节点上
+- 通过代码调用 `play()` 方法播放
+
+### 11.4 音频播放时间组件
+
+**组件**: `audio_play_time_component.gd` (`scene/components/crucial/audio_play_time_component.gd`)
+
+**功能**: 定时触发音频播放
+
+**使用方式**:
+1. 挂载到 `Timer` 节点
+2. 导出 `AudioStreamPlayer2D` 引用
+3. 超时时自动调用 `play()`
+
+### 11.5 对话系统音效
+
+对话气泡中包含音频播放器 (`base_game_dialog_balloon.gd`):
+- 打字时播放音效
+- 通过 `AudioStreamPlayer` 节点实现
+
+## 12. Troubleshooting / 故障排除
+
+| 问题 | 解决方案 |
+| :--- | :--- |
+| Camera2D 节点开启平滑后出现画面问题 | 将屏幕刷新率调整为 60Hz |

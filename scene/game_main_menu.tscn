@@ -1,0 +1,73 @@
+[gd_scene format=3 uid="uid://craulfir6f5sp"]
+
+[ext_resource type="Theme" uid="uid://diiql63ofvsg2" path="res://scene/UI/game_ui_theme.tres" id="1_gfjmu"]
+[ext_resource type="Script" uid="uid://bhrrvhydgd3j8" path="res://scene/game_main_menu.gd" id="1_vejk3"]
+[ext_resource type="PackedScene" uid="uid://cy8ow6h102lnc" path="res://scene/game_menu_screen_background_scene.tscn" id="2_vejk3"]
+[ext_resource type="PackedScene" uid="uid://wv83iuys58hy" path="res://scene/components/crucial/mouse_cursor_component.tscn" id="4_lnm5h"]
+
+[node name="GameMainMenu" type="CanvasLayer" unique_id=1417366507]
+script = ExtResource("1_vejk3")
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1055102127]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_gfjmu")
+
+[node name="TestSceneObjectRock" parent="MarginContainer" unique_id=1629816625 instance=ExtResource("2_vejk3")]
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer" unique_id=389443616]
+layout_mode = 2
+
+[node name="title" type="Label" parent="MarginContainer/MarginContainer" unique_id=1033619653]
+layout_mode = 2
+size_flags_horizontal = 8
+theme_override_colors/font_color = Color(0.52660567, 0.34151402, 0.3198585, 1)
+theme_override_colors/font_shadow_color = Color(1, 1, 1, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 54
+text = "ETN  Farm"
+
+[node name="version" type="Label" parent="MarginContainer/MarginContainer" unique_id=1075653558]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+text = "version 1.0.0.0"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=1382791235]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+
+[node name="Start" type="Button" parent="MarginContainer/VBoxContainer" unique_id=286386000]
+custom_minimum_size = Vector2(100, 29)
+layout_mode = 2
+theme_type_variation = &"GameMenuButton"
+theme_override_font_sizes/font_size = 18
+text = "STRAT"
+
+[node name="Save" type="Button" parent="MarginContainer/VBoxContainer" unique_id=2093153016]
+custom_minimum_size = Vector2(100, 29)
+layout_mode = 2
+theme_type_variation = &"GameMenuButton"
+theme_override_font_sizes/font_size = 18
+text = "SAVE"
+
+[node name="Exit" type="Button" parent="MarginContainer/VBoxContainer" unique_id=1608865442]
+custom_minimum_size = Vector2(100, 29)
+layout_mode = 2
+theme_type_variation = &"GameMenuButton"
+theme_override_font_sizes/font_size = 18
+text = "EXIT"
+
+[node name="MouseCursorComponent" parent="." unique_id=1771482439 instance=ExtResource("4_lnm5h")]
+
+[connection signal="pressed" from="MarginContainer/VBoxContainer/Start" to="." method="_on_start_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/Save" to="." method="_on_save_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/Exit" to="." method="_on_exit_pressed"]

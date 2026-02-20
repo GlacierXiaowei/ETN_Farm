@@ -6,12 +6,17 @@
 [ext_resource type="PackedScene" uid="uid://bxwnwfdla8ttc" path="res://scene/objects/plant/growth_cycle_component.tscn" id="4_mv2n4"]
 [ext_resource type="PackedScene" uid="uid://f04ci442hypm" path="res://scene/components/hurt_component.tscn" id="5_6mq7f"]
 [ext_resource type="Texture2D" uid="uid://bpdv4catil6wf" path="res://assets/game/objects/basic_plants.png" id="6_msgdw"]
+[ext_resource type="PackedScene" uid="uid://bhlsgyuovq0lx" path="res://scene/components/crucial/save_data_component.tscn" id="7_mv2n4"]
+[ext_resource type="Resource" uid="uid://cnr7v427gqdb2" path="res://resource/scene_data_resource.tres" id="8_6mq7f"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xspyr"]
 size = Vector2(15.5, 10)
 
 [node name="Tomato" type="Node2D" unique_id=418904319]
 script = ExtResource("1_mymck")
+
+[node name="SaveDateComponent" parent="." unique_id=672273542 instance=ExtResource("7_mv2n4")]
+save_data_resource = ExtResource("8_6mq7f")
 
 [node name="WaterParticles" parent="." unique_id=1692519086 instance=ExtResource("2_msgdw")]
 

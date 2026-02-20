@@ -462,6 +462,7 @@ shape = SubResource("RectangleShape2D_tg3vd")
 debug_color = Color(0.79272765, 0.3450467, 0.65227157, 0.41960785)
 
 [node name="DirtPreview" type="Sprite2D" parent="." unique_id=1281320824]
+visible = false
 z_index = 10
 texture = ExtResource("11_tg3vd")
 

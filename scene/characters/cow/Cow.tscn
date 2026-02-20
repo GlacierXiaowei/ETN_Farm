@@ -5,6 +5,8 @@
 [ext_resource type="Script" uid="uid://qgkfdaxn36ue" path="res://script/state_machine/node_state_machine.gd" id="2_ah3uo"]
 [ext_resource type="Script" uid="uid://c0rcjhmfvk8td" path="res://scene/characters/cow/idle.gd" id="4_mib2y"]
 [ext_resource type="Script" uid="uid://clfq763m1v0p0" path="res://scene/characters/cow/walk.gd" id="5_gsh5r"]
+[ext_resource type="PackedScene" uid="uid://ci844qvqv3j82" path="res://audio/sfx/cow_moo_sfx.tscn" id="6_mib2y"]
+[ext_resource type="PackedScene" uid="uid://ojdnrapxbius" path="res://scene/components/crucial/audio_play_time_component.tscn" id="7_gsh5r"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ng4m6"]
 atlas = ExtResource("1_3u8nj")
@@ -58,6 +60,7 @@ animations = [{
 size = Vector2(20, 10)
 
 [node name="Cow" type="CharacterBody2D" unique_id=481571308]
+y_sort_enabled = true
 script = ExtResource("1_xsw1e")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1963531221]
@@ -76,11 +79,11 @@ target_desired_distance = 5.0
 navigation_layers = 2
 path_postprocessing = 1
 avoidance_enabled = true
-debug_enabled = true
 
-[node name="StateMachine" type="Node" parent="." unique_id=1261981541 node_paths=PackedStringArray("initial_node_state")]
+[node name="StateMachine" type="Node" parent="." unique_id=1261981541 node_paths=PackedStringArray("initial_node_state", "current_node_state")]
 script = ExtResource("2_ah3uo")
 initial_node_state = NodePath("idle")
+current_node_state = NodePath("idle")
 
 [node name="idle" type="Node" parent="StateMachine" unique_id=2144415931 node_paths=PackedStringArray("character", "animated_sprite_2d")]
 script = ExtResource("4_mib2y")
@@ -92,3 +95,10 @@ script = ExtResource("5_gsh5r")
 character = NodePath("../..")
 animated_sprite_2d = NodePath("../../AnimatedSprite2D")
 navigation_agent_2d = NodePath("../../NavigationAgent2D")
+
+[node name="CowMooSFX" parent="." unique_id=1451281452 instance=ExtResource("6_mib2y")]
+
+[node name="AudioPlayTimeComponent" parent="." unique_id=1709845332 node_paths=PackedStringArray("audio_stream_player_2d") instance=ExtResource("7_gsh5r")]
+wait_time = 20.0
+autostart = true
+audio_stream_player_2d = NodePath("../CowMooSFX")

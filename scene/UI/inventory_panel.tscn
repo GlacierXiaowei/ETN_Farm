@@ -34,9 +34,17 @@ region = Rect2(0, 0, 16, 16)
 atlas = ExtResource("5_owq52")
 region = Rect2(32, 0, 16, 16)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_ev2tt"]
+atlas = ExtResource("3_3slya")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_owq52"]
+atlas = ExtResource("3_3slya")
+region = Rect2(0, 16, 16, 16)
+
 [node name="InventoryPanel" type="PanelContainer" unique_id=99684801]
-offset_right = 40.0
-offset_bottom = 40.0
+offset_right = 48.0
+offset_bottom = 48.0
 theme = ExtResource("1_ljc6t")
 theme_type_variation = &"DarkWoodPanel"
 script = ExtResource("2_ev2tt")
@@ -46,13 +54,13 @@ layout_mode = 2
 theme_override_constants/margin_left = 4
 theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 4
-theme_override_constants/margin_bottom = 5
+theme_override_constants/margin_bottom = 4
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=1752925623]
 layout_mode = 2
 
 [node name="Log" type="PanelContainer" parent="MarginContainer/VBoxContainer" unique_id=536076778]
-custom_minimum_size = Vector2(32, 32)
+custom_minimum_size = Vector2(26, 26)
 layout_mode = 2
 theme_type_variation = &"InventoryItemPanel"
 
@@ -70,7 +78,7 @@ theme_type_variation = &"InventoryLabel"
 text = "0"
 
 [node name="Stone" type="PanelContainer" parent="MarginContainer/VBoxContainer" unique_id=1602811580]
-custom_minimum_size = Vector2(32, 32)
+custom_minimum_size = Vector2(26, 26)
 layout_mode = 2
 theme_type_variation = &"InventoryItemPanel"
 
@@ -88,7 +96,7 @@ theme_type_variation = &"InventoryLabel"
 text = "0"
 
 [node name="Corn" type="PanelContainer" parent="MarginContainer/VBoxContainer" unique_id=944965944]
-custom_minimum_size = Vector2(32, 32)
+custom_minimum_size = Vector2(26, 26)
 layout_mode = 2
 theme_type_variation = &"InventoryItemPanel"
 
@@ -106,7 +114,7 @@ theme_type_variation = &"InventoryLabel"
 text = "0"
 
 [node name="Tomato" type="PanelContainer" parent="MarginContainer/VBoxContainer" unique_id=1601312796]
-custom_minimum_size = Vector2(32, 32)
+custom_minimum_size = Vector2(26, 26)
 layout_mode = 2
 theme_type_variation = &"InventoryItemPanel"
 
@@ -124,7 +132,7 @@ theme_type_variation = &"InventoryLabel"
 text = "0"
 
 [node name="Egg" type="PanelContainer" parent="MarginContainer/VBoxContainer" unique_id=727120991]
-custom_minimum_size = Vector2(32, 32)
+custom_minimum_size = Vector2(26, 26)
 layout_mode = 2
 theme_type_variation = &"InventoryItemPanel"
 
@@ -142,7 +150,7 @@ theme_type_variation = &"InventoryLabel"
 text = "0"
 
 [node name="Milk" type="PanelContainer" parent="MarginContainer/VBoxContainer" unique_id=1948312213]
-custom_minimum_size = Vector2(32, 32)
+custom_minimum_size = Vector2(26, 26)
 layout_mode = 2
 theme_type_variation = &"InventoryItemPanel"
 
@@ -153,6 +161,42 @@ size_flags_vertical = 0
 texture = SubResource("AtlasTexture_di2mg")
 
 [node name="Label" type="Label" parent="MarginContainer/VBoxContainer/Milk" unique_id=1243510728]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+theme_type_variation = &"InventoryLabel"
+text = "0"
+
+[node name="CornSeed" type="PanelContainer" parent="MarginContainer/VBoxContainer" unique_id=1553137242]
+custom_minimum_size = Vector2(26, 26)
+layout_mode = 2
+theme_type_variation = &"InventoryItemPanel"
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/VBoxContainer/CornSeed" unique_id=254329084]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+texture = SubResource("AtlasTexture_ev2tt")
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/CornSeed" unique_id=729236017]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+theme_type_variation = &"InventoryLabel"
+text = "0"
+
+[node name="TomatoSeed" type="PanelContainer" parent="MarginContainer/VBoxContainer" unique_id=1322034028]
+custom_minimum_size = Vector2(26, 26)
+layout_mode = 2
+theme_type_variation = &"InventoryItemPanel"
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/VBoxContainer/TomatoSeed" unique_id=2095584428]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+texture = SubResource("AtlasTexture_owq52")
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/TomatoSeed" unique_id=1731968670]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 8
