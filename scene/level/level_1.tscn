@@ -37,10 +37,11 @@ player = NodePath("../player")
 crop_parent = NodePath("../GameTileMap/CropField")
 obstacle_layers = [NodePath("../GameTileMap/Object"), NodePath("../GameTileMap/UnderGrowth"), NodePath("../GameTileMap/OverGrowth"), NodePath("../GameTileMap/Fence"), NodePath("../GameTileMap/House")]
 
-[node name="DirtCursorComponent" parent="." unique_id=26805733 node_paths=PackedStringArray("grass_tilemap_layer", "dirt_tilemap_layer", "obstacle_layers") instance=ExtResource("10_rg71t")]
+[node name="DirtCursorComponent" parent="." unique_id=26805733 node_paths=PackedStringArray("grass_tilemap_layer", "dirt_tilemap_layer", "obstacle_layers", "player") instance=ExtResource("10_rg71t")]
 grass_tilemap_layer = NodePath("../GameTileMap/Grass")
 dirt_tilemap_layer = NodePath("../GameTileMap/Dirt")
 obstacle_layers = [NodePath("../GameTileMap/Object"), NodePath("../GameTileMap/UnderGrowth"), NodePath("../GameTileMap/OverGrowth"), NodePath("../GameTileMap/House"), NodePath("../GameTileMap/Fence")]
+player = NodePath("../player")
 
 [node name="player" parent="." unique_id=1489117648 node_paths=PackedStringArray("dirt_cursor_component", "crops_cursor_component") instance=ExtResource("5_4chbn")]
 y_sort_enabled = true

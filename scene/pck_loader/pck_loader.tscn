@@ -1,6 +1,0 @@
-[gd_scene format=3 uid="uid://3ktnki22kqqv"]
-
-[ext_resource type="Script" uid="uid://bglec67fbrxot" path="res://script/pck_loader.gd" id="1_dtdpp"]
-
-[node name="Pck_Loader" type="Node2D" unique_id=1781051147]
-script = ExtResource("1_dtdpp")

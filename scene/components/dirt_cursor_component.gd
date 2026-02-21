@@ -20,7 +20,7 @@ class_name DirtCursorComponent
 
 ##onready是指刚好在该节点的ready之前调用
 ##该函数获取子节点或者同级的player
-var player: Player 
+@export var player: Player 
 
 
 var mouse_position: Vector2
@@ -30,16 +30,27 @@ var local_cell_position: Vector2
 var distance: float
 
 
-@warning_ignore("unused_parameter")
-func _process(delta: float) -> void:
-	update_preview()
+func _ready() -> void:
+	if preview_sprite:
+		preview_sprite.visible = false
 
 
+#@warning_ignore("unused_parameter")
+#func _process(delta: float) -> void:
+	#if not player:
+		#var players = get_tree().get_nodes_in_group("player")
+		#if players.size() > 0:
+			#player = players[0] as Player
+	#
+	#if player:
+		#update_preview()
 
-##使用工具锄头的方法 统一整合至player的unhandled统一管理 根据是否有节点接入 来决定
 
 
 func update_target_cell() -> bool:
+	if not player:
+		return false
+	
 	if use_mouse_mode:
 		get_cell_under_mouse()
 		
@@ -148,6 +159,9 @@ func on_undo_till_tool_used() -> void:
 
 
 func update_preview() -> void:
+	if not player:
+		return
+	
 	if ToolManager.current_tool!= DataType.Tools.TillGround:
 		return
 	
