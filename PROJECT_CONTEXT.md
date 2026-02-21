@@ -37,6 +37,7 @@
 | DayNightManager | `res://script/globals/DayNightManager.gd` | 日夜循环系统，控制游戏时间流逝 |
 | DialogAction | `res://script/globals/dialog_action.gd` | 对话动作处理器，暴露回调给对话系统 |
 | SaveGameManager | `res://script/globals/save_game_manager.gd` | 存档系统全局入口 |
+| pck_loader | `res://script/pck_loader.gd` | PCK补丁加载器，游戏启动时自动加载补丁 |
 
 ## 3. Key Class Index
 
@@ -65,6 +66,7 @@
 | Chest | `res://scene/objects/chest/chest.gd` | 宝箱系统，提交作物获得奖励 |
 | FeedComponent | `res://scene/components/feed_component.gd` | 食物接收组件，检测作物提交 |
 | BoundaryGenerator | `res://scene/level/game_tile_map.gd` | 地图边界碰撞生成器，基于可行走区域自动生成碰撞边界 |
+| pck_loader | `res://script/pck_loader.gd` | PCK补丁加载器，自动加载游戏补丁 |
 
 ## 4. Directory Structure
 
@@ -102,7 +104,8 @@ farm-exercise/
 ├── script/                    # GDScript 脚本
 │   ├── globals/               # 全局管理器
 │   │   ├── dialog_action.gd   # 对话动作处理器
-│   │   └── save_game_manager.gd  # 存档管理器
+│   │   ├── save_game_manager.gd  # 存档管理器
+│   │   └── pck_loader.gd     # PCK补丁加载器
 │   ├── InputManager/          # 输入系统
 │   └── state_machine/         # 状态机系统
 ├── resource/                  # 资源数据文件
@@ -457,6 +460,45 @@ Glacier: I've given you 3 corn seeds!
 - 多个装饰层叠加（多层检测）
 
 **复用方式**: 复制 GameTileMap 节点到其他关卡，修改 `walkable_layers` 指向新层即可
+
+### 6.12 PCK补丁加载系统 (PCK Loader System)
+
+**系统功能**: 游戏启动时自动加载补丁包，实现热更新和资源替换
+
+**核心脚本**: `script/pck_loader.gd`
+
+**工作流程**:
+1. 单例在 `_init()` 中自动执行
+2. 扫描 `user://patch/` 目录
+3. 查找所有以 `Patch` 开头、`.pck` 结尾的文件
+4. 提取文件名中的数字，按数字从小到大排序
+5. 按顺序依次加载所有补丁包
+
+**文件命名规则**:
+- 格式: `Patch_XXX.pck` (如 `Patch_001.pck`, `Patch_002.pck`)
+- 数字用于确定加载顺序，确保补丁按正确顺序应用
+
+**加载顺序**:
+- PCK单例在所有场景加载前初始化 (`_init()`)
+- 确保补丁资源可以覆盖原版资源
+
+**核心API**:
+
+| 函数 | 说明 |
+|:---|:---|
+| `load_all_pcks()` | 自动扫描并加载所有补丁包 |
+| `load_pck(path: String)` | 加载指定路径的PCK文件 |
+| `is_pck_official(path: String)` | 验证PCK是否为官方版本（预留） |
+| `is_hash_correct(path: String)` | 验证PCK文件哈希（预留） |
+
+**配置**:
+- 补丁目录: `user://patch/`
+- 需要在 Godot 项目设置中将 `pck_loader` 添加为 Autoload 单例
+- 建议将加载顺序置于列表顶部，确保在其他单例之前加载
+
+**注意事项**:
+- 替换已存在的资源时，PCK必须在原资源首次加载前完成加载
+- 脚本(.gd)和场景(.tscn)的热替换可能需要重新启动游戏生效
 
 ## 7. Physics Layers
 
