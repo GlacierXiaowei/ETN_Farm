@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://bhrrvhydgd3j8" path="res://scene/game_main_menu.gd" id="1_vejk3"]
 [ext_resource type="PackedScene" uid="uid://cy8ow6h102lnc" path="res://scene/game_menu_screen_background_scene.tscn" id="2_vejk3"]
 [ext_resource type="PackedScene" uid="uid://wv83iuys58hy" path="res://scene/components/crucial/mouse_cursor_component.tscn" id="4_lnm5h"]
+[ext_resource type="Texture2D" uid="uid://1hdmlvybsov4" path="res://assets/class_used/mouse_icon.png" id="5_w7x71"]
 
 [node name="GameMainMenu" type="CanvasLayer" unique_id=1417366507]
 script = ExtResource("1_vejk3")
@@ -67,6 +68,7 @@ theme_override_font_sizes/font_size = 18
 text = "EXIT"
 
 [node name="MouseCursorComponent" parent="." unique_id=1771482439 instance=ExtResource("4_lnm5h")]
+cursor_component_texture = ExtResource("5_w7x71")
 
 [connection signal="pressed" from="MarginContainer/VBoxContainer/Start" to="." method="_on_start_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/Save" to="." method="_on_save_pressed"]
