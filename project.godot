@@ -18,7 +18,6 @@ run/main_scene="uid://craulfir6f5sp"
 config/use_custom_user_dir=true
 config/custom_user_dir_name="ETN_Farm"
 config/features=PackedStringArray("4.6", "Forward Plus")
-run/max_fps=60
 config/icon="uid://dujcyeig1voee"
 
 [audio]
@@ -49,7 +48,6 @@ window/size/mode=4
 window/size/window_width_override=1280
 window/size/window_height_override=720
 window/stretch/mode="canvas_items"
-window/stretch/scale_mode="integer"
 
 [editor]
 
