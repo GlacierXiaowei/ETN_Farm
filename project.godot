@@ -16,7 +16,7 @@ config/version="1.2.0.0"
 config/tags=PackedStringArray("alpha")
 run/main_scene="uid://craulfir6f5sp"
 config/use_custom_user_dir=true
-config/custom_user_dir_name="%APPDATA%\\ETN"
+config/custom_user_dir_name="ETN_Farm"
 config/features=PackedStringArray("4.6", "Forward Plus")
 run/max_fps=60
 config/icon="uid://dujcyeig1voee"
@@ -27,6 +27,7 @@ buses/default_bus_layout="uid://cnwc6rbmja2cx"
 
 [autoload]
 
+PckLoader="*uid://bglec67fbrxot"
 ToolManager="*uid://ctxdppq3k6fsq"
 InventoryManager="*uid://pvylqgdke05l"
 DayNightManager="*uid://d2e5afkvgm3aq"
@@ -35,7 +36,6 @@ DialogueManager="*uid://c3rodes2l3gxb"
 DialogAction="*uid://cgurru171sjat"
 GameManager="*uid://2c7722myjers"
 SceneManager="*uid://ytm5nqumgsrb"
-PckLoader="*uid://bglec67fbrxot"
 
 [dialogue_manager]
 
